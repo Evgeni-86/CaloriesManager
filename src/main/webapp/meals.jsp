@@ -15,30 +15,33 @@
             color: red;
         }
     </style>
+    <title>Meals</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
-    <form method="post" action="meals?action=filter">
-                <dl>
-                    <dt>fromDate:</dt>
-                    <dd><input type="date" value="" name="fromDate" required></dd>
-                </dl>
-                <dl>
-                    <dt>toDate:</dt>
-                    <dd><input type="date" value="" name="toDate" required></dd>
-                </dl>
-                <dl>
-                    <dt>fromTime:</dt>
-                    <dd><input type="time" value="" name="fromTime" required></dd>
-                </dl>
-                <dl>
-                    <dt>toTime:</dt>
-                    <dd><input type="time" value="" name="toTime" required></dd>
-                </dl>
-                <button type="submit">filter</button>
+    <form method="get" action="meals">
+        <input type="hidden" name="action" value="filter">
+        <dl>
+            <dt>From Date:</dt>
+            <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
+        </dl>
+        <dl>
+            <dt>To Date:</dt>
+            <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
+        </dl>
+        <dl>
+            <dt>From Time:</dt>
+            <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
+        </dl>
+        <dl>
+            <dt>To Time:</dt>
+            <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
+        </dl>
+        <button type="submit">Filter</button>
     </form>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
@@ -54,7 +57,9 @@
         </thead>
         <c:forEach items="${meals}" var="meal">
             <jsp:useBean id="meal" type="ru.caloriemanager.model.MealTo"/>
+            <%--<jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>--%>
             <tr class="${meal.excess ? 'excess' : 'normal'}">
+            <tr data-mealExcess="${meal.excess}">
                 <td>
                         ${fn:formatDateTime(meal.dateTime)}
                 </td>

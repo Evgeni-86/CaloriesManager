@@ -3,6 +3,7 @@ package ru.caloriemanager.web.meal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.model.MealTo;
@@ -46,9 +47,12 @@ public class MealRestController {
                 SecurityUtil.authUserCaloriesPerDay());
     }
 
-    public List<MealTo> getBetween(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
-        LOG.info("get Between dates {} - {} for time {} - {} for user {}", startDate, endDate, startTime, endTime, SecurityUtil.authUserId());
-        return MealsUtil.getFilteredMealsWithExceeded(mealService.getBetweenDates(startDate, endDate, SecurityUtil.authUserId()),
-                startTime, endTime, SecurityUtil.authUserCaloriesPerDay());
+    public List<MealTo> getBetween(@Nullable LocalDate startDate, @Nullable LocalTime startTime,
+                                   @Nullable LocalDate endDate, @Nullable LocalTime endTime) {
+        int userId = SecurityUtil.authUserId();
+        LOG.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
+
+        List<Meal> mealsDateFiltered = mealService.getBetweenDates(startDate, endDate, userId);
+        return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
     }
 }

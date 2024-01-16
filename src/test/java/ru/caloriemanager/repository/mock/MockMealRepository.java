@@ -1,11 +1,14 @@
-package ru.caloriemanager.repository.inmemory;
+package ru.caloriemanager.repository.mock;
 
-import org.springframework.stereotype.Repository;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.repository.MealRepository;
 import ru.caloriemanager.util.DateTimeUtil;
-import ru.caloriemanager.util.MealsUtil;
+import ru.caloriemanager.web.MealTestData;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -15,19 +18,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Repository
-public class InMemoryMealRepository implements MealRepository {
+
+public class MockMealRepository implements MealRepository {
 
     private Map<Integer, Map<Integer, Meal>> usersMealsMap = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
-    {
-        MealsUtil.MEALS.forEach(meal -> save(meal, InMemoryUserRepository.USER_ID));
-
+    public void init() {
+        MealTestData.MEALS.forEach(meal -> save(meal, MockUserRepository.USER_ID));
         save(new Meal(LocalDateTime.of(2015, Month.JUNE, 1, 14, 0), "Админ ланч", 510),
-                InMemoryUserRepository.ADMIN_ID);
+                MockUserRepository.ADMIN_ID);
         save(new Meal(LocalDateTime.of(2015, Month.JUNE, 1, 21, 0), "Админ ужин", 1500),
-                InMemoryUserRepository.ADMIN_ID);
+                MockUserRepository.ADMIN_ID);
     }
 
     @Override

@@ -22,7 +22,7 @@
         <aop:config>
                 <aop:aspect ref="loggerAspect">
                         <aop:before method="beforeGetAdvice"
-                                    pointcut="execution(* ru.caloriemanager.web.meal.MealRestController.get(int)) &amp;&amp; args(id)"/>
+                                    pointcut="execution(* ru.caloriemanager.web.meal.*.get(int)) &amp;&amp; args(id)"/>
                 </aop:aspect>
         </aop:config>
 

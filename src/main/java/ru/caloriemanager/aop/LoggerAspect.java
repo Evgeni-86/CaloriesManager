@@ -9,7 +9,7 @@ import ru.caloriemanager.web.SecurityUtil;
 @Component
 @Aspect
 public class LoggerAspect {
-    @Before("execution(* ru.caloriemanager.web.meal.MealRestController.getAll())")
+    @Before("execution(* ru.caloriemanager.web.meal.*.getAll())")
     public void beforeGetAllAdvice(JoinPoint joinPoint) {
         System.out.println(joinPoint.getTarget().getClass());
         System.out.printf("TEST AOP : getAll for user %s\n", SecurityUtil.authUserId());

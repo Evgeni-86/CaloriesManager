@@ -3,6 +3,7 @@ package ru.caloriemanager.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import ru.caloriemanager.model.User;
 import ru.caloriemanager.service.UserService;
 
@@ -11,9 +12,10 @@ import java.util.List;
 import static ru.caloriemanager.util.ValidationUtil.assureIdConsistent;
 import static ru.caloriemanager.util.ValidationUtil.checkNew;
 
-public abstract class AbstractUserController {
-    protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
+public abstract class AbstractUserController {
+
+    protected final Logger LOG = LoggerFactory.getLogger(getClass());
     @Autowired
     private UserService service;
 

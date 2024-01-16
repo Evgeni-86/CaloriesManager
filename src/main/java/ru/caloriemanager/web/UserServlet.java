@@ -10,21 +10,32 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.caloriemanager.service.UserService;
+import ru.caloriemanager.web.user.AbstractUserController;
+import ru.caloriemanager.web.user.AdminRestController;
+import ru.caloriemanager.web.user.ProfileRestController;
 
 import java.io.IOException;
 
 
 public class UserServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(UserServlet.class);
-
-    private UserService userService;
+    private ConfigurableApplicationContext appCtx;
+//    private UserService userService;
+    private ProfileRestController profileRestController;
+    private AdminRestController adminRestController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            userService = appCtx.getBean(UserService.class);
-        }
         super.init(config);
+        appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        profileRestController = appCtx.getBean(ProfileRestController.class);
+        adminRestController = appCtx.getBean(AdminRestController.class);
+    }
+
+    @Override
+    public void destroy() {
+        appCtx.close();
+        super.destroy();
     }
 
     @Override

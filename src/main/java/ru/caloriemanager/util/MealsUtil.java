@@ -28,9 +28,9 @@ public class MealsUtil {
         return getFiltered(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime));
     }
 
-//    public static List<MealTo> getFilteredTos(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime) {
-//        return getFiltered(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime));
-//    }
+    public static List<MealTo> getFilteredTos(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime) {
+        return getFiltered(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime));
+    }
 //
 //    public static List<MealTo> getFilteredDos(Collection<Meal> meals, int caloriesPerDay, LocalDate startDate, LocalDate endDate) {
 //        return getFiltered(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenInclusive(meal.getDate(), startDate, endDate));
