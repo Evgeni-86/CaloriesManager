@@ -5,6 +5,7 @@ import ru.caloriemanager.model.User;
 import java.util.List;
 
 public interface UserRepository {
+    int getCountUser();
     // null if not found, when updated
     User save(User user);
 

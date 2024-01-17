@@ -7,10 +7,7 @@ import ru.caloriemanager.model.Role;
 import ru.caloriemanager.model.User;
 import ru.caloriemanager.repository.UserRepository;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -26,8 +23,12 @@ public class InMemoryUserRepository extends InMemoryBaseRepository<User> impleme
     public static final int ADMIN_ID = 2;
 
     {
-        save(new User(1, "User_1", "user_email@mail.ru", "user_pass", Role.ROLE_USER));
-        save(new User(2, "Admin", "admin_email@mail.ru", "admin_pass", Role.ROLE_ADMIN));
+        save(new User(null, "User_1", "user_email@mail.ru", "user_pass", Role.ROLE_USER));
+        save(new User(null, "Admin", "admin_email@mail.ru", "admin_pass", Role.ROLE_ADMIN));
+    }
+
+    public int getCountUser() {
+        return usersMap.size();
     }
 
     @Override
