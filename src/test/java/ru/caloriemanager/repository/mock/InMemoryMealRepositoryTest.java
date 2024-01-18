@@ -2,6 +2,7 @@ package ru.caloriemanager.repository.mock;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -20,17 +21,21 @@ import java.util.stream.Stream;
 //TODO Проверить Exceptions
 class InMemoryMealRepositoryTest {
 
-    private static AtomicInteger userIdGenerate;
     private static final MealRepository mealRepository = new InMemoryMealRepository();
+    private static int userId;
 
     @BeforeAll
     static void init() {
-        userIdGenerate = new AtomicInteger(mealRepository.getCountUsers());
+        userId = mealRepository.getCountUsers();
+    }
+
+    @BeforeEach
+    void incrementUserId() {
+        ++userId;
     }
 
     @Test
     void save() {
-        int userId = userIdGenerate.incrementAndGet();
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
@@ -40,7 +45,6 @@ class InMemoryMealRepositoryTest {
 
     @Test
     void update() {
-        int userId = userIdGenerate.incrementAndGet();
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
@@ -53,7 +57,6 @@ class InMemoryMealRepositoryTest {
 
     @Test
     void delete() {
-        int userId = userIdGenerate.incrementAndGet();
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
@@ -64,7 +67,6 @@ class InMemoryMealRepositoryTest {
 
     @Test
     void get() {
-        int userId = userIdGenerate.incrementAndGet();
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
@@ -74,7 +76,6 @@ class InMemoryMealRepositoryTest {
 
     @Test
     void getAll() {
-        int userId = userIdGenerate.incrementAndGet();
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal1 = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
@@ -89,7 +90,6 @@ class InMemoryMealRepositoryTest {
     @ParameterizedTest
     @MethodSource("provideParametersForGetBetweenTest")
     void getBetween(LocalDateTime start, LocalDateTime end, int expectedSize) {
-        int userId = userIdGenerate.incrementAndGet();
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal1 = new Meal(LocalDateTime.of(2015, Month.MAY, 12, 0, 0), "Завтрак", 1000);
         Meal meal2 = new Meal(LocalDateTime.of(2015, Month.MAY, 12, 12, 0), "Обед", 510);

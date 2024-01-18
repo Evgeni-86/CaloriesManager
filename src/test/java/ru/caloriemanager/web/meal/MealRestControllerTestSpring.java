@@ -36,19 +36,16 @@ import static java.util.Arrays.stream;
 @ContextConfiguration("classpath:spring/spring-app.xml")
 class MealRestControllerTestSpring {
 
-    @Autowired
-    private MealRestController mealRestController;
-    private static int userCalories;
-    private static int userID;
+    private static MealRestController mealRestController;
+
 
     @BeforeAll
-    static void init() {
+    static void init(@Autowired MealRestController controller) {
         SecurityUtil.setUserId(10);
-        userCalories = SecurityUtil.authUserCaloriesPerDay();
-        userID = SecurityUtil.authUserId();
+        mealRestController = controller;
+        MealTestData.USERS_MEALS.keySet().forEach(meal -> mealRestController.create(meal));
     }
 
-    @Order(1)
     @Test
     void create() {
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
@@ -56,22 +53,20 @@ class MealRestControllerTestSpring {
         Assertions.assertEquals(meal, mealRestController.create(meal));
     }
 
-    @Order(2)
     @Test
     void createExceptionTest() {
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        Meal meal2 = new Meal(LocalDateTime.of(2015, Month.MAY,
-                30, 13, 0), "Завтрак", 500);
+//        Meal meal2 = new Meal(LocalDateTime.of(2015, Month.MAY,
+//                30, 13, 0), "Завтрак", 500);
         Assertions.assertEquals(meal, mealRestController.create(meal));
-        meal2.setId(meal.getId());
+        meal.setId(1);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealRestController.create(meal2));
+                () -> mealRestController.create(meal));
         Assertions.assertEquals(IllegalArgumentException.class, exception.getClass());
-        Assertions.assertEquals(meal2 + " must be new (id=null)", exception.getMessage());
+        Assertions.assertEquals(meal + " must be new (id=null)", exception.getMessage());
     }
 
-    @Order(3)
     @Test
     void update() {
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
@@ -84,7 +79,6 @@ class MealRestControllerTestSpring {
         Assertions.assertEquals(mealUpdate, mealRestController.get(mealUpdate.getId()));
     }
 
-    @Order(4)
     @Test
     void get() {
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
@@ -93,7 +87,6 @@ class MealRestControllerTestSpring {
         Assertions.assertEquals(meal, mealRestController.get(meal.getId()));
     }
 
-    @Order(5)
     @Test
     void getExceptionTest() {
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
@@ -105,7 +98,6 @@ class MealRestControllerTestSpring {
         Assertions.assertEquals("Not found entity with id=" + meal.getId(), exception.getMessage());
     }
 
-    @Order(6)
     @Test
     void delete() {
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
@@ -115,7 +107,6 @@ class MealRestControllerTestSpring {
         Assertions.assertThrows(NotFoundException.class, () -> mealRestController.get(meal.getId()));
     }
 
-    @Order(7)
     @Test
     void deleteExceptionTest() {
         Exception exception = Assertions.assertThrows(NotFoundException.class,
@@ -124,9 +115,9 @@ class MealRestControllerTestSpring {
         Assertions.assertEquals("Not found entity with id=" + Integer.MAX_VALUE, exception.getMessage());
     }
 
-    @Order(8)
     @Test
     void getAll() {
+        int tempUserId = SecurityUtil.authUserId();
         SecurityUtil.setUserId(100);
         Meal meal1 = new Meal(LocalDateTime.of(2016, Month.MAY,
                 12, 0, 0), "Завтрак", 500);
@@ -135,11 +126,11 @@ class MealRestControllerTestSpring {
         mealRestController.create(meal1);
         mealRestController.create(meal2);
         List<MealTo> mealList = mealRestController.getAll();
+        SecurityUtil.setUserId(tempUserId);
         Assertions.assertNotNull(mealList);
         Assertions.assertEquals(2, mealList.size());
     }
 
-    @Order(9)
     @Test
     void getBetween() {
         Meal meal1 = new Meal(LocalDateTime.of(2017, Month.MAY,
