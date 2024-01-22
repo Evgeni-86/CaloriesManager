@@ -11,19 +11,30 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
-        <context:component-scan base-package="ru.caloriemanager.repository"/>
-        <context:component-scan base-package="ru.caloriemanager.service"/>
-        <context:component-scan base-package="ru.caloriemanager.web"/>
-        <context:component-scan base-package="ru.caloriemanager.aop"/>
+    <context:component-scan base-package="ru.caloriemanager.repository"/>
+    <context:component-scan base-package="ru.caloriemanager.service"/>
+    <context:component-scan base-package="ru.caloriemanager.web"/>
+    <context:component-scan base-package="ru.caloriemanager.aop"/>
 
+    <!--DATA BASE SETUP-->
+    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${database.driver-class-name}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+    </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 
-        <!--Spring AOP-->
-        <aop:aspectj-autoproxy/>
-        <aop:config>
-                <aop:aspect ref="loggerAspect">
-                        <aop:before method="beforeGetAdvice"
-                                    pointcut="execution(* ru.caloriemanager.web.meal.*.get(int)) &amp;&amp; args(id)"/>
-                </aop:aspect>
-        </aop:config>
+    <!--SPRING AOP SETUP-->
+    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <aop:aspect ref="loggerAspect">
+            <aop:before method="beforeGetAdvice"
+                        pointcut="execution(* ru.caloriemanager.web.meal.*.get(int)) &amp;&amp; args(id)"/>
+        </aop:aspect>
+    </aop:config>
 
 </beans>

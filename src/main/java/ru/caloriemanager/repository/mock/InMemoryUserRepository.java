@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
-@Repository
+@Repository("inMemoryUserRepo")
 public class InMemoryUserRepository extends InMemoryBaseRepository<User> implements UserRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepository.class);

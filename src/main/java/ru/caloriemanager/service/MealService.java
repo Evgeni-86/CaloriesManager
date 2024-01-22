@@ -1,6 +1,7 @@
 package ru.caloriemanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import ru.caloriemanager.model.Meal;
@@ -16,6 +17,7 @@ import static ru.caloriemanager.util.ValidationUtil.*;
 
 @Service
 public class MealService {
+    @Qualifier("inMemoryMealRepo")
     @Autowired
     private MealRepository repository;
 

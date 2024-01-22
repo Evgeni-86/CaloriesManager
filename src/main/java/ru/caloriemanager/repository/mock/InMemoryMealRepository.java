@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Repository
+@Repository("inMemoryMealRepo")
 public class InMemoryMealRepository extends InMemoryBaseRepository<Meal> implements MealRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryMealRepository.class);

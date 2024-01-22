@@ -1,6 +1,7 @@
 package ru.caloriemanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.caloriemanager.model.AbstractNamedEntity;
 import ru.caloriemanager.model.User;
@@ -13,6 +14,7 @@ import static ru.caloriemanager.util.ValidationUtil.*;
 
 @Service
 public class UserService {
+    @Qualifier("inMemoryUserRepo")
     @Autowired
     public UserRepository repository;
 
