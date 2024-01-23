@@ -19,24 +19,29 @@ public class UserService {
     public UserRepository repository;
 
     public User create(User user) {
+        if (user == null) throw new IllegalArgumentException("not valid arguments");
         checkNew(user);
         return repository.save(user);
     }
 
     public void update(User user) throws NotFoundException {
+        if (user == null) throw new IllegalArgumentException("not valid arguments");
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
     public void delete(int id) throws NotFoundException {
+        if (id < 1) throw new IllegalArgumentException("not valid arguments");
         boolean isDeleted = repository.delete(id);
         checkNotFoundWithId(isDeleted, id);
     }
 
     public User get(int id) throws NotFoundException {
+        if (id < 1) throw new IllegalArgumentException("not valid arguments");
         return checkNotFoundWithId(repository.get(id), id);
     }
 
     public User getByEmail(String email) throws NotFoundException {
+        if (email == null) throw new IllegalArgumentException("not valid arguments");
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 

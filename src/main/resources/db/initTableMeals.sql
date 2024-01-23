@@ -1,9 +1,9 @@
 
-DROP TABLE IF EXISTS users_meals;
+DROP TABLE IF EXISTS meals;
 DROP SEQUENCE IF EXISTS global_meals_seq;
 CREATE SEQUENCE global_meals_seq START WITH 1;
 
-CREATE TABLE users_meals
+CREATE TABLE meals
 (
   id               INTEGER PRIMARY KEY DEFAULT nextval('global_meals_seq'),
   date_time        TIMESTAMP DEFAULT now() NOT NULL,
