@@ -14,11 +14,13 @@ import ru.caloriemanager.repository.MealRepository;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-//TODO Проверить Exceptions
+
 class InMemoryMealRepositoryTest {
 
     private static final MealRepository mealRepository = new InMemoryMealRepository();
@@ -90,20 +92,28 @@ class InMemoryMealRepositoryTest {
     @ParameterizedTest
     @MethodSource("provideParametersForGetBetweenTest")
     void getBetween(LocalDateTime start, LocalDateTime end, int expectedSize) {
+        System.out.println("USER ID " + userId);
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
-        Meal meal1 = new Meal(LocalDateTime.of(2015, Month.MAY, 12, 0, 0), "Завтрак", 1000);
-        Meal meal2 = new Meal(LocalDateTime.of(2015, Month.MAY, 12, 12, 0), "Обед", 510);
-        mealRepository.save(meal1, user.getId());
-        mealRepository.save(meal2, user.getId());
+        TestData.getMealList().forEach(meal -> mealRepository.save(meal, user.getId()));
         List<Meal> list = mealRepository.getBetween(start, end, user.getId());
         Assertions.assertEquals(expectedSize, list.size());
-
     }
+
     private static Stream<Arguments> provideParametersForGetBetweenTest() {
         return Stream.of(
                 Arguments.of(LocalDateTime.of(2015, Month.MAY, 12, 0, 0),
+                        LocalDateTime.of(2015, Month.MAY, 12, 12, 0), 2),
+                Arguments.of(LocalDateTime.of(2015, Month.MAY, 12, 0, 0),
                         LocalDateTime.of(2015, Month.MAY, 12, 12, 0), 2)
-                // Другие комбинации дат и времени
         );
+    }
+
+    /*MEAL TEST DATA*/
+    private static class TestData {
+        public static List<Meal> getMealList() {
+            Meal meal1 = new Meal(LocalDateTime.of(2015, Month.MAY, 12, 0, 0), "Завтрак", 1000);
+            Meal meal2 = new Meal(LocalDateTime.of(2015, Month.MAY, 12, 12, 0), "Обед", 510);
+            return Arrays.asList(meal1, meal2);
+        }
     }
 }

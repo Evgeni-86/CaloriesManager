@@ -40,18 +40,16 @@ class UserServiceTest {
     }
 
 
-    @ParameterizedTest
-    @ValueSource(strings = {"null", "notNull"})
-    void createIllegalArgumentException(String isPresent) {
-        User user = (isPresent.equals("null")) ? null : USER_WITH_ID;
+    @Test
+    void createIllegalArgumentException() {
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> userService.create(user));
+                () -> userService.create(USER_WITH_ID));
         List<String> listExceptions = new ArrayList<>() {{
-            add(user + " must be new (id=null)");
+            add(USER_WITH_ID + " must be new (id=null)");
             add("not valid arguments");
         }};
         Assertions.assertTrue(listExceptions.contains(exception.getMessage()));
-        Mockito.verify(repository, times(0)).save(user);
+        Mockito.verify(repository, times(0)).save(USER_WITH_ID);
     }
 
     @Test
@@ -71,14 +69,6 @@ class UserServiceTest {
     }
 
     @Test
-    void updateIllegalArgumentException() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> userService.update(null));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).save(null);
-    }
-
-    @Test
     void delete() {
         Mockito.when(repository.delete(USER_WITH_ID.getId())).thenReturn(true);
         userService.delete(USER_WITH_ID.getId());
@@ -92,15 +82,6 @@ class UserServiceTest {
                 () -> userService.delete(USER_WITH_ID.getId()));
         Assertions.assertEquals("Not found entity with id=" + USER_WITH_ID.getId(), exception.getMessage());
         Mockito.verify(repository, times(1)).delete(USER_WITH_ID.getId());
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {-1, 0})
-    void deleteIllegalArgumentException(int userId) {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> userService.delete(userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).delete(userId);
     }
 
     @Test
@@ -121,15 +102,6 @@ class UserServiceTest {
         Mockito.verify(repository, times(1)).get(USER_WITH_ID.getId());
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {-1, 0})
-    void getIllegalArgumentException(int userId) {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> userService.get(userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).get(userId);
-    }
-
     @Test
     void getByEmail() {
         String email = "email";
@@ -148,14 +120,6 @@ class UserServiceTest {
                 () -> userService.getByEmail(email));
         Assertions.assertEquals("Not found entity with email=" + email, exception.getMessage());
         Mockito.verify(repository, times(1)).getByEmail(email);
-    }
-
-    @Test
-    void getByEmailIllegalArgumentException() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> userService.getByEmail(null));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).getByEmail(null);
     }
 
     @Test

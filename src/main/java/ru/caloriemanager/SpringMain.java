@@ -2,12 +2,11 @@ package ru.caloriemanager;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 import ru.caloriemanager.model.MealTo;
 import ru.caloriemanager.model.Role;
 import ru.caloriemanager.model.User;
-import ru.caloriemanager.repository.JdbcMealRepository;
-import ru.caloriemanager.repository.JdbcUserRepository;
+import ru.caloriemanager.repository.jdbc.JdbcMealRepository;
+import ru.caloriemanager.repository.jdbc.JdbcUserRepository;
 import ru.caloriemanager.repository.MealRepository;
 import ru.caloriemanager.repository.UserRepository;
 import ru.caloriemanager.web.SecurityUtil;
@@ -37,7 +36,7 @@ public class SpringMain {
                     mealRestController.getBetween(
                             LocalDate.of(2015, Month.MAY, 30), LocalTime.of(7, 0),
                             LocalDate.of(2015, Month.MAY, 31), LocalTime.of(11, 0));
-            filteredMealsWithExcess.forEach(System.out::println);
+//            filteredMealsWithExcess.forEach(System.out::println);
 
             MealRepository jdbcMealRepository = appCtx.getBean(JdbcMealRepository.class);
             System.out.println(jdbcMealRepository.getAll(100000));

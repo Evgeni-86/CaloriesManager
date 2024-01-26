@@ -30,6 +30,7 @@
         <junit-jupiter-params.version>5.8.1</junit-jupiter-params.version>
         <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
         <postgresql.version>42.6.0</postgresql.version>
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
     </properties>
 
     <build>
@@ -166,6 +167,13 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${spring-jdbc.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation-api.version}</version>
+        </dependency>
+
 
     </dependencies>
 

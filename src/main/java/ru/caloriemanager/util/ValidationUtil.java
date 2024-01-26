@@ -6,6 +6,18 @@ import ru.caloriemanager.util.exception.NotFoundException;
 
 public class ValidationUtil {
 
+    public static void checkIllegalArgumentException (int id) {
+        if (id < 1) throw new IllegalArgumentException("not valid arguments");
+    }
+
+    public static void checkIllegalArgumentException (int id, int userId) {
+        if (id < 1 || userId < 1) throw new IllegalArgumentException("not valid arguments");
+    }
+
+    public static void checkIllegalArgumentException (Object object, int id) {
+        if (object == null || id < 1) throw new IllegalArgumentException("not valid arguments");
+    }
+
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
     }

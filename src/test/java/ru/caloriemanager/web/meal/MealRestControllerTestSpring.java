@@ -38,7 +38,6 @@ class MealRestControllerTestSpring {
 
     private static MealRestController mealRestController;
 
-
     @BeforeAll
     static void init(@Autowired MealRestController controller) {
         SecurityUtil.setUserId(10);

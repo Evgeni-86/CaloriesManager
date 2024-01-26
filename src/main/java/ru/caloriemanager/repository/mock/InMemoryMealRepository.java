@@ -50,30 +50,30 @@ public class InMemoryMealRepository extends InMemoryBaseRepository<Meal> impleme
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
             meals.put(meal.getId(), meal);
-            LOG.info("user {} create meal {}", SecurityUtil.authUserId(), meal);
+            LOG.info("user {} create meal {}", userId, meal);
             return meal;
         }
-        LOG.info("user {} update meal {}", SecurityUtil.authUserId(), meal);
+        LOG.info("user {} update meal {}", userId, meal);
         return meals.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        LOG.info("user {} delete meal id = {}", SecurityUtil.authUserId(), id);
+        LOG.info("user {} delete meal id = {}", userId, id);
         Map<Integer, Meal> meals = usersMealsMap.get(userId);
         return meals != null && meals.remove(id) != null;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        LOG.info("user {} get meal id = {}", SecurityUtil.authUserId(), id);
+        LOG.info("user {} get meal id = {}", userId, id);
         Map<Integer, Meal> meals = usersMealsMap.get(userId);
         return meals == null ? null : meals.get(id);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        LOG.info("getAll for user {}", SecurityUtil.authUserId());
+        LOG.info("getAll for user {}", userId);
         return getAllFiltered(userId, meal -> true);
     }
 

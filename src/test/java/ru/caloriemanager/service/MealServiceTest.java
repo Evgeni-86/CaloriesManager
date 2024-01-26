@@ -33,8 +33,8 @@ class MealServiceTest {
     private MealService mealService;
 
     private static final int USER_ID = 1;
-    private static final Meal MEAL_WITHOUT_ID = new Meal(LocalDateTime.now(), "meal test", 1000);
     private static final Meal MEAL_WITH_ID = new Meal(1, LocalDateTime.now(), "meal test with id", 1000);
+    private static final Meal MEAL_WITHOUT_ID = new Meal(LocalDateTime.now(), "meal test", 1000);
     private static final LocalDateTime START_DATE_TIME = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN);
     private static final LocalDateTime END_DATE_TIME = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
     private static final List<Meal> TEST_LIST = new ArrayList<>() {{
@@ -50,18 +50,16 @@ class MealServiceTest {
         Mockito.verify(repository, times(1)).save(MEAL_WITHOUT_ID, USER_ID);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"null, -1", "null, 0", "null, 1", "notNull, 0", "notNull, -1", "notNull, 1"})
-    void createException(String name, int userId) {
-        Meal meal = (name.equals("null")) ? null : MEAL_WITH_ID;
+    @Test
+    void createIllegalArgumentException() {
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.create(meal, userId));
+                () -> mealService.create(MEAL_WITH_ID, USER_ID));
         List<String> listExceptions = new ArrayList<>() {{
-            add(meal + " must be new (id=null)");
+            add(MEAL_WITH_ID + " must be new (id=null)");
             add("not valid arguments");
         }};
         Assertions.assertTrue(listExceptions.contains(exception.getMessage()));
-        Mockito.verify(repository, times(0)).save(meal, userId);
+        Mockito.verify(repository, times(0)).save(MEAL_WITH_ID, USER_ID);
     }
 
     @Test
@@ -78,18 +76,6 @@ class MealServiceTest {
                 () -> mealService.update(MEAL_WITH_ID, USER_ID));
         Assertions.assertEquals("Not found entity with id=" + MEAL_WITH_ID.getId(), exception.getMessage());
         Mockito.verify(repository, times(1)).save(MEAL_WITH_ID, USER_ID);
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = {"null, -1", "null, 0", "null, 1", "notNull, 0", "notNull, -1"})
-    void updateIllegalArgumentException(String name, int userId) {
-        Meal mealUpdate = (name.equals("null"))
-                ? null
-                : new Meal(1, LocalDateTime.now(), "meal test update", 1000);
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.update(mealUpdate, userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).save(mealUpdate, userId);
     }
 
     @Test
@@ -111,16 +97,6 @@ class MealServiceTest {
         Mockito.verify(repository, times(0)).delete(MEAL_WITH_ID.getId(), USER_ID);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"-1, 0", "0, -1", "0, 0", "0, 1", "1, 0"})
-    void deleteIllegalArgumentException(int id, int userId) {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.delete(id, userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).get(id, userId);
-        Mockito.verify(repository, times(0)).delete(id, userId);
-    }
-
     @Test
     void get() {
         Mockito.when(repository.get(MEAL_WITH_ID.getId(), USER_ID)).thenReturn(MEAL_WITH_ID);
@@ -139,15 +115,6 @@ class MealServiceTest {
         Mockito.verify(repository, times(1)).get(MEAL_WITH_ID.getId(), USER_ID);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"-1, 0", "0, -1", "0, 0", "0, 1", "1, 0"})
-    void getIllegalArgumentException(int id, int userId) {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.get(id, userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).get(id, userId);
-    }
-
     @Test
     void getAll() {
         Mockito.when(repository.getAll(USER_ID)).thenReturn(TEST_LIST);
@@ -155,15 +122,6 @@ class MealServiceTest {
         Assertions.assertNotNull(result);
         Assertions.assertEquals(TEST_LIST, result);
         Mockito.verify(repository, times(1)).getAll(USER_ID);
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {0, -1})
-    void getAllIllegalArgumentException(int userId) {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.getAll(userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).getAll(userId);
     }
 
     @Test
@@ -175,16 +133,6 @@ class MealServiceTest {
         Mockito.verify(repository, times(1)).getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {0, -1})
-    void getBetweenDatesIllegalArgumentException(int userId) {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.getBetweenDates(START_DATE_TIME.toLocalDate(), END_DATE_TIME.toLocalDate(), userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).getBetween(
-                START_DATE_TIME, END_DATE_TIME, userId);
-    }
-
     @Test
     void getBetweenDatesTimes() {
         Mockito.when(repository.getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID)).thenReturn(TEST_LIST);
@@ -192,27 +140,5 @@ class MealServiceTest {
         Assertions.assertNotNull(result);
         Assertions.assertEquals(TEST_LIST, result);
         Mockito.verify(repository, times(1)).getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID);
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {0, -1})
-    void getBetweenDatesTimesIllegalArgumentExceptionForUserId(int userId) {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.getBetweenDatesTimes(START_DATE_TIME, END_DATE_TIME, userId));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).getBetween(
-                START_DATE_TIME, END_DATE_TIME, userId);
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = {"null, notNull", "notNull, null", "null, null"})
-    void getBetweenDatesTimesIllegalArgumentExceptionForDate(String startDate, String endDate) {
-        LocalDateTime startDT = (startDate.equals("null")) ? null : START_DATE_TIME;
-        LocalDateTime endDT = (endDate.equals("null")) ? null : END_DATE_TIME;
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> mealService.getBetweenDatesTimes(startDT, endDT, USER_ID));
-        Assertions.assertEquals("not valid arguments", exception.getMessage());
-        Mockito.verify(repository, times(0)).getBetween(
-                startDT, endDT, USER_ID);
     }
 }

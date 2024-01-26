@@ -1,4 +1,4 @@
-
+BEGIN;
 DROP TABLE IF EXISTS meals;
 DROP SEQUENCE IF EXISTS global_meals_seq;
 CREATE SEQUENCE global_meals_seq START WITH 1;
@@ -11,3 +11,4 @@ CREATE TABLE meals
   calories         SMALLINT                NOT NULL,
   user_id          INTEGER                 NOT NULL
 );
+COMMIT;

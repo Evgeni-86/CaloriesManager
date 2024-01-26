@@ -31,22 +31,15 @@ class MealRestControllerTestMock {
     private MealService mealService;
     @InjectMocks
     private MealRestController mealRestController;
-    private MockMvc mockMvc;
-    private static int userID;
-    private static int userCalories;
-    private static final MealRepository mealRepository = new InMemoryMealRepository();
+    private static int userID = 10;
+    private static int userCalories = 1000;
 
 
-    @BeforeAll
-    static void init() {
-        SecurityUtil.setUserId(10);
-        userID = 10;
-        userCalories = SecurityUtil.authUserCaloriesPerDay();
-    }
-
-//    @BeforeEach
-//    void setUp() {
-//        mockMvc = MockMvcBuilders.standaloneSetup(mealRestController).build();
+//    @BeforeAll
+//    static void init() {
+//        SecurityUtil.setUserId(10);
+//        userID = 10;
+//        userCalories = SecurityUtil.authUserCaloriesPerDay();
 //    }
 
     @Test
