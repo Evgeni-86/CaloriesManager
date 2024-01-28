@@ -1,20 +1,15 @@
-package ru.caloriemanager.repository.mock;
+package ru.caloriemanager.repository.inMemory;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.repository.MealRepository;
-import ru.caloriemanager.service.MealService;
 import ru.caloriemanager.util.DateTimeUtil;
-import ru.caloriemanager.util.MealsUtil;
-import ru.caloriemanager.web.SecurityUtil;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -24,19 +19,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Repository("inMemoryMealRepo")
+@Repository
 public class InMemoryMealRepository extends InMemoryBaseRepository<Meal> implements MealRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryMealRepository.class);
-    private Map<Integer, Map<Integer, Meal>> usersMealsMap = new ConcurrentHashMap<>();
-    private AtomicInteger counter = new AtomicInteger(0);
+    private static Map<Integer, Map<Integer, Meal>> usersMealsMap = new ConcurrentHashMap<>();
+    private static AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(meal -> save(meal, InMemoryUserRepository.USER_ID));
-        save(new Meal(LocalDateTime.of(2015, Month.JUNE, 1, 14, 0), "Админ ланч", 510),
-                InMemoryUserRepository.ADMIN_ID);
-        save(new Meal(LocalDateTime.of(2015, Month.JUNE, 1, 21, 0), "Админ ужин", 1500),
-                InMemoryUserRepository.ADMIN_ID);
+        if (usersMealsMap.isEmpty()) {
+            for (Meal meal : DataForMealsMockRepository.MEALS) {
+                int id = (int) (Math.random() * 2 + 1);
+                int user_id = (id == 2) ? DataForUsersMockRepository.USER_ID : DataForUsersMockRepository.ADMIN_ID;
+                save(meal, user_id);
+            }
+        }
     }
 
     public int getCountUsers() {

@@ -1,40 +1,30 @@
 package ru.caloriemanager.repository.jdbc;
 
-import org.eclipse.tags.shaded.org.apache.bcel.generic.ATHROW;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.model.User;
 import ru.caloriemanager.repository.MealRepository;
 
 import javax.sql.DataSource;
-import javax.sql.rowset.JdbcRowSet;
 import java.time.LocalDateTime;
 import java.util.List;
 
 
-@Repository()
+@Repository
 public class JdbcMealRepository implements MealRepository {
-
+    private static final Logger LOG = LoggerFactory.getLogger(JdbcMealRepository.class);
     private final JdbcTemplate jdbcTemplate;
     private static final BeanPropertyRowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
     public JdbcMealRepository(@Autowired @Qualifier("dataSource") DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
-    @Override
-    public int getCountUsers() {
-        return 0;
     }
 
     @Override
@@ -56,11 +46,13 @@ public class JdbcMealRepository implements MealRepository {
             simpleJdbcInsert.usingGeneratedKeyColumns("id");
             insertKey = simpleJdbcInsert.executeAndReturnKey(mapSqlParameterSource);
             meal.setId(insertKey.intValue());
+            LOG.info("save in database new meal {}", meal);
         } else {
             NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
             String sql = "UPDATE meals SET calories =:calories, date_time = current_timestamp, description =:description, " +
                     "user_id =:user_id WHERE id=:id";
             countUpdateRaw = namedParameterJdbcTemplate.update(sql, mapSqlParameterSource);
+            LOG.info("update in database meal {}", meal);
         }
 
         if (insertKey != null || countUpdateRaw > 0) return meal;
@@ -79,7 +71,7 @@ public class JdbcMealRepository implements MealRepository {
         List<Meal> listRowSet = jdbcTemplate.query("SELECT * FROM meals WHERE user_id = ? AND id = ?", ROW_MAPPER, userId, id);
         if (!listRowSet.isEmpty())
             return listRowSet.get(0);
-        else throw new RuntimeException("error read from database");
+        else return null;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ru.caloriemanager.repository.jdbc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -8,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.model.User;
 import ru.caloriemanager.repository.UserRepository;
 
@@ -17,18 +18,12 @@ import java.util.List;
 
 @Repository
 public class JdbcUserRepository implements UserRepository {
-
+    private static final Logger LOG = LoggerFactory.getLogger(JdbcUserRepository.class);
     private final JdbcTemplate jdbcTemplate;
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
     public JdbcUserRepository(@Autowired @Qualifier("dataSource") DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
-
-    @Override
-    public int getCountUser() {
-        return 0;
     }
 
     @Override
@@ -52,11 +47,13 @@ public class JdbcUserRepository implements UserRepository {
             simpleJdbcInsert.usingGeneratedKeyColumns("id");
             insertKey = simpleJdbcInsert.executeAndReturnKey(mapSqlParameterSource);
             user.setId(insertKey.intValue());
+            LOG.info("save in database {}", user);
         } else {
             NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
             String sql = "UPDATE users SET name=:name, email=:email, password=:password, " +
                     "registered=:registered, enabled=:enabled, calories_per_day=:calories_per_day WHERE id=:id";
             countUpdateRaw = namedParameterJdbcTemplate.update(sql, mapSqlParameterSource);
+            LOG.info("update in database {}", user);
         }
 
         if (insertKey != null || countUpdateRaw > 0) return user;
@@ -67,6 +64,8 @@ public class JdbcUserRepository implements UserRepository {
     public boolean delete(int id) {
         String sql = "DELETE FROM users WHERE id = ?";
         int countDeleteRaw = jdbcTemplate.update(sql, id);
+        if (countDeleteRaw > 0)
+            LOG.info("delete from database user id = {}", id);
         return countDeleteRaw > 0;
     }
 
@@ -74,8 +73,10 @@ public class JdbcUserRepository implements UserRepository {
     public User get(int id) {
         User user;
         user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id = ?", ROW_MAPPER, id);
-        if (user != null)
+        if (user != null) {
+            LOG.info("get from database user id = {}", id);
             return user;
+        }
         else throw new RuntimeException("error read from database");
     }
 //    @Override

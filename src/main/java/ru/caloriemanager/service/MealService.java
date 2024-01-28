@@ -19,7 +19,6 @@ import static ru.caloriemanager.util.ValidationUtil.*;
 
 @Service
 public class MealService {
-    @Qualifier("inMemoryMealRepo")
     @Autowired
     private MealRepository repository;
 

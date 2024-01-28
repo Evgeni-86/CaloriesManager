@@ -13,7 +13,7 @@ public class DateTimeUtil {
     public static final LocalDate MIN_DATE = LocalDate.of(0,1,1);
     public static final LocalDate MAX_DATE = LocalDate.of(2500,1,1);
 
-    public static <T extends Comparable<? super T>> boolean isBetweenInclusive(T value, T start, T end) {
+    public static <T extends Comparable<T>> boolean isBetweenInclusive(T value, T start, T end) {
         return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
     }
 

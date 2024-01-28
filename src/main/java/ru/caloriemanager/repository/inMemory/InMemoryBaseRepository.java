@@ -1,12 +1,6 @@
-package ru.caloriemanager.repository.mock;
+package ru.caloriemanager.repository.inMemory;
 
-import org.springframework.stereotype.Repository;
 import ru.caloriemanager.model.AbstractBaseEntity;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 //@Repository

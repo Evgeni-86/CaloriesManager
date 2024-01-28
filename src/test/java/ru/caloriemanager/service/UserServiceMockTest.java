@@ -3,8 +3,6 @@ package ru.caloriemanager.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -15,13 +13,13 @@ import ru.caloriemanager.repository.UserRepository;
 import ru.caloriemanager.util.exception.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 
 //@ExtendWith(SpringExtension.class)
 //@ContextConfiguration("classpath:spring/spring-app.xml")
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceMockTest {
     @Mock
     private UserRepository repository;
     @InjectMocks
@@ -39,16 +37,11 @@ class UserServiceTest {
         Mockito.verify(repository, times(1)).save(USER_WITHOUT_ID);
     }
 
-
     @Test
     void createIllegalArgumentException() {
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> userService.create(USER_WITH_ID));
-        List<String> listExceptions = new ArrayList<>() {{
-            add(USER_WITH_ID + " must be new (id=null)");
-            add("not valid arguments");
-        }};
-        Assertions.assertTrue(listExceptions.contains(exception.getMessage()));
+        Assertions.assertEquals(USER_WITH_ID + " must be new (id=null)", exception.getMessage());
         Mockito.verify(repository, times(0)).save(USER_WITH_ID);
     }
 

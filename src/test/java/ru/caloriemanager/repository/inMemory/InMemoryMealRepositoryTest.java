@@ -1,4 +1,4 @@
-package ru.caloriemanager.repository.mock;
+package ru.caloriemanager.repository.inMemory;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,21 +14,19 @@ import ru.caloriemanager.repository.MealRepository;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 
 class InMemoryMealRepositoryTest {
 
-    private static final MealRepository mealRepository = new InMemoryMealRepository();
+    private static final MealRepository SUT = new InMemoryMealRepository();
     private static int userId;
 
     @BeforeAll
     static void init() {
-        userId = mealRepository.getCountUsers();
+        userId = DataForUsersMockRepository.COUNT_USERS;
     }
 
     @BeforeEach
@@ -41,8 +39,8 @@ class InMemoryMealRepositoryTest {
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        Assertions.assertEquals(meal, mealRepository.save(meal, user.getId()));
-        Assertions.assertEquals(meal, mealRepository.get(meal.getId(), user.getId()));
+        Assertions.assertEquals(meal, SUT.save(meal, user.getId()));
+        Assertions.assertEquals(meal, SUT.get(meal.getId(), user.getId()));
     }
 
     @Test
@@ -52,9 +50,9 @@ class InMemoryMealRepositoryTest {
                 30, 13, 0), "Завтрак", 500);
         Meal mealUpdate = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 1000);
-        Assertions.assertEquals(meal, mealRepository.save(meal, user.getId()));
-        Assertions.assertEquals(mealUpdate, mealRepository.save(mealUpdate, user.getId()));
-        Assertions.assertEquals(mealUpdate, mealRepository.get(mealUpdate.getId(), user.getId()));
+        Assertions.assertEquals(meal, SUT.save(meal, user.getId()));
+        Assertions.assertEquals(mealUpdate, SUT.save(mealUpdate, user.getId()));
+        Assertions.assertEquals(mealUpdate, SUT.get(mealUpdate.getId(), user.getId()));
     }
 
     @Test
@@ -62,9 +60,9 @@ class InMemoryMealRepositoryTest {
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        mealRepository.save(meal, user.getId());
-        Assertions.assertTrue(mealRepository.delete(meal.getId(), user.getId()));
-        Assertions.assertNull(mealRepository.get(meal.getId(), user.getId()));
+        SUT.save(meal, user.getId());
+        Assertions.assertTrue(SUT.delete(meal.getId(), user.getId()));
+        Assertions.assertNull(SUT.get(meal.getId(), user.getId()));
     }
 
     @Test
@@ -72,30 +70,32 @@ class InMemoryMealRepositoryTest {
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        mealRepository.save(meal, user.getId());
-        Assertions.assertEquals(meal, mealRepository.get(meal.getId(), user.getId()));
+        SUT.save(meal, user.getId());
+        Assertions.assertEquals(meal, SUT.get(meal.getId(), user.getId()));
     }
 
     @Test
     void getAll() {
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
         Meal meal1 = new Meal(LocalDateTime.of(2015, Month.MAY,
-                30, 13, 0), "Завтрак", 500);
+                30, 12, 0), "Завтрак", 500);
         Meal meal2 = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        mealRepository.save(meal1, user.getId());
-        mealRepository.save(meal2, user.getId());
-        List<Meal> list = mealRepository.getAll(user.getId());
-        Assertions.assertEquals(List.of(meal1, meal2), list);
+        Meal meal3 = new Meal(LocalDateTime.of(2015, Month.MAY,
+                30, 14, 0), "Завтрак", 500);
+        SUT.save(meal1, user.getId());
+        SUT.save(meal2, user.getId());
+        SUT.save(meal3, user.getId());
+        List<Meal> list = SUT.getAll(user.getId());
+        Assertions.assertEquals(List.of(meal3, meal2, meal1), list);
     }
 
     @ParameterizedTest
     @MethodSource("provideParametersForGetBetweenTest")
     void getBetween(LocalDateTime start, LocalDateTime end, int expectedSize) {
-        System.out.println("USER ID " + userId);
         User user = new User(userId, "testUser", "email", "pass", Role.ROLE_USER);
-        TestData.getMealList().forEach(meal -> mealRepository.save(meal, user.getId()));
-        List<Meal> list = mealRepository.getBetween(start, end, user.getId());
+        TestData.getMealList().forEach(meal -> SUT.save(meal, user.getId()));
+        List<Meal> list = SUT.getBetween(start, end, user.getId());
         Assertions.assertEquals(expectedSize, list.size());
     }
 

@@ -8,7 +8,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:spring/spring-app.xml")
-class AdminRestControllerTestSpring {
+class AdminRestControllerSpringTest {
 
     @Test
     void getAll() {

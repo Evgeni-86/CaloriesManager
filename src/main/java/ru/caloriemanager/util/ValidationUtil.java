@@ -6,18 +6,6 @@ import ru.caloriemanager.util.exception.NotFoundException;
 
 public class ValidationUtil {
 
-    public static void checkIllegalArgumentException (int id) {
-        if (id < 1) throw new IllegalArgumentException("not valid arguments");
-    }
-
-    public static void checkIllegalArgumentException (int id, int userId) {
-        if (id < 1 || userId < 1) throw new IllegalArgumentException("not valid arguments");
-    }
-
-    public static void checkIllegalArgumentException (Object object, int id) {
-        if (object == null || id < 1) throw new IllegalArgumentException("not valid arguments");
-    }
-
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
     }
@@ -44,7 +32,6 @@ public class ValidationUtil {
     }
 
     public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
-//      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
         if (entity.isNew()) {
             entity.setId(id);
         } else if (entity.getId() != id) {

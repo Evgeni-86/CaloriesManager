@@ -1,9 +1,7 @@
-package ru.caloriemanager.repository.mock;
+package ru.caloriemanager.repository.inMemory;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 import ru.caloriemanager.model.Role;
 import ru.caloriemanager.model.User;
 import ru.caloriemanager.repository.UserRepository;
@@ -12,56 +10,52 @@ import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryUserRepositoryTest {
 
-    private static final UserRepository userRepository = new InMemoryUserRepository();
-
+    private static final UserRepository SUT = new InMemoryUserRepository();
 
     @Test
     void saveNewUser() {
         User user = new User(null, "testUser", "email", "pass", Role.ROLE_USER);
-        Assertions.assertNull(userRepository.save(user));
-        Assertions.assertEquals(user, userRepository.get(user.getId()));
+        Assertions.assertNull(SUT.save(user));
+        Assertions.assertEquals(user, SUT.get(user.getId()));
     }
 
     @Test
     void saveUpdateUser() {
         User user = new User(null, "testUser", "email", "pass", Role.ROLE_USER);
-        userRepository.save(user);
+        SUT.save(user);
         User userUpdate = new User(user.getId(), "testUserUpdate", "email", "pass", Role.ROLE_USER);
-        Assertions.assertEquals(user, userRepository.save(userUpdate));
-        Assertions.assertEquals(userUpdate, userRepository.get(userUpdate.getId()));
+        Assertions.assertEquals(user, SUT.save(userUpdate));
+        Assertions.assertEquals(userUpdate, SUT.get(userUpdate.getId()));
     }
 
     @Test
     void delete() {
         User user = new User(null, "testUser", "email", "pass", Role.ROLE_USER);
-        userRepository.save(user);
-        Assertions.assertTrue(userRepository.delete(user.getId()));
+        SUT.save(user);
+        Assertions.assertTrue(SUT.delete(user.getId()));
     }
 
     @Test
     void get() {
         User user = new User(null, "testUser", "email", "pass", Role.ROLE_USER);
-        userRepository.save(user);
-        Assertions.assertEquals(user, userRepository.get(user.getId()));
+        SUT.save(user);
+        Assertions.assertEquals(user, SUT.get(user.getId()));
     }
 
     @Test
     void getAll() {
         try {
-            Field fieldUserMap = userRepository.getClass().getDeclaredField("usersMap");
+            Field fieldUserMap = SUT.getClass().getDeclaredField("usersMap");
             fieldUserMap.setAccessible(true);
-            Map<Integer, User> usersMap = (Map<Integer, User>) fieldUserMap.get(userRepository);
+            Map<Integer, User> usersMap = (Map<Integer, User>) fieldUserMap.get(SUT);
             List<User> userList = usersMap.values().stream()
                     .sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail))
                     .collect(Collectors.toList());
-            Assertions.assertEquals(userList, userRepository.getAll());
+            Assertions.assertEquals(userList, SUT.getAll());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             System.out.println("method getAll is not verify");
         }
@@ -70,7 +64,7 @@ class InMemoryUserRepositoryTest {
     @Test
     void getByEmail() {
         User user = new User(null, "testUser", "test_email", "pass", Role.ROLE_USER);
-        userRepository.save(user);
-        Assertions.assertEquals(user, userRepository.getByEmail("test_email"));
+        SUT.save(user);
+        Assertions.assertEquals(user, SUT.getByEmail("test_email"));
     }
 }

@@ -2,9 +2,8 @@ package ru.caloriemanager.model;
 
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.Objects;
 import java.util.Set;
-import static ru.caloriemanager.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
+import static ru.caloriemanager.repository.inMemory.DataForMealsMockRepository.DEFAULT_CALORIES_PER_DAY;
 
 
 public class User extends AbstractNamedEntity {
@@ -87,18 +86,5 @@ public class User extends AbstractNamedEntity {
                 ", roles=" + roles +
                 ", caloriesPerDay=" + caloriesPerDay +
                 ')';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

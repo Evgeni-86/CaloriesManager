@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.model.User;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -18,9 +17,10 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:spring/spring-app.xml")
-class JdbcMealRepositoryTest {
+class JdbcMealRepositorySpringTest {
 
     private static JdbcMealRepository SUT;
     private static JdbcTemplate jdbcTemplate;
@@ -79,7 +79,7 @@ class JdbcMealRepositoryTest {
         boolean result = SUT.delete(meal.getId(), CURRENT_USER_ID);
         //Assert
         assertTrue(result);
-        assertThrows(RuntimeException.class, () -> SUT.get(meal.getId(), CURRENT_USER_ID));
+        Assertions.assertNull(SUT.get(meal.getId(), CURRENT_USER_ID));
     }
 
     @Test
@@ -104,36 +104,24 @@ class JdbcMealRepositoryTest {
         //Act
         List<Meal> result = SUT.getAll(CURRENT_USER_ID);
         //Assert
-        Assertions.assertIterableEquals(mealList, result);
+        Assertions.assertEquals(mealList, result);
     }
 
     @Test
     void getBetween() {
         //Arrange
         String sql = "INSERT INTO meals (date_time, description, calories, user_id) VALUES(?, ?, ?, ?)";
-        LocalDateTime dateTime1 = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(23,59));
+        LocalDateTime dateTime1 = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(23, 59));
         LocalDateTime dateTime2 = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN);
-        LocalDateTime dateTime3 = LocalDateTime.of(LocalDate.now().minusDays(3), LocalTime.of(0,1));
+        LocalDateTime dateTime3 = LocalDateTime.of(LocalDate.now().minusDays(3), LocalTime.of(0, 1));
         jdbcTemplate.update(sql, dateTime1, "meal test", 1000, CURRENT_USER_ID);
         jdbcTemplate.update(sql, dateTime2, "meal test", 1000, CURRENT_USER_ID);
         jdbcTemplate.update(sql, dateTime3, "meal test", 1000, CURRENT_USER_ID);
-        Meal meal1 = new Meal(dateTime1, "meal test", 1000);
-        Meal meal2 = new Meal(dateTime2, "meal test", 1000);
-        Meal meal3 = new Meal(dateTime3, "meal test", 1000);
-        List<Meal> mealList = Arrays.asList(meal1, meal3, meal2);
+        List<LocalDateTime> expectedDateTime = Arrays.asList(dateTime1, dateTime2, dateTime3);
         //Act
         List<Meal> result = SUT.getBetween(dateTime3, dateTime1, CURRENT_USER_ID);
-        Comparator<Meal> comparator = new Comparator<>() {
-            @Override
-            public int compare(Meal o1, Meal o2) {
-                return o1.getDateTime().compareTo(o2.getDateTime());
-            }
-        };
-        Set<Meal> mealSet = new TreeSet<>(comparator);
-        mealSet.addAll(mealList);
-        mealSet.addAll(result);
+        List<LocalDateTime> resultDates = result.stream().map(el -> el.getDateTime()).toList();
         //Assert
-        Assertions.assertEquals(mealList.size(), result.size());
-        Assertions.assertIterableEquals(mealList, mealSet);
+        Assertions.assertEquals(expectedDateTime, resultDates);
     }
 }

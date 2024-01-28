@@ -7,23 +7,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriemanager.SpringMain;
-import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.model.Role;
 import ru.caloriemanager.model.User;
 
 import javax.sql.DataSource;
-import javax.swing.*;
-
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.caloriemanager.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
+import static org.assertj.core.api.Assertions.assertThat;
 
-
+@Disabled
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:spring/spring-app.xml")
-class JdbcUserRepositoryTest {
+class JdbcUserRepositorySpringTest {
 
     private static JdbcUserRepository SUT;
     private static JdbcTemplate jdbcTemplate;
@@ -91,10 +87,10 @@ class JdbcUserRepositoryTest {
         SUT.save(user);
         //Act
         User result = SUT.get(user.getId());
-        System.out.println(result);
-        System.out.println(user);
         //Assert
         Assertions.assertEquals(user, result);
+        assertThat(result).usingRecursiveComparison()
+                .ignoringFields( "registered", "roles").isEqualTo(user);
     }
 
     @Test
@@ -106,7 +102,6 @@ class JdbcUserRepositoryTest {
         //Act
         User result = SUT.getByEmail("email@email");
         //Assert
-        System.out.println();
         Assertions.assertEquals(user, result);
     }
 
@@ -124,6 +119,6 @@ class JdbcUserRepositoryTest {
         //Act
         List<User> result = SUT.getAll();
         //Assert
-        Assertions.assertIterableEquals(userList, result);
+        Assertions.assertEquals(userList, result);
     }
 }

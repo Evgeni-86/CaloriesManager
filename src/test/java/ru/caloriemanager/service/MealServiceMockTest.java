@@ -3,9 +3,6 @@ package ru.caloriemanager.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -26,7 +23,7 @@ import static org.mockito.Mockito.times;
 //@ExtendWith(SpringExtension.class)
 //@ContextConfiguration("classpath:spring/spring-app.xml")
 @ExtendWith(MockitoExtension.class)
-class MealServiceTest {
+class MealServiceMockTest {
     @Mock
     private MealRepository repository;
     @InjectMocks
@@ -54,11 +51,7 @@ class MealServiceTest {
     void createIllegalArgumentException() {
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> mealService.create(MEAL_WITH_ID, USER_ID));
-        List<String> listExceptions = new ArrayList<>() {{
-            add(MEAL_WITH_ID + " must be new (id=null)");
-            add("not valid arguments");
-        }};
-        Assertions.assertTrue(listExceptions.contains(exception.getMessage()));
+        Assertions.assertEquals(MEAL_WITH_ID + " must be new (id=null)", exception.getMessage());
         Mockito.verify(repository, times(0)).save(MEAL_WITH_ID, USER_ID);
     }
 

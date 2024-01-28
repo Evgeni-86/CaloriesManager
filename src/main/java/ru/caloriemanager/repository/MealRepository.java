@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MealRepository {
-    int getCountUsers();
     // null if updated meal do not belong to userId
     Meal save(Meal meal, int userId);
 

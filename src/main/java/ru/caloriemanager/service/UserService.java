@@ -16,7 +16,6 @@ import static ru.caloriemanager.util.ValidationUtil.*;
 
 @Service
 public class UserService {
-    @Qualifier("inMemoryUserRepo")
     @Autowired
     public UserRepository repository;
 

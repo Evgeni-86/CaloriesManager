@@ -7,7 +7,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.model.MealTo;
-import ru.caloriemanager.repository.mock.InMemoryMealRepository;
 import ru.caloriemanager.service.MealService;
 import ru.caloriemanager.util.MealsUtil;
 import ru.caloriemanager.web.SecurityUtil;

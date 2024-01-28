@@ -1,6 +1,7 @@
 package ru.caloriemanager.web;
 
-import static ru.caloriemanager.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
+
+import static ru.caloriemanager.repository.inMemory.DataForMealsMockRepository.DEFAULT_CALORIES_PER_DAY;
 
 public class SecurityUtil {
     private static int userId = 1;
