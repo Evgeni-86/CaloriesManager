@@ -25,25 +25,6 @@
         <property name="password" value="${database.password}"/>
     </bean>
 
-    <!--HIBERNATE SETUP-->
-    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
-    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <!--p:persistenceUnitName="persistenceUnit">-->
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="ru.caloriemanager.model"/>
-        <!--<property name="persistenceProviderClass" value="org.hibernate.jpa.HibernatePersistenceProvider"/>-->
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
-        </property>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-            </props>
-        </property>
-    </bean>
-
     <!--SPRING AOP SETUP-->
     <aop:aspectj-autoproxy/>
     <aop:config>

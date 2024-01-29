@@ -18,7 +18,6 @@ public class LoggerAspect {
 
     @Before("methodGetAllFromPackageWeb() || methodGetFromPackageWeb()")
     public void beforeGetAllAndGetMethods(){
-
     }
 
     @Before("methodGetAllFromPackageWeb()")

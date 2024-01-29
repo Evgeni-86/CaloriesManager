@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.repository.MealRepository;
 import ru.caloriemanager.util.DateTimeUtil;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -50,7 +51,7 @@ public class MealService {
                 DateTimeUtil.createDateTime(endDate, LocalDate.MAX, LocalTime.MAX), userId);
     }
 
-    public List<Meal> getBetweenDatesTimes(@NonNull LocalDateTime startDateTime,@NonNull LocalDateTime endDateTime, @Min(1) int userId) {
+    public List<Meal> getBetweenDatesTimes(@NonNull LocalDateTime startDateTime, @NonNull LocalDateTime endDateTime, @Min(1) int userId) {
         return repository.getBetween(startDateTime, endDateTime, userId);
     }
 }

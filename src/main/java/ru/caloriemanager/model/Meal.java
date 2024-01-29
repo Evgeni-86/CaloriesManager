@@ -1,10 +1,13 @@
 package ru.caloriemanager.model;
 
+import jakarta.persistence.Entity;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Objects;
+
 
 public class Meal extends AbstractBaseEntity {
 
