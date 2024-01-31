@@ -1,8 +1,13 @@
 package ru.caloriemanager.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@MappedSuperclass
 public abstract class AbstractBaseEntity {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     protected Integer id;
 
     protected AbstractBaseEntity(Integer id) {

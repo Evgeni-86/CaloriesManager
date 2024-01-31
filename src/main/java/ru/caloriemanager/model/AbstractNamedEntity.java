@@ -1,7 +1,11 @@
 package ru.caloriemanager.model;
 
-public abstract class AbstractNamedEntity extends AbstractBaseEntity {
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 
+@MappedSuperclass
+public abstract class AbstractNamedEntity extends AbstractBaseEntity {
+    @Column(name = "name")
     protected String name;
 
     protected AbstractNamedEntity(Integer id, String name) {

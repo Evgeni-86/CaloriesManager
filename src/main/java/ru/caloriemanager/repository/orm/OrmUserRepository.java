@@ -1,4 +1,4 @@
-package ru.caloriemanager.repository.jdbc;
+package ru.caloriemanager.repository.orm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,12 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
-public class JdbcUserRepository implements UserRepository {
-    private static final Logger LOG = LoggerFactory.getLogger(JdbcUserRepository.class);
+public class OrmUserRepository implements UserRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(OrmUserRepository.class);
     private final JdbcTemplate jdbcTemplate;
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
-    public JdbcUserRepository(@Autowired @Qualifier("dataSource") DataSource dataSource) {
+    public OrmUserRepository(@Autowired @Qualifier("dataSource") DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

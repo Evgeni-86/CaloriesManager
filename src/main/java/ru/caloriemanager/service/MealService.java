@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.repository.MealRepository;
 import ru.caloriemanager.util.DateTimeUtil;
@@ -23,6 +24,7 @@ public class MealService {
     @Autowired
     private MealRepository repository;
 
+    @Transactional
     public Meal create(@NonNull Meal meal, @Min(1) int userId) {
         checkNew(meal);
         return repository.save(meal, userId);
@@ -37,6 +39,7 @@ public class MealService {
         return repository.delete(id, userId);
     }
 
+    @Transactional
     public Meal get(@Min(1) int id, @Min(1) int userId) {
         return checkNotFoundWithId(repository.get(id, userId), id);
     }

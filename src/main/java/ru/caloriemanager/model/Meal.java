@@ -1,6 +1,7 @@
 package ru.caloriemanager.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,12 +9,23 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Objects;
 
-
+@Entity
+@Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
 
+    @CreationTimestamp
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "calories")
     private int calories;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable=false)
+    private User user;
 
     private Meal() {
         super(null);
@@ -28,6 +40,14 @@ public class Meal extends AbstractBaseEntity {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setDateTime(LocalDateTime dateTime) {

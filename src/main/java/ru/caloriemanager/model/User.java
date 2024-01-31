@@ -1,19 +1,41 @@
 package ru.caloriemanager.model;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 import static ru.caloriemanager.repository.inMemory.DataForMealsMockRepository.DEFAULT_CALORIES_PER_DAY;
 
 
+@Entity
+@Table(name = "users")
 public class User extends AbstractNamedEntity {
 
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
-    private boolean enabled = true;
-    private Date registered = new Date();
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @CreationTimestamp
+    @Column(name = "registered")
+    private LocalDateTime registered;
+
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
-    private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
+
+    @Column(name = "calories_per_day")
+    private int caloriesPerDay;
+
 
     private User() {
         super(null, null);
@@ -32,6 +54,10 @@ public class User extends AbstractNamedEntity {
         this.roles = roles;
     }
 
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -44,11 +70,11 @@ public class User extends AbstractNamedEntity {
         this.password = password;
     }
 
-    public Date getRegistered() {
+    public LocalDateTime getRegistered() {
         return registered;
     }
 
-    public void setRegistered(Date registered) {
+    public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
     }
 

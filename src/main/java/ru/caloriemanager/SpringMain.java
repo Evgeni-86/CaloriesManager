@@ -1,37 +1,28 @@
 package ru.caloriemanager;
 
-import jakarta.persistence.EntityManagerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import ru.caloriemanager.model.MealTo;
-import ru.caloriemanager.model.Role;
-import ru.caloriemanager.model.User;
-import ru.caloriemanager.repository.jdbc.JdbcMealRepository;
-import ru.caloriemanager.repository.jdbc.JdbcUserRepository;
-import ru.caloriemanager.repository.MealRepository;
-import ru.caloriemanager.repository.UserRepository;
-import ru.caloriemanager.web.SecurityUtil;
-import ru.caloriemanager.web.meal.MealRestController;
-import ru.caloriemanager.web.user.AdminRestController;
+import ru.caloriemanager.model.Meal;
+import ru.caloriemanager.service.MealService;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class SpringMain {
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-            AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+        try (ConfigurableApplicationContext appCtx =
+                     new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
 
-            LocalContainerEntityManagerFactoryBean managerFactory =
-                    appCtx.getBean(LocalContainerEntityManagerFactoryBean.class, "emf");
-            System.out.println(managerFactory.getJpaPropertyMap());
+//            Arrays.stream(appCtx.getBeanDefinitionNames()).forEach(el-> System.out.println(el));
+
+//            Meal meal = new Meal(LocalDateTime.now(), "Test", 1000);
+//
+//            MealService mealService = appCtx.getBean("mealService", MealService.class);
+//            mealService.create(meal, 1);
         }
     }
 }
