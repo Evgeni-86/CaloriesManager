@@ -1,6 +1,8 @@
 package ru.caloriemanager.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -9,6 +11,8 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
@@ -23,6 +27,8 @@ public class Meal extends AbstractBaseEntity {
     @Column(name = "calories")
     private int calories;
 
+    @Getter
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id", nullable=false)
     private User user;
@@ -40,38 +46,6 @@ public class Meal extends AbstractBaseEntity {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setCalories(int calories) {
-        this.calories = calories;
-    }
-
-    public int getCalories() {
-        return calories;
     }
 
     public LocalDate getDate() {

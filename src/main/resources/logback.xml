@@ -18,6 +18,7 @@
     </appender>
 
     <logger name="ru.caloriemanager" level="debug"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="trace"/>
 
     <root level="info">
         <appender-ref ref="file"/>

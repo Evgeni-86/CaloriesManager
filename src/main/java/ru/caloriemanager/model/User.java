@@ -1,6 +1,8 @@
 package ru.caloriemanager.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -9,7 +11,8 @@ import java.util.EnumSet;
 import java.util.Set;
 import static ru.caloriemanager.repository.inMemory.DataForMealsMockRepository.DEFAULT_CALORIES_PER_DAY;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User extends AbstractNamedEntity {
@@ -52,54 +55,6 @@ public class User extends AbstractNamedEntity {
         this.caloriesPerDay = caloriesPerDay;
         this.enabled = enabled;
         this.roles = roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDateTime getRegistered() {
-        return registered;
-    }
-
-    public void setRegistered(LocalDateTime registered) {
-        this.registered = registered;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public int getCaloriesPerDay() {
-        return caloriesPerDay;
-    }
-
-    public void setCaloriesPerDay(int caloriesPerDay) {
-        this.caloriesPerDay = caloriesPerDay;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     @Override

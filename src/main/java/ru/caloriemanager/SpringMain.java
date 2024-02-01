@@ -12,8 +12,7 @@ import java.util.Arrays;
 
 public class SpringMain {
     public static void main(String[] args) {
-        SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
+
         try (ConfigurableApplicationContext appCtx =
                      new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
 
