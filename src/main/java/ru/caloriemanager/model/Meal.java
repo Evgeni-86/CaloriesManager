@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,14 +12,19 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Objects;
 
+
 @Getter
 @Setter
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "meal-user-entity-graph",
+                attributeNodes = {@NamedAttributeNode("user")})
+})
 @Entity
-@Table(name = "meals")
+@Table(name = "meals", indexes = @Index(columnList = "user_id, date_time"))
+//@Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
 
-    @CreationTimestamp
-    @Column(name = "date_time")
+    @Column(name="date_time")
     private LocalDateTime dateTime;
 
     @Column(name = "description")
@@ -27,10 +33,8 @@ public class Meal extends AbstractBaseEntity {
     @Column(name = "calories")
     private int calories;
 
-    @Getter
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private Meal() {
@@ -48,6 +52,13 @@ public class Meal extends AbstractBaseEntity {
         this.calories = calories;
     }
 
+    @PrePersist
+    private void prePersist() {
+        if (this.dateTime == null) {
+            this.dateTime = LocalDateTime.now();
+        }
+    }
+
     public LocalDate getDate() {
         return dateTime.toLocalDate();
     }
@@ -63,6 +74,7 @@ public class Meal extends AbstractBaseEntity {
                 ", dateTime=" + dateTime +
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
+                ", user=" + user +
                 '}';
     }
 }

@@ -30,10 +30,12 @@ public class MealService {
         return repository.save(meal, userId);
     }
 
+    @Transactional
     public void update(@NonNull Meal meal, @Min(1) int userId) {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
+    @Transactional
     public boolean delete(@Min(1) int id, @Min(1) int userId) {
         checkNotFoundWithId(repository.get(id, userId), id);
         return repository.delete(id, userId);
@@ -44,6 +46,7 @@ public class MealService {
         return checkNotFoundWithId(repository.get(id, userId), id);
     }
 
+    @Transactional
     public List<Meal> getAll(@Min(1) int userId) {
         return repository.getAll(userId);
     }

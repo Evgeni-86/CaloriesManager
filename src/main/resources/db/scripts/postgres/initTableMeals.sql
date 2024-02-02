@@ -11,4 +11,7 @@ CREATE TABLE meals
   calories         SMALLINT                NOT NULL,
   user_id          INTEGER                 NOT NULL
 );
+
+CREATE INDEX meals_idx ON meals (user_id, date_time)
+
 COMMIT;

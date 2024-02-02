@@ -23,7 +23,6 @@
     </bean>
     <jdbc:initialize-database data-source="dataSource" enabled="true">
         <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/hsqlInitRole.sql"/>
-        <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/hsqlAddRoleAndUser.sql"/>
     </jdbc:initialize-database>
 
     <!--HIBERNATE SETUP-->

@@ -39,8 +39,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "calories_per_day")
     private int caloriesPerDay;
 
-
-    private User() {
+    public User() {
         super(null, null);
     }
 

@@ -1,7 +1,9 @@
 package ru.caloriemanager.repository.orm;
 
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -13,6 +15,8 @@ import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.repository.MealRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -25,35 +29,105 @@ public class OrmMealRepository implements MealRepository {
     @Transactional
     @Override
     public Meal save(Meal meal, int userId) {
-        if (meal.isNew()) {
-            entityManager.persist(meal);
-            LOG.info("save in database new meal {}", meal);
-        } else {
-            entityManager.merge(meal);
-            LOG.info("update in database meal {}", meal);
+        String mes = meal.isNew() ? "save" : "update";
+        LOG.info("trying {} in database meal {} user id = {}", mes, meal, userId);
+        try {
+            if (meal.isNew()) entityManager.persist(meal);
+            else entityManager.merge(meal);
+            LOG.info("{} in database meal {} user id = {}", mes, meal, userId);
+        } catch (Exception e) {
+            LOG.error("Error {} meal {} user id = {}", mes, meal, userId);
+            throw new RuntimeException(String.format("Error %s meal : %s", mes, e.getMessage()));
         }
         return meal;
     }
 
+    @Transactional
     @Override
     public boolean delete(int id, int userId) {
-        return false;
+        LOG.info("trying delete from database meal id = {} user id = {}", id, userId);
+        Query query = entityManager.createQuery("DELETE FROM Meal m WHERE m.id=:id");
+        query.setParameter("id", id);
+        try {
+            return query.executeUpdate() != 0;
+        } catch (Exception e) {
+            LOG.error("Error delete meal id = {} user id = {}", id, userId);
+            throw new RuntimeException(String.format("Error delete meal : %s", e.getMessage()));
+        }
     }
 
     @Transactional
     @Override
     public Meal get(int id, int userId) {
-        return entityManager.find(Meal.class, id);
+        LOG.info("trying to get meal id = {} user id = {}", id, userId);
+        try {
+            return entityManager.find(
+                    Meal.class, id,
+                    Collections.singletonMap(
+                            "jakarta.persistence.loadgraph",
+                            entityManager.getEntityGraph("meal-user-entity-graph")
+                    )
+            );
+        } catch (Exception e) {
+            LOG.error("Error get meal id = {} user id = {}", id, userId);
+            throw new RuntimeException(String.format("Error get meal : %s", e.getMessage()));
+        }
     }
+//    @Transactional
+//    @Override
+//    public Meal get(int id, int userId) {
+//        LOG.info("trying to get meal id = {} user id = {}", id, userId);
+//        try {
+//            return entityManager.find(Meal.class, id);
+//        } catch (Exception e) {
+//            LOG.error("Error get meal id = {} user id = {}", id, userId);
+//            throw new RuntimeException(String.format("Error get meal : %s", e.getMessage()));
+//        }
+//    }
 
+    @Transactional
     @Override
     public List<Meal> getAll(int userId) {
-        return null;
+        LOG.info("trying to get all meals user id = {}", userId);
+        Query query = entityManager.createQuery("SELECT m FROM Meal m WHERE m.user.id=:id ORDER BY m.dateTime DESC")
+                .setParameter("id", userId)
+                .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"));
+        try {
+            return (List<Meal>) query.getResultList();
+        } catch (Exception e) {
+            LOG.error("Error get all meals user id = {}", userId);
+            throw new RuntimeException(String.format("Error get all meals : %s", e.getMessage()));
+        }
     }
+//    @Transactional
+//    @Override
+//    public List<Meal> getAll(int userId) {
+//        LOG.info("trying to get all meals user id = {}", userId);
+//        Query query = entityManager.createNativeQuery("SELECT * FROM meals WHERE user_id=:id", Meal.class);
+//        query.setParameter("id", userId);
+//        try {
+//            return (List<Meal>) query.getResultList();
+//        } catch (Exception e) {
+//            LOG.error("Error get all meals user id = {}", userId);
+//            throw new RuntimeException(String.format("Error get all meals : %s", e.getMessage()));
+//        }
+//    }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return null;
+        LOG.info("trying getBetween dateTime({} - {}) for user {}", startDateTime, endDateTime, userId);
+        Query query = entityManager.createQuery("SELECT m FROM Meal m WHERE m.user.id=:id AND m.dateTime " +
+                        "BETWEEN :sdt AND :edt ORDER BY m.dateTime DESC")
+                .setParameter("id", userId)
+                .setParameter("sdt", startDateTime)
+                .setParameter("edt", endDateTime)
+                .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"));
+        try {
+            return (List<Meal>) query.getResultList();
+        } catch (Exception e) {
+            LOG.error("Error getBetween for user id = {}", userId);
+            throw new RuntimeException(String.format("Error getBetween : %s", e.getMessage()));
+        }
     }
 
 }
