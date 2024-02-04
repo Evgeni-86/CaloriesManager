@@ -1,5 +1,9 @@
+DELETE FROM meals;
 DELETE FROM users;
 DELETE FROM user_roles;
+
+ALTER TABLE users ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE meals ALTER COLUMN id RESTART WITH 1;
 
 INSERT INTO users (name, email, password, calories_per_day, registered, enabled) VALUES
 ('user1', 'user1@yandex.ru', 'password', 1000, current_date , true),

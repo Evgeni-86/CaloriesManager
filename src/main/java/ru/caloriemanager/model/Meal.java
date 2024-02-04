@@ -21,7 +21,6 @@ import java.util.Objects;
 })
 @Entity
 @Table(name = "meals", indexes = @Index(columnList = "user_id, date_time"))
-//@Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
 
     @Column(name="date_time")
@@ -76,5 +75,18 @@ public class Meal extends AbstractBaseEntity {
                 ", calories=" + calories +
                 ", user=" + user +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Meal meal = (Meal) o;
+        return Objects.equals(id, meal.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -2,11 +2,10 @@ package ru.caloriemanager.web.meal;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,26 +30,24 @@ import static java.util.Arrays.stream;
 class MealRestControllerSpringTest {
 
     private static MealRestController SUT;
-    private static int CURRENT_USER_ID;
+    private static User user;
 
     @BeforeAll
-    static void init(@Autowired MealRestController controller) {
-        SecurityUtil.setUserId(1);
-        CURRENT_USER_ID = 1;
+    static void init(@Autowired MealRestController controller, @Autowired DataSource dataSource) {
         SUT = controller;
-        try (ConfigurableApplicationContext appCtx =
-                     new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            DataSource dataSource = (DataSource) appCtx.getBean("dataSource");
-            ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-            populator.addScripts(new ClassPathResource("db/clearMeals.sql"));
-            populator.addScripts(new ClassPathResource("db/addUsers.sql"));
-            populator.execute(dataSource);
-        }
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScripts(new ClassPathResource("db/clearAndAddTestData.sql"));
+        populator.execute(dataSource);
+    }
+
+    @BeforeEach
+    void createUser() {
+        SecurityUtil.setUserId(1);
+        user = new User(1, null, null, null, Role.ROLE_USER);
     }
 
     @Test
     void create() {
-        User user = new User(CURRENT_USER_ID, null, null, null, Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
         meal.setUser(user);
@@ -60,7 +57,6 @@ class MealRestControllerSpringTest {
 
     @Test
     void createExceptionTest() {
-        User user = new User(CURRENT_USER_ID, null, null, null, Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
         meal.setUser(user);
@@ -73,7 +69,6 @@ class MealRestControllerSpringTest {
 
     @Test
     void update() {
-        User user = new User(CURRENT_USER_ID, null, null, null, Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
         Meal mealUpdate = new Meal(LocalDateTime.of(2015, Month.MAY,
@@ -88,7 +83,6 @@ class MealRestControllerSpringTest {
 
     @Test
     void get() {
-        User user = new User(CURRENT_USER_ID, null, null, null, Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
         meal.setUser(user);
@@ -109,7 +103,6 @@ class MealRestControllerSpringTest {
 
     @Test
     void delete() {
-        User user = new User(CURRENT_USER_ID, null, null, null, Role.ROLE_USER);
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
         meal.setUser(user);
@@ -129,7 +122,7 @@ class MealRestControllerSpringTest {
     @Test
     void getAll() {
         //Arrange
-        int tempUserId = CURRENT_USER_ID;
+        int tempUserId = user.getId();
         SecurityUtil.setUserId(2);
         User user = new User(2, null, null, null, Role.ROLE_USER);
         Meal meal1 = new Meal(LocalDateTime.of(2017, Month.MAY,
