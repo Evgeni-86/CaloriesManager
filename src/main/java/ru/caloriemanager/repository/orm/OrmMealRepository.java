@@ -77,17 +77,19 @@ public class OrmMealRepository implements MealRepository {
             throw new RuntimeException(String.format("Error get meal : %s", e.getMessage()));
         }
     }
-//    @Transactional
-//    @Override
-//    public Meal get(int id, int userId) {
-//        LOG.info("trying to get meal id = {} user id = {}", id, userId);
-//        try {
-//            return entityManager.find(Meal.class, id);
-//        } catch (Exception e) {
-//            LOG.error("Error get meal id = {} user id = {}", id, userId);
-//            throw new RuntimeException(String.format("Error get meal : %s", e.getMessage()));
-//        }
-//    }
+
+    @Transactional
+    public Meal getWithoutUser(int id, int userId) {
+        LOG.info("trying to get meal id = {} user id = {}", id, userId);
+        try {
+            Meal meal = entityManager.find(Meal.class, id);
+            if (meal != null) LOG.info("get meal id = {} user id = {}", id, userId);
+            return meal;
+        } catch (Exception e) {
+            LOG.error("Error get meal id = {} user id = {}", id, userId);
+            throw new RuntimeException(String.format("Error get meal : %s", e.getMessage()));
+        }
+    }
 
     @Transactional
     @Override
@@ -105,19 +107,21 @@ public class OrmMealRepository implements MealRepository {
             throw new RuntimeException(String.format("Error get all meals : %s", e.getMessage()));
         }
     }
-//    @Transactional
-//    @Override
-//    public List<Meal> getAll(int userId) {
-//        LOG.info("trying to get all meals user id = {}", userId);
-//        Query query = entityManager.createNativeQuery("SELECT * FROM meals WHERE user_id=:id", Meal.class);
-//        query.setParameter("id", userId);
-//        try {
-//            return (List<Meal>) query.getResultList();
-//        } catch (Exception e) {
-//            LOG.error("Error get all meals user id = {}", userId);
-//            throw new RuntimeException(String.format("Error get all meals : %s", e.getMessage()));
-//        }
-//    }
+
+    @Transactional
+    public List<Meal> getAllWithoutUser(int userId) {
+        LOG.info("trying to get all meals user id = {}", userId);
+        Query query = entityManager.createNativeQuery("SELECT * FROM meals WHERE user_id=:id", Meal.class);
+        query.setParameter("id", userId);
+        try {
+            List<Meal> meals = (List<Meal>) query.getResultList();
+            LOG.info("get all meals user id = {}", userId);
+            return meals;
+        } catch (Exception e) {
+            LOG.error("Error get all meals user id = {}", userId);
+            throw new RuntimeException(String.format("Error get all meals : %s", e.getMessage()));
+        }
+    }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {

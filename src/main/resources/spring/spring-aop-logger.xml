@@ -11,8 +11,6 @@
     <aop:aspectj-autoproxy/>
     <aop:config>
         <aop:aspect ref="loggerAspect">
-            <aop:before method="beforeGetAdvice"
-                        pointcut="execution(* ru.caloriemanager.web.meal.*.get(int)) &amp;&amp; args(id)"/>
         </aop:aspect>
     </aop:config>
 </beans>

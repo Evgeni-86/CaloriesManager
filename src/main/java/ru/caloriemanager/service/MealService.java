@@ -24,29 +24,24 @@ public class MealService {
     @Autowired
     private MealRepository repository;
 
-    @Transactional
     public Meal create(@NonNull Meal meal, @Min(1) int userId) {
         checkNew(meal);
         return repository.save(meal, userId);
     }
 
-    @Transactional
     public void update(@NonNull Meal meal, @Min(1) int userId) {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
-    @Transactional
     public boolean delete(@Min(1) int id, @Min(1) int userId) {
         checkNotFoundWithId(repository.get(id, userId), id);
         return repository.delete(id, userId);
     }
 
-    @Transactional
     public Meal get(@Min(1) int id, @Min(1) int userId) {
         return checkNotFoundWithId(repository.get(id, userId), id);
     }
 
-    @Transactional
     public List<Meal> getAll(@Min(1) int userId) {
         return repository.getAll(userId);
     }

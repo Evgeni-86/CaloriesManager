@@ -19,21 +19,4 @@ public class LoggerAspect {
     @Before("methodGetAllFromPackageWeb() || methodGetFromPackageWeb()")
     public void beforeGetAllAndGetMethods(){
     }
-
-    @Before("methodGetAllFromPackageWeb()")
-    public void beforeGetAllAdvice(JoinPoint joinPoint) {
-        System.out.println(joinPoint.getTarget().getClass());
-        System.out.printf("TEST AOP : getAll for user %s\n", SecurityUtil.authUserId());
-    }
-
-//    @Before("execution(* ru.caloriemanager.web.meal.*.getAll())")
-//    public void beforeGetAllAdvice(JoinPoint joinPoint) {
-//        System.out.println(joinPoint.getTarget().getClass());
-//        System.out.printf("TEST AOP : getAll for user %s\n", SecurityUtil.authUserId());
-//    }
-
-    public void beforeGetAdvice(JoinPoint joinPoint, int id) {
-        System.out.println(joinPoint.getTarget().getClass());
-        System.out.printf("TEST AOP : get meal %s\n", id);
-    }
 }
