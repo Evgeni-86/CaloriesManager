@@ -1,21 +1,15 @@
 package ru.caloriemanager.repository.orm;
 
-import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.caloriemanager.model.Meal;
 import ru.caloriemanager.repository.MealRepository;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +18,7 @@ import java.util.List;
 public class OrmMealRepository implements MealRepository {
     private static final Logger LOG = LoggerFactory.getLogger(OrmMealRepository.class);
     @PersistenceContext
-    public EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Transactional
     @Override
@@ -95,11 +89,11 @@ public class OrmMealRepository implements MealRepository {
     @Override
     public List<Meal> getAll(int userId) {
         LOG.info("trying to get all meals user id = {}", userId);
-        Query query = entityManager.createQuery("FROM Meal WHERE user.id=:id ORDER BY dateTime DESC")
-                .setParameter("id", userId)
-                .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"));
         try {
-            List<Meal> meals = (List<Meal>) query.getResultList();
+            List<Meal> meals = entityManager.createQuery("FROM Meal WHERE user.id=:id ORDER BY dateTime DESC", Meal.class)
+                    .setParameter("id", userId)
+                    .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"))
+                    .getResultList();
             LOG.info("get all meals user id = {}", userId);
             return meals;
         } catch (Exception e) {
@@ -111,10 +105,10 @@ public class OrmMealRepository implements MealRepository {
     @Transactional
     public List<Meal> getAllWithoutUser(int userId) {
         LOG.info("trying to get all meals user id = {}", userId);
-        Query query = entityManager.createNativeQuery("SELECT * FROM meals WHERE user_id=:id", Meal.class);
-        query.setParameter("id", userId);
         try {
-            List<Meal> meals = (List<Meal>) query.getResultList();
+            List<Meal> meals = entityManager.createNativeQuery("SELECT * FROM meals WHERE user_id=:id")
+                    .setParameter("id", userId)
+                    .getResultList();
             LOG.info("get all meals user id = {}", userId);
             return meals;
         } catch (Exception e) {
@@ -123,17 +117,18 @@ public class OrmMealRepository implements MealRepository {
         }
     }
 
+    @Transactional
     @Override
     public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         LOG.info("trying getBetween dateTime({} - {}) for user {}", startDateTime, endDateTime, userId);
-        Query query = entityManager.createQuery("FROM Meal WHERE user.id=:id " +
-                        "AND dateTime BETWEEN :sdt AND :edt ORDER BY dateTime DESC")
-                .setParameter("id", userId)
-                .setParameter("sdt", startDateTime)
-                .setParameter("edt", endDateTime)
-                .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"));
         try {
-            List<Meal> meals = (List<Meal>) query.getResultList();
+            List<Meal> meals = entityManager.createQuery("FROM Meal WHERE user.id=:id " +
+                            "AND dateTime BETWEEN :sdt AND :edt ORDER BY dateTime DESC", Meal.class)
+                    .setParameter("id", userId)
+                    .setParameter("sdt", startDateTime)
+                    .setParameter("edt", endDateTime)
+                    .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"))
+                    .getResultList();
             LOG.info("getBetween dateTime({} - {}) for user {}", startDateTime, endDateTime, userId);
             return meals;
         } catch (Exception e) {

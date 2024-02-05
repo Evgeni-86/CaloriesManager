@@ -15,10 +15,10 @@ import static ru.caloriemanager.repository.inMemory.DataForMealsMockRepository.D
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = @Index(columnList = "email"))
 public class User extends AbstractNamedEntity {
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -75,12 +75,11 @@ public class User extends AbstractNamedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(email, user.email)
-                && Objects.equals(password, user.password)
                 && Objects.equals(id, user.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, password, id);
+        return Objects.hash(email, id);
     }
 }

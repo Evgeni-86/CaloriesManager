@@ -28,14 +28,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrmMealRepositoryTest {
 
     private static MealRepository SUT;
-    private static int currentUserId = 0;
+    private static int currentUserId;
     private static User user;
 
     @BeforeAll
     static void init(@Autowired MealRepository ormMealRepository, @Autowired DataSource dataSource) {
         SUT = ormMealRepository;
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScripts(new ClassPathResource("db/clearAndAddTestData.sql"));
+        populator.addScripts(new ClassPathResource("db/clearUsersMealsRolesAndAddTestData.sql"));
         populator.execute(dataSource);
     }
 
@@ -51,8 +51,8 @@ class OrmMealRepositoryTest {
         Meal meal = new Meal(null, "meal test", 1000);
         meal.setUser(user);
         //Act
-        Meal actual = SUT.save(meal, currentUserId);
-        Meal checkWrite = SUT.get(meal.getId(), currentUserId);
+        Meal actual = SUT.save(meal, user.getId());
+        Meal checkWrite = SUT.get(meal.getId(), user.getId());
         //Assert
         Assertions.assertFalse(meal.isNew());
         Assertions.assertEquals(meal, actual);
@@ -67,12 +67,12 @@ class OrmMealRepositoryTest {
         Meal mealUpdate = new Meal(null, "meal test update", 2000);
         mealUpdate.setUser(user);
         //Act
-        SUT.save(meal, currentUserId);
+        SUT.save(meal, user.getId());
         mealUpdate.setId(meal.getId());
-        Meal actual = SUT.save(mealUpdate, currentUserId);
+        Meal actual = SUT.save(mealUpdate, user.getId());
         //Assert
         Assertions.assertEquals(mealUpdate, actual);
-        Assertions.assertEquals(mealUpdate, SUT.get(mealUpdate.getId(), currentUserId));
+        Assertions.assertEquals(mealUpdate, SUT.get(mealUpdate.getId(), user.getId()));
     }
 
     @Test
@@ -80,12 +80,12 @@ class OrmMealRepositoryTest {
         //Arrange
         Meal meal = new Meal(null, "meal test", 1000);
         meal.setUser(user);
-        SUT.save(meal, currentUserId);
+        SUT.save(meal, user.getId());
         //Act
-        boolean result = SUT.delete(meal.getId(), currentUserId);
+        boolean actual = SUT.delete(meal.getId(), user.getId());
         //Assert
-        assertTrue(result);
-        Assertions.assertNull(SUT.get(meal.getId(), currentUserId));
+        assertTrue(actual);
+        Assertions.assertNull(SUT.get(meal.getId(), user.getId()));
     }
 
     @Test
@@ -93,11 +93,11 @@ class OrmMealRepositoryTest {
         //Arrange
         Meal meal = new Meal(null, "meal test", 1000);
         meal.setUser(user);
-        SUT.save(meal, currentUserId);
+        SUT.save(meal, user.getId());
         //Act
-        Meal result = SUT.get(meal.getId(), currentUserId);
+        Meal actual = SUT.get(meal.getId(), user.getId());
         //Assert
-        Assertions.assertEquals(meal, result);
+        Assertions.assertEquals(meal, actual);
     }
 
     @Test
@@ -110,10 +110,10 @@ class OrmMealRepositoryTest {
         meal2.setUser(user);
         meal3.setUser(user);
         List<Meal> mealList = Arrays.asList(meal1, meal2, meal3);
-        mealList.forEach((el) -> SUT.save(el, currentUserId));
+        mealList.forEach((el) -> SUT.save(el, user.getId()));
         Collections.reverse(mealList);
         //Act
-        List<Meal> actual = SUT.getAll(currentUserId);
+        List<Meal> actual = SUT.getAll(user.getId());
         //Assert
         Assertions.assertEquals(mealList, actual);
     }
@@ -130,12 +130,12 @@ class OrmMealRepositoryTest {
         meal1.setUser(user);
         meal2.setUser(user);
         meal3.setUser(user);
-        SUT.save(meal1, currentUserId);
-        SUT.save(meal2, currentUserId);
-        SUT.save(meal3, currentUserId);
+        SUT.save(meal1, user.getId());
+        SUT.save(meal2, user.getId());
+        SUT.save(meal3, user.getId());
         List<LocalDateTime> expectedDateTime = Arrays.asList(dateTime1, dateTime2, dateTime3);
         //Act
-        List<Meal> result = SUT.getBetween(dateTime3, dateTime1, currentUserId);
+        List<Meal> result = SUT.getBetween(dateTime3, dateTime1, user.getId());
         List<LocalDateTime> actual = result.stream().map(el -> el.getDateTime()).toList();
         //Assert
         Assertions.assertEquals(expectedDateTime, actual);
