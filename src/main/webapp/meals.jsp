@@ -56,8 +56,7 @@
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
-            <jsp:useBean id="meal" type="ru.caloriemanager.model.MealTo"/>
-            <%--<jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>--%>
+            <jsp:useBean id="meal" type="ru.caloriemanager.model.UserMealWithExcess"/>
             <tr class="${meal.excess ? 'excess' : 'normal'}">
             <tr data-mealExcess="${meal.excess}">
                 <td>

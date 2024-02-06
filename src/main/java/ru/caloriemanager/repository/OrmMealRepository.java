@@ -1,4 +1,4 @@
-package ru.caloriemanager.repository.orm;
+package ru.caloriemanager.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -7,9 +7,9 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.model.User;
-import ru.caloriemanager.repository.MealRepository;
+import ru.caloriemanager.entity.Meal;
+import ru.caloriemanager.entity.User;
+
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;

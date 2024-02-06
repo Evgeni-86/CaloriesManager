@@ -1,18 +1,19 @@
 package ru.caloriemanager.model;
 
 import lombok.Getter;
+import ru.caloriemanager.entity.AbstractBaseEntity;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class MealTo extends AbstractBaseEntity{
+public class UserMealWithExcess extends AbstractBaseEntity {
 
     private final LocalDateTime dateTime;
     private final String description;
     private final int calories;
     private final boolean excess;
 
-    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
+    public UserMealWithExcess(Integer id, LocalDateTime dateTime, String description, int calories, boolean excess) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;

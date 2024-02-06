@@ -2,20 +2,15 @@ package ru.caloriemanager.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.caloriemanager.model.AbstractBaseEntity;
-import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.model.MealTo;
+import ru.caloriemanager.entity.Meal;
+import ru.caloriemanager.model.UserMealWithExcess;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MealsUtilTest {
     //Arrange
@@ -38,9 +33,9 @@ class MealsUtilTest {
         List<Integer> idExpectedMeals = Arrays.asList(1, 2, 4, 5);
         List<Integer> idExpectedExcessesMeals = Arrays.asList(4, 5);
         //Act
-        List<MealTo> result = MealsUtil.getFilteredTos(testList, 2000, startTime, endTime);
+        List<UserMealWithExcess> result = MealsUtil.getFilteredTos(testList, 2000, startTime, endTime);
         List<Integer> resultExpected = result.stream().map(el -> el.getId()).toList();
-        List<MealTo> listExcess = result.stream().filter(MealTo::isExcess).toList();
+        List<UserMealWithExcess> listExcess = result.stream().filter(UserMealWithExcess::isExcess).toList();
         List<Integer> resultExcessExpected = listExcess.stream().map(el -> el.getId()).toList();
         //Assert
         Assertions.assertEquals(idExpectedMeals, resultExpected);

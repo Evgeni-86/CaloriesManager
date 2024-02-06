@@ -2,12 +2,10 @@ package ru.caloriemanager.service;
 
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.caloriemanager.model.Meal;
+import ru.caloriemanager.entity.Meal;
 import ru.caloriemanager.repository.MealRepository;
 import ru.caloriemanager.util.DateTimeUtil;
 
@@ -48,8 +46,8 @@ public class MealService {
 
     public List<Meal> getBetweenDates(@Nullable LocalDate startDate, @Nullable LocalDate endDate, @Min(1) int userId) {
         return repository.getBetween(
-                DateTimeUtil.createDateTime(startDate, LocalDate.MIN, LocalTime.MIN),
-                DateTimeUtil.createDateTime(endDate, LocalDate.MAX, LocalTime.MAX), userId);
+                DateTimeUtil.createDateTime(startDate, DateTimeUtil.MIN_DATE, LocalTime.MIN),
+                DateTimeUtil.createDateTime(endDate, DateTimeUtil.MAX_DATE, LocalTime.MAX), userId);
     }
 
     public List<Meal> getBetweenDatesTimes(@NonNull LocalDateTime startDateTime, @NonNull LocalDateTime endDateTime, @Min(1) int userId) {

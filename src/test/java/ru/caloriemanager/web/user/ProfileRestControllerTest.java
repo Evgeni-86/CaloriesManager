@@ -9,15 +9,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriemanager.model.Role;
-import ru.caloriemanager.model.User;
+import ru.caloriemanager.entity.Role;
+import ru.caloriemanager.entity.User;
 import ru.caloriemanager.util.exception.NotFoundException;
 import ru.caloriemanager.web.SecurityUtil;
 
 import javax.sql.DataSource;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(SpringExtension.class)

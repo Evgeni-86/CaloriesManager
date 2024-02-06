@@ -1,13 +1,7 @@
 package ru.caloriemanager;
 
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.service.MealService;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
 
 
 public class SpringMain {

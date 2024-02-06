@@ -5,12 +5,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.model.MealTo;
+import ru.caloriemanager.entity.Meal;
+import ru.caloriemanager.model.UserMealWithExcess;
 import ru.caloriemanager.util.DateTimeUtil;
 import ru.caloriemanager.web.meal.MealRestController;
 
@@ -44,7 +42,8 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
-            List<MealTo> filteredMealToList = mealRestController.getBetween(LocalDate.MIN, LocalTime.MIN, LocalDate.MAX, LocalTime.MAX);
+            List<UserMealWithExcess> filteredMealToList = mealRestController
+                    .getBetween(DateTimeUtil.MIN_DATE, LocalTime.MIN, DateTimeUtil.MAX_DATE, LocalTime.MAX);
             request.setAttribute("meals", filteredMealToList);
             request.getRequestDispatcher("meals.jsp").forward(request, response);
             return;
@@ -74,7 +73,7 @@ public class MealServlet extends HttpServlet {
                 LocalDate endD =  DateTimeUtil.parseToLocalDate(request.getParameter("endDate"), DateTimeUtil.MAX_DATE);
                 LocalTime startT = DateTimeUtil.parseToLocalTime(request.getParameter("startTime"), LocalTime.MIN);
                 LocalTime endT = DateTimeUtil.parseToLocalTime(request.getParameter("endTime"), LocalTime.MAX);
-                List<MealTo> filteredMealToList = mealRestController.getBetween(startD, startT, endD, endT);
+                List<UserMealWithExcess> filteredMealToList = mealRestController.getBetween(startD, startT, endD, endT);
                 request.setAttribute("meals", filteredMealToList);
                 request.getRequestDispatcher("meals.jsp").forward(request, response);
                 break;

@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.caloriemanager.model.Meal;
+import ru.caloriemanager.entity.Meal;
 import ru.caloriemanager.repository.MealRepository;
 import ru.caloriemanager.util.exception.NotFoundException;
 

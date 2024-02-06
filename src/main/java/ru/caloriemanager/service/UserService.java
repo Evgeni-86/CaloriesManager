@@ -2,11 +2,10 @@ package ru.caloriemanager.service;
 
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import ru.caloriemanager.model.AbstractNamedEntity;
-import ru.caloriemanager.model.User;
+import ru.caloriemanager.entity.AbstractNamedEntity;
+import ru.caloriemanager.entity.User;
 import ru.caloriemanager.repository.UserRepository;
 import ru.caloriemanager.util.exception.NotFoundException;
 

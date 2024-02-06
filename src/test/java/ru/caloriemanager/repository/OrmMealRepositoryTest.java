@@ -1,4 +1,4 @@
-package ru.caloriemanager.repository.orm;
+package ru.caloriemanager.repository;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,10 +7,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.model.Role;
-import ru.caloriemanager.model.User;
-import ru.caloriemanager.repository.MealRepository;
+import ru.caloriemanager.entity.Meal;
+import ru.caloriemanager.entity.Role;
+import ru.caloriemanager.entity.User;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;

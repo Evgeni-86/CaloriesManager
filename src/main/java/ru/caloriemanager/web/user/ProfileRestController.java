@@ -1,9 +1,7 @@
 package ru.caloriemanager.web.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import ru.caloriemanager.model.User;
-import ru.caloriemanager.service.UserService;
+import ru.caloriemanager.entity.User;
 
 import static ru.caloriemanager.web.SecurityUtil.authUserId;
 

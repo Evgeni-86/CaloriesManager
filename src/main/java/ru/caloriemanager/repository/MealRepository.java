@@ -1,6 +1,6 @@
 package ru.caloriemanager.repository;
 
-import ru.caloriemanager.model.Meal;
+import ru.caloriemanager.entity.Meal;
 
 import java.time.LocalDateTime;
 import java.util.List;

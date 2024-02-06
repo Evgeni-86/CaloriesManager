@@ -1,13 +1,13 @@
-package ru.caloriemanager.model;
+package ru.caloriemanager.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Objects;
-
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class AbstractBaseEntity {
-
-    public static final int START_SEQ = 100;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -16,14 +16,6 @@ public abstract class AbstractBaseEntity {
 
     protected AbstractBaseEntity(Integer id) {
         this.id = id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public boolean isNew() {

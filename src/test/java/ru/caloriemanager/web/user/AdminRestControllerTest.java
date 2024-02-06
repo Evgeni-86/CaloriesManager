@@ -10,15 +10,11 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.model.Role;
-import ru.caloriemanager.model.User;
+import ru.caloriemanager.entity.Role;
+import ru.caloriemanager.entity.User;
 import ru.caloriemanager.util.exception.NotFoundException;
-import ru.caloriemanager.web.meal.MealRestController;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 import java.util.Set;
 

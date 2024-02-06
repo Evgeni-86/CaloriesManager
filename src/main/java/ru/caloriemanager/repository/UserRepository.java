@@ -1,6 +1,6 @@
 package ru.caloriemanager.repository;
 
-import ru.caloriemanager.model.User;
+import ru.caloriemanager.entity.User;
 
 import java.util.List;
 

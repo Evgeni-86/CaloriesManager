@@ -23,13 +23,15 @@
     </bean>
     <jdbc:initialize-database data-source="dataSource" enabled="true">
         <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/hsqlInitRole.sql"/>
+        <!--add data for example-->
+        <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/testData/addTestData.sql"/>
     </jdbc:initialize-database>
 
     <!--HIBERNATE SETUP-->
     <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <!--p:persistenceUnitName="persistenceUnit">-->
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="ru.caloriemanager.model"/>
+        <property name="packagesToScan" value="ru.caloriemanager.entity"/>
         <!--<property name="persistenceProviderClass" value="org.hibernate.jpa.HibernatePersistenceProvider"/>-->
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
