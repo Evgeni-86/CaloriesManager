@@ -49,7 +49,6 @@ class OrmMealRepositoryTest {
     void saveNew() {
         //Arrange
         Meal meal = new Meal(null, "meal test", 1000);
-        meal.setUser(user);
         //Act
         Meal actual = SUT.save(meal, user.getId());
         Meal checkWrite = SUT.get(meal.getId(), user.getId());
@@ -63,9 +62,7 @@ class OrmMealRepositoryTest {
     void saveUpdate() {
         //Arrange
         Meal meal = new Meal(null, "meal test", 1000);
-        meal.setUser(user);
         Meal mealUpdate = new Meal(null, "meal test update", 2000);
-        mealUpdate.setUser(user);
         //Act
         SUT.save(meal, user.getId());
         mealUpdate.setId(meal.getId());
@@ -79,7 +76,6 @@ class OrmMealRepositoryTest {
     void delete() {
         //Arrange
         Meal meal = new Meal(null, "meal test", 1000);
-        meal.setUser(user);
         SUT.save(meal, user.getId());
         //Act
         boolean actual = SUT.delete(meal.getId(), user.getId());
@@ -92,7 +88,6 @@ class OrmMealRepositoryTest {
     void get() {
         //Arrange
         Meal meal = new Meal(null, "meal test", 1000);
-        meal.setUser(user);
         SUT.save(meal, user.getId());
         //Act
         Meal actual = SUT.get(meal.getId(), user.getId());
@@ -106,9 +101,6 @@ class OrmMealRepositoryTest {
         Meal meal1 = new Meal(null, "meal1", 1000);
         Meal meal2 = new Meal(null, "meal2", 1000);
         Meal meal3 = new Meal(null, "meal3", 1000);
-        meal1.setUser(user);
-        meal2.setUser(user);
-        meal3.setUser(user);
         List<Meal> mealList = Arrays.asList(meal1, meal2, meal3);
         mealList.forEach((el) -> SUT.save(el, user.getId()));
         Collections.reverse(mealList);
@@ -127,9 +119,6 @@ class OrmMealRepositoryTest {
         Meal meal1 = new Meal(dateTime1,"test1", 1000);
         Meal meal2 = new Meal(dateTime2,"test2", 1000);
         Meal meal3 = new Meal(dateTime3,"test3", 1000);
-        meal1.setUser(user);
-        meal2.setUser(user);
-        meal3.setUser(user);
         SUT.save(meal1, user.getId());
         SUT.save(meal2, user.getId());
         SUT.save(meal3, user.getId());

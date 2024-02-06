@@ -1,16 +1,3 @@
-package ru.caloriemanager.repository.inMemory;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import ru.caloriemanager.model.Role;
-import ru.caloriemanager.model.User;
-import ru.caloriemanager.repository.UserRepository;
-
-import java.lang.reflect.Field;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 class InMemoryUserRepositoryTest {
 

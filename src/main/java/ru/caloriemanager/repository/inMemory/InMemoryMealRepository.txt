@@ -1,26 +1,6 @@
-package ru.caloriemanager.repository.inMemory;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
-import ru.caloriemanager.model.Meal;
-import ru.caloriemanager.repository.MealRepository;
-import ru.caloriemanager.util.DateTimeUtil;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryMealRepository extends InMemoryBaseRepository<Meal> implements MealRepository {
+public class InMemoryMealRepository implements MealRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryMealRepository.class);
     private static Map<Integer, Map<Integer, Meal>> usersMealsMap = new ConcurrentHashMap<>();

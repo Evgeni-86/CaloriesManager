@@ -1,19 +1,7 @@
-package ru.caloriemanager.repository.inMemory;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-import ru.caloriemanager.model.User;
-import ru.caloriemanager.repository.UserRepository;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 
 @Repository
-public class InMemoryUserRepository extends InMemoryBaseRepository<User> implements UserRepository {
+public class InMemoryUserRepository implements UserRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepository.class);
     private static Map<Integer, User> usersMap = new ConcurrentHashMap<>();

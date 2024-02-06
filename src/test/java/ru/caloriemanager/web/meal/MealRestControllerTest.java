@@ -53,7 +53,6 @@ class MealRestControllerTest {
         //Arrange
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        meal.setUser(user);
         //Act
         //Assert
         Assertions.assertEquals(meal, SUT.create(meal));
@@ -65,7 +64,6 @@ class MealRestControllerTest {
         //Arrange
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        meal.setUser(user);
         SUT.create(meal);
         //Act
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
@@ -80,7 +78,6 @@ class MealRestControllerTest {
         //Arrange
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        meal.setUser(user);
         SUT.create(meal);
         meal.setDescription("update");
         meal.setCalories(100);
@@ -95,7 +92,6 @@ class MealRestControllerTest {
         //Arrange
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        meal.setUser(user);
         //Act
         //Assert
         Assertions.assertEquals(meal, SUT.create(meal));
@@ -121,7 +117,6 @@ class MealRestControllerTest {
         //Arrange
         Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        meal.setUser(user);
         SUT.create(meal);
         //Act
         //Assert
@@ -150,9 +145,6 @@ class MealRestControllerTest {
                 12, 1, 0), "Обед", 500);
         Meal meal3 = new Meal(LocalDateTime.of(2017, Month.MAY,
                 12, 2, 0), "Обед", 500);
-        meal1.setUser(user);
-        meal2.setUser(user);
-        meal3.setUser(user);
         SUT.create(meal1);
         SUT.create(meal2);
         SUT.create(meal3);
@@ -173,8 +165,6 @@ class MealRestControllerTest {
                 12, 0, 0), "Завтрак", 500);
         Meal meal2 = new Meal(LocalDateTime.of(2017, Month.MAY,
                 12, 12, 0), "Обед", 500);
-        meal1.setUser(user);
-        meal2.setUser(user);
         SUT.create(meal1);
         SUT.create(meal2);
         //Act

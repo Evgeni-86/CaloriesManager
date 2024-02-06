@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-
+import ru.caloriemanager.web.SecurityUtil;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
-import static ru.caloriemanager.repository.inMemory.DataForMealsMockRepository.DEFAULT_CALORIES_PER_DAY;
+
 
 @Getter
 @Setter
@@ -45,7 +44,7 @@ public class User extends AbstractNamedEntity {
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, DEFAULT_CALORIES_PER_DAY, true, EnumSet.of(role, roles));
+        this(id, name, email, password, SecurityUtil.DEFAULT_CALORIES_PER_DAY, true, EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, int caloriesPerDay, boolean enabled, Set<Role> roles) {

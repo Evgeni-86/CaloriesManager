@@ -1,11 +1,3 @@
-package ru.caloriemanager.repository.inMemory;
-
-import ru.caloriemanager.model.Meal;
-
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
 
 public class DataForMealsMockRepository {
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;

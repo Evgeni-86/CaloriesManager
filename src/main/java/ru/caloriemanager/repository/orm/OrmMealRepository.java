@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.caloriemanager.model.Meal;
+import ru.caloriemanager.model.User;
 import ru.caloriemanager.repository.MealRepository;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -26,6 +27,8 @@ public class OrmMealRepository implements MealRepository {
         String mes = meal.isNew() ? "save" : "update";
         LOG.info("trying {} in database meal {} user id = {}", mes, meal, userId);
         try {
+            User user = entityManager.getReference(User.class, userId);
+            meal.setUser(user);
             if (meal.isNew()) entityManager.persist(meal);
             else entityManager.merge(meal);
         } catch (Exception e) {
