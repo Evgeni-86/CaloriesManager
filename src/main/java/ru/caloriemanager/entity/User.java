@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import ru.caloriemanager.web.SecurityUtil;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -38,6 +39,11 @@ public class User extends AbstractNamedEntity {
 
     @Column(name = "calories_per_day")
     private int caloriesPerDay;
+
+    //TODO: lazyLoading
+    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
+    private List<Meal> meals;
 
     public User() {
         super(null, null);

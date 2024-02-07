@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+
+    <!--HSQLDB Profile-->
+<!--    <beans profile="hsqldb">-->
+        <!--DATA BASE SETUP-->
+        <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="${database.driver-class-name}"/>
+            <property name="url" value="${database.url}"/>
+            <property name="username" value="${database.username}"/>
+            <property name="password" value="${database.password}"/>
+        </bean>
+        <jdbc:initialize-database data-source="dataSource" enabled="true">
+            <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/hsqlInitRole.sql"/>
+            <!--add data for example-->
+            <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/testData/addTestData.sql"/>
+        </jdbc:initialize-database>
+        <!--HIBERNATE SETUP-->
+        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
+            <property name="packagesToScan" value="ru.caloriemanager.entity"/>
+            <property name="jpaVendorAdapter">
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+            </property>
+            <property name="jpaProperties">
+                <props>
+                    <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                    <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                    <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                    <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                    <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>
+                </props>
+            </property>
+        </bean>
+        <tx:annotation-driven/>
+        <!--JPA TRANSACTION MANAGER SETUP-->
+        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+            <property name="entityManagerFactory" ref="emf"/>
+        </bean>
+<!--    </beans>-->
+
+<!--    &lt;!&ndash;POSTGRESQL Profile&ndash;&gt;-->
+<!--    <beans profile="postgres">-->
+<!--        &lt;!&ndash;DATA BASE SETUP&ndash;&gt;-->
+<!--        <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>-->
+<!--        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--            <property name="driverClassName" value="${database.driver-class-name}"/>-->
+<!--            <property name="url" value="${database.url}"/>-->
+<!--            <property name="username" value="${database.username}"/>-->
+<!--            <property name="password" value="${database.password}"/>-->
+<!--        </bean>-->
+<!--        <jdbc:initialize-database data-source="dataSource" enabled="true">-->
+<!--            <jdbc:script encoding="utf-8" location="classpath:db/scripts/postgres/initTableRoles.sql"/>-->
+<!--        </jdbc:initialize-database>-->
+<!--&lt;!&ndash;        <bean class="org.springframework.beans.factory.config.MethodInvokingBean">&ndash;&gt;-->
+<!--&lt;!&ndash;            <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        </bean>&ndash;&gt;-->
+<!--        &lt;!&ndash;HIBERNATE SETUP&ndash;&gt;-->
+<!--        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+<!--            <property name="dataSource" ref="dataSource"/>-->
+<!--            <property name="packagesToScan" value="ru.caloriemanager.entity"/>-->
+<!--            <property name="jpaVendorAdapter">-->
+<!--                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>-->
+<!--            </property>-->
+<!--            <property name="jpaProperties">-->
+<!--                <props>-->
+<!--                    <prop key="hibernate.dialect">${hibernate.dialect}</prop>-->
+<!--                    <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>-->
+<!--                    <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>-->
+<!--                    <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>-->
+<!--                    <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>-->
+<!--                </props>-->
+<!--            </property>-->
+<!--        </bean>-->
+<!--        <tx:annotation-driven/>-->
+<!--        &lt;!&ndash;JPA TRANSACTION MANAGER SETUP&ndash;&gt;-->
+<!--        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+<!--            <property name="entityManagerFactory" ref="emf"/>-->
+<!--        </bean>-->
+<!--&lt;!&ndash;                <bean id="dataSource"&ndash;&gt;-->
+<!--&lt;!&ndash;                      class="org.apache.tomcat.jdbc.pool.DataSource"&ndash;&gt;-->
+<!--&lt;!&ndash;                      p:driverClassName="org.postgresql.Driver"&ndash;&gt;-->
+<!--&lt;!&ndash;                      p:url="${database.url}"&ndash;&gt;-->
+<!--&lt;!&ndash;                      p:username="${database.username}"&ndash;&gt;-->
+<!--&lt;!&ndash;                      p:password="${database.password}"/>&ndash;&gt;-->
+<!--    </beans>-->
+</beans>
