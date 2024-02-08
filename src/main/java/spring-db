@@ -30,7 +30,7 @@
         <!--HIBERNATE SETUP-->
         <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
             <property name="dataSource" ref="dataSource"/>
-            <property name="packagesToScan" value="ru.caloriemanager.entity"/>
+            <property name="packagesToScan" value="ru.caloriesmanager.entity"/>
             <property name="jpaVendorAdapter">
                 <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
             </property>
@@ -70,7 +70,7 @@
 <!--        &lt;!&ndash;HIBERNATE SETUP&ndash;&gt;-->
 <!--        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
 <!--            <property name="dataSource" ref="dataSource"/>-->
-<!--            <property name="packagesToScan" value="ru.caloriemanager.entity"/>-->
+<!--            <property name="packagesToScan" value="ru.caloriesmanager.entity"/>-->
 <!--            <property name="jpaVendorAdapter">-->
 <!--                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>-->
 <!--            </property>-->

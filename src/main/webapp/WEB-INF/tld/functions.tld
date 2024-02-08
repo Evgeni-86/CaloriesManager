@@ -6,11 +6,11 @@
 
     <tlib-version>1.0</tlib-version>
     <short-name>functions</short-name>
-    <uri>ru/caloriemanager/functions</uri>
+    <uri>ru/caloriesmanager/functions</uri>
 
     <function>
         <name>formatDateTime</name>
-        <function-class>ru.caloriemanager.util.DateTimeUtil</function-class>
+        <function-class>ru.caloriesmanager.util.DateTimeUtil</function-class>
         <function-signature>java.lang.String toString(java.time.LocalDateTime)</function-signature>
     </function>
 </taglib>

@@ -12,7 +12,7 @@
     <hr>
     <h2>${param.action == 'create' ? 'Create meal' : 'Edit meal'}</h2>
     <%--указываем, что входящий атрибут "meal" это обьект класса Meal--%>
-    <jsp:useBean id="meal" type="ru.caloriemanager.entity.Meal" scope="request"/>
+    <jsp:useBean id="meal" type="ru.caloriesmanager.entity.Meal" scope="request"/>
     <form method="post" action="meals?action=edit">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>

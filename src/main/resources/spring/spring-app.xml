@@ -15,10 +15,10 @@
        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
-    <context:component-scan base-package="ru.caloriemanager.aop"/>
-    <context:component-scan base-package="ru.caloriemanager.repository"/>
-    <context:component-scan base-package="ru.caloriemanager.service"/>
-    <context:component-scan base-package="ru.caloriemanager.web"/>
+    <context:component-scan base-package="ru.caloriesmanager.aop"/>
+    <context:component-scan base-package="ru.caloriesmanager.repository"/>
+    <context:component-scan base-package="ru.caloriesmanager.service"/>
+    <context:component-scan base-package="ru.caloriesmanager.web"/>
 
     <!--SPRING AOP SETUP-->
     <aop:aspectj-autoproxy/>
@@ -31,6 +31,29 @@
         <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
     </bean>
 
+    <!--HIBERNATE SETUP-->
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="ru.caloriesmanager.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>
+            </props>
+        </property>
+    </bean>
+    <!--JPA TRANSACTION MANAGER SETUP-->
+    <tx:annotation-driven/>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf"/>
+    </bean>
+
     <!--HSQLDB Profile-->
     <beans profile="hsqldb">
         <!--DATA BASE SETUP-->
@@ -41,33 +64,11 @@
             <property name="username" value="${database.username}"/>
             <property name="password" value="${database.password}"/>
         </bean>
-        <jdbc:initialize-database data-source="dataSource" enabled="true">
+        <jdbc:initialize-database>
             <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/hsqlInitRole.sql"/>
             <!--add data for tests-->
             <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/testData/addTestData.sql"/>
         </jdbc:initialize-database>
-        <!--HIBERNATE SETUP-->
-        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-            <property name="dataSource" ref="dataSource"/>
-            <property name="packagesToScan" value="ru.caloriemanager.entity"/>
-            <property name="jpaVendorAdapter">
-                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
-            </property>
-            <property name="jpaProperties">
-                <props>
-                    <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                    <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-                    <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-                    <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-                    <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>
-                </props>
-            </property>
-        </bean>
-        <!--JPA TRANSACTION MANAGER SETUP-->
-        <tx:annotation-driven/>
-        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-            <property name="entityManagerFactory" ref="emf"/>
-        </bean>
     </beans>
 
     <!--POSTGRESQL Profile-->
@@ -79,31 +80,13 @@
             <property name="url" value="${database.url}"/>
             <property name="username" value="${database.username}"/>
             <property name="password" value="${database.password}"/>
+            <property name="maxActive" value="${database.setMaxActive}"/>
+            <property name="maxIdle" value="${database.setMaxIdle}"/>
+            <property name="minIdle" value="${database.setMinIdle}"/>
+            <property name="maxWait" value="${database.setMaxWait}"/>
         </bean>
-        <jdbc:initialize-database data-source="dataSource" enabled="true">
+        <jdbc:initialize-database>
             <jdbc:script encoding="utf-8" location="classpath:db/scripts/postgres/initTableRoles.sql"/>
         </jdbc:initialize-database>
-        <!--HIBERNATE SETUP-->
-        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-            <property name="dataSource" ref="dataSource"/>
-            <property name="packagesToScan" value="ru.caloriemanager.entity"/>
-            <property name="jpaVendorAdapter">
-                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
-            </property>
-            <property name="jpaProperties">
-                <props>
-                    <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                    <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-                    <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-                    <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-                    <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>
-                </props>
-            </property>
-        </bean>
-        <!--JPA TRANSACTION MANAGER SETUP-->
-        <tx:annotation-driven/>
-        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-            <property name="entityManagerFactory" ref="emf"/>
-        </bean>
     </beans>
 </beans>

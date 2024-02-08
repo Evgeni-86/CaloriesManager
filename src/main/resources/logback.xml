@@ -3,7 +3,7 @@
 
     <jmxConfigurator/>
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>./log/caloriemanager.log</file>
+        <file>./log/caloriesmanager.log</file>
         <encoder>
             <charset>UTF-8</charset>
             <pattern>%date %-5level %logger{0} [%file:%line] %msg%n</pattern>
@@ -13,11 +13,13 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%-5level %logger{0} [%file:%line] %msg%n</pattern>
+            <!--<pattern>%-5level %logger{0} [%file:%line] %msg%n</pattern>-->
+            <!--<pattern>%d{HH:mm:ss.SSS} %-5level %class{50}.%M:%L - %msg%n</pattern>-->
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%class{50}.%M:%L) - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="ru.caloriemanager" level="debug"/>
+    <logger name="ru.caloriesmanager" level="debug"/>
     <logger name="org.hibernate.orm.jdbc.bind" level="trace"/>
 
     <root level="info">

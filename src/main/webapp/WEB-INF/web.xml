@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <display-name>caloriemanager</display-name>
+    <display-name>caloriesmanager</display-name>
 
     <servlet>
         <servlet-name>userServlet</servlet-name>
-        <servlet-class>ru.caloriemanager.web.UserServlet</servlet-class>
+        <servlet-class>ru.caloriesmanager.web.UserServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -18,7 +18,7 @@
 
     <servlet>
         <servlet-name>mealServlet</servlet-name>
-        <servlet-class>ru.caloriemanager.web.MealServlet</servlet-class>
+        <servlet-class>ru.caloriesmanager.web.MealServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>

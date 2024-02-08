@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
-<%@ taglib prefix="fn" uri="ru/caloriemanager/functions" %>
+<%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
 <%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>--%>
 <html>
 <head>
@@ -56,12 +56,10 @@
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
-            <jsp:useBean id="meal" type="ru.caloriemanager.model.UserMealWithExcess"/>
+            <jsp:useBean id="meal" type="ru.caloriesmanager.model.UserMealWithExcess"/>
             <tr class="${meal.excess ? 'excess' : 'normal'}">
             <tr data-mealExcess="${meal.excess}">
-                <td>
-                        ${fn:formatDateTime(meal.dateTime)}
-                </td>
+                <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
                 <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
