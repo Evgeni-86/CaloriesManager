@@ -1,4 +1,4 @@
-package ru.caloriesmanager.repository;
+package ru.caloriesmanager.repository.jpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.repository.MealRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -16,8 +17,8 @@ import java.util.List;
 
 
 @Repository
-public class OrmMealRepository implements MealRepository {
-    private static final Logger LOG = LoggerFactory.getLogger(OrmMealRepository.class);
+public class JpaMealRepositoryImpl implements MealRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(JpaMealRepositoryImpl.class);
     @PersistenceContext
     private EntityManager entityManager;
 

@@ -1,4 +1,4 @@
-package ru.caloriesmanager.repository;
+package ru.caloriesmanager.repository.jpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,9 +16,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class OrmUserRepository implements UserRepository {
+public class JpaUserRepositoryImpl implements UserRepository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OrmUserRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JpaUserRepositoryImpl.class);
     @PersistenceContext
     private EntityManager entityManager;
 

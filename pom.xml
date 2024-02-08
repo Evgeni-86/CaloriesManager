@@ -40,43 +40,32 @@
         <spring-data-jpa.version>3.2.2</spring-data-jpa.version>
     </properties>
 
-
     <profiles>
         <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <spring.profiles.active>hsqldb</spring.profiles.active>
-            </properties>
             <dependencies>
-                <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
                 <dependency>
                     <groupId>org.hsqldb</groupId>
                     <artifactId>hsqldb</artifactId>
                     <version>${hsqldb.version}</version>
-                    <!--<scope>test</scope>-->
-                </dependency>
-                <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
-                <dependency>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>tomcat-jdbc</artifactId>
-                    <version>10.1.18</version>
                 </dependency>
             </dependencies>
         </profile>
         <profile>
             <id>prod</id>
-            <properties>
-                <spring.profiles.active>postgres</spring.profiles.active>
-            </properties>
             <dependencies>
-                <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
                 <dependency>
                     <groupId>org.postgresql</groupId>
                     <artifactId>postgresql</artifactId>
                     <version>${postgresql.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                    <version>10.1.18</version>
                 </dependency>
             </dependencies>
         </profile>

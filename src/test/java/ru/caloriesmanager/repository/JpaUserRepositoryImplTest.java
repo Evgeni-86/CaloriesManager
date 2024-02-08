@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:spring/spring-app.xml")
-class OrmUserRepositoryTest {
+class JpaUserRepositoryImplTest {
 
     private static UserRepository SUT;
 

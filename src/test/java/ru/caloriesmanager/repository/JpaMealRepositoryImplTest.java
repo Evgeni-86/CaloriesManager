@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:spring/spring-app.xml")
-class OrmMealRepositoryTest {
+class JpaMealRepositoryImplTest {
 
     private static MealRepository SUT;
     private static int currentUserId;
