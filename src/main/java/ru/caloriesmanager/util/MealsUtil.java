@@ -1,7 +1,7 @@
 package ru.caloriesmanager.util;
 
-import ru.caloriesmanager.entity.Meal;
-import ru.caloriesmanager.model.UserMealWithExcess;
+import ru.caloriesmanager.model.Meal;
+import ru.caloriesmanager.transferObject.UserMealWithExcess;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

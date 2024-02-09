@@ -2,8 +2,8 @@ package ru.caloriesmanager.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.caloriesmanager.entity.Meal;
-import ru.caloriesmanager.model.UserMealWithExcess;
+import ru.caloriesmanager.model.Meal;
+import ru.caloriesmanager.transferObject.UserMealWithExcess;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

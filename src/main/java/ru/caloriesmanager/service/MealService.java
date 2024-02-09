@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import ru.caloriesmanager.entity.Meal;
+import ru.caloriesmanager.model.Meal;
 import ru.caloriesmanager.repository.MealRepository;
 import ru.caloriesmanager.util.DateTimeUtil;
 

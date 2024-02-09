@@ -110,21 +110,18 @@
             <version>${jcl-over-slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback-classic.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <!--Web-->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>${jakarta.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!--JSTL-->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -135,19 +132,16 @@
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <version>${jakarta.servlet.jsp.jstl.version}</version>
         </dependency>
-        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring-context.version}</version>
         </dependency>
-        <!--aop-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectjweaver.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -171,45 +165,38 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${spring-jdbc.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation-api.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring-orm.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate-core.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/jul-to-slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
             <version>${jul-to-slf4j.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>

@@ -3,7 +3,7 @@ package ru.caloriesmanager.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.model.User;
 import ru.caloriesmanager.service.UserService;
 
 import java.util.List;

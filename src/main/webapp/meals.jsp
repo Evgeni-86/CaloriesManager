@@ -6,15 +6,6 @@
 <html>
 <head>
     <title>Meal list</title>
-    <style>
-        .normal {
-            color: green;
-        }
-
-        .excess {
-            color: red;
-        }
-    </style>
     <title>Meals</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -56,8 +47,7 @@
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
-            <jsp:useBean id="meal" type="ru.caloriesmanager.model.UserMealWithExcess"/>
-            <tr class="${meal.excess ? 'excess' : 'normal'}">
+            <jsp:useBean id="meal" type="ru.caloriesmanager.transferObject.UserMealWithExcess"/>
             <tr data-mealExcess="${meal.excess}">
                 <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>

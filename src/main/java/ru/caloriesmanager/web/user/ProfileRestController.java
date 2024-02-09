@@ -1,7 +1,7 @@
 package ru.caloriesmanager.web.user;
 
 import org.springframework.stereotype.Controller;
-import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.model.User;
 
 import static ru.caloriesmanager.web.SecurityUtil.authUserId;
 

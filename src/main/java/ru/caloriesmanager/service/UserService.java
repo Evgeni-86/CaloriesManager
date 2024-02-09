@@ -4,8 +4,8 @@ import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import ru.caloriesmanager.entity.AbstractNamedEntity;
-import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.model.AbstractNamedEntity;
+import ru.caloriesmanager.model.User;
 import ru.caloriesmanager.repository.UserRepository;
 import ru.caloriesmanager.util.exception.NotFoundException;
 

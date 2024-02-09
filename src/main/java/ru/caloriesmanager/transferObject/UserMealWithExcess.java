@@ -1,8 +1,8 @@
-package ru.caloriesmanager.model;
+package ru.caloriesmanager.transferObject;
 
 import lombok.Getter;
-import ru.caloriesmanager.entity.AbstractBaseEntity;
-import ru.caloriesmanager.entity.Meal;
+import ru.caloriesmanager.model.AbstractBaseEntity;
+import ru.caloriesmanager.model.Meal;
 
 import java.time.LocalDateTime;
 

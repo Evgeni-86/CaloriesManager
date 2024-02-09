@@ -1,4 +1,4 @@
-package ru.caloriesmanager.entity;
+package ru.caloriesmanager.model;
 
 
 public enum Role {

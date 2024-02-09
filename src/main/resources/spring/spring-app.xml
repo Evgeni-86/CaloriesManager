@@ -2,21 +2,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="
-       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.2.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/data/jpa
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/util
+       https://www.springframework.org/schema/util/spring-util.xsd">
 
 
     <context:component-scan base-package="ru.caloriesmanager.aop"/>
-    <context:component-scan base-package="ru.caloriesmanager.repository"/>
     <context:component-scan base-package="ru.caloriesmanager.service"/>
     <context:component-scan base-package="ru.caloriesmanager.web"/>
 
@@ -32,9 +40,9 @@
     </bean>
 
     <!--HIBERNATE SETUP-->
-    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="ru.caloriesmanager.entity"/>
+        <property name="packagesToScan" value="ru.caloriesmanager.model"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
@@ -51,11 +59,15 @@
     <!--JPA TRANSACTION MANAGER SETUP-->
     <tx:annotation-driven/>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="emf"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
     <!--HSQLDB Profile-->
     <beans profile="hsqldb">
+        <context:component-scan base-package="ru.caloriesmanager.repository.jpa"/>
+<!--        <jpa:repositories base-package="ru.caloriesmanager.repository.dataJpa"/>-->
+<!--        <context:component-scan base-package="ru.caloriesmanager.repository.dataJpa"/>-->
+
         <!--DATA BASE SETUP-->
         <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
         <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -66,13 +78,16 @@
         </bean>
         <jdbc:initialize-database>
             <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/hsqlInitRole.sql"/>
-            <!--add data for tests-->
             <jdbc:script encoding="utf-8" location="classpath:db/scripts/hsql/testData/addTestData.sql"/>
         </jdbc:initialize-database>
     </beans>
 
     <!--POSTGRESQL Profile-->
     <beans profile="postgres">
+        <context:component-scan base-package="ru.caloriesmanager.repository.jpa"/>
+        <!--<jpa:repositories base-package="ru.caloriesmanager.repository.dataJpa"/>-->
+        <!--<context:component-scan base-package="ru.caloriesmanager.repository.dataJpa"/>-->
+
         <!--DATA BASE SETUP-->
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
         <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">

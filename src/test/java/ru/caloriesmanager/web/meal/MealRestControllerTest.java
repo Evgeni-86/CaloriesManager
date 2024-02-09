@@ -10,8 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriesmanager.entity.*;
-import ru.caloriesmanager.model.UserMealWithExcess;
+import ru.caloriesmanager.model.*;
+import ru.caloriesmanager.transferObject.UserMealWithExcess;
 import ru.caloriesmanager.util.exception.NotFoundException;
 import ru.caloriesmanager.web.SecurityUtil;
 

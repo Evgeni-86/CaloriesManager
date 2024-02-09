@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.caloriesmanager.entity.Meal;
-import ru.caloriesmanager.model.UserMealWithExcess;
+import ru.caloriesmanager.model.Meal;
+import ru.caloriesmanager.transferObject.UserMealWithExcess;
 import ru.caloriesmanager.util.DateTimeUtil;
 import ru.caloriesmanager.web.meal.MealRestController;
 

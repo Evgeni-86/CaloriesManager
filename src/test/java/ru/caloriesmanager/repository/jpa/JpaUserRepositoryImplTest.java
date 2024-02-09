@@ -1,4 +1,4 @@
-package ru.caloriesmanager.repository;
+package ru.caloriesmanager.repository.jpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,8 +10,9 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriesmanager.entity.Role;
-import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.model.Role;
+import ru.caloriesmanager.model.User;
+import ru.caloriesmanager.repository.UserRepository;
 
 import javax.sql.DataSource;
 

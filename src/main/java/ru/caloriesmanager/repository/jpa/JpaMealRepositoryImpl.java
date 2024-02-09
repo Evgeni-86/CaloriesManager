@@ -7,8 +7,8 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.caloriesmanager.entity.Meal;
-import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.model.Meal;
+import ru.caloriesmanager.model.User;
 import ru.caloriesmanager.repository.MealRepository;
 
 import java.time.LocalDateTime;
