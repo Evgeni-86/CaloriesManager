@@ -22,7 +22,9 @@ Calorie Manager - это приложение для учета калорий, 
 - Для сборки проекта используется Maven.
 - Для тестирования используются JUnit.
 - Для развертывания приложения может использоваться сервер приложений Apache Tomcat.
-============================================================================================
+
+===================
+
 Development of a full-featured Spring application with role-based authorization and access rights.
 
 Project Name: Calorie Manager
