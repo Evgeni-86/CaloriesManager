@@ -22,7 +22,7 @@ public class UserMealWithExcess extends AbstractBaseEntity {
         this.excess = excess;
     }
 
-    public static UserMealWithExcess getModel(Meal meal, boolean excess) {
+    public static UserMealWithExcess getTransferObject(Meal meal, boolean excess) {
         return new UserMealWithExcess(
                 meal.getId(),
                 meal.getDateTime(),

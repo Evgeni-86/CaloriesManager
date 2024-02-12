@@ -21,11 +21,7 @@ public class MealsUtil {
                 .collect(Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories)));
         return meals.stream()
                 .filter(filter)
-                .map(meal -> UserMealWithExcess.getModel(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
+                .map(meal -> UserMealWithExcess.getTransferObject(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(toList());
     }
-
-//    private static UserMealWithExcess createTo(Meal meal, boolean excess) {
-//        return new UserMealWithExcess(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
-//    }
 }

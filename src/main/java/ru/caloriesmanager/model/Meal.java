@@ -3,9 +3,9 @@ package ru.caloriesmanager.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import ru.caloriesmanager.web.SecurityUtil;
+
+import java.time.*;
 import java.util.Objects;
 
 
@@ -52,6 +52,13 @@ public class Meal extends AbstractBaseEntity {
         if (this.dateTime == null) {
             this.dateTime = LocalDateTime.now();
         }
+    }
+
+    @PostLoad
+    private void postLoadEntity() {
+        ZonedDateTime systemZoned = ZonedDateTime.of(dateTime, ZoneId.systemDefault());
+        ZonedDateTime zonedDateTimeUser = systemZoned.withZoneSameInstant(SecurityUtil.zoneId);
+        dateTime = zonedDateTimeUser.toLocalDateTime();
     }
 
     public LocalDate getDate() {

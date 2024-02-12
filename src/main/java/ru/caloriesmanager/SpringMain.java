@@ -1,7 +1,16 @@
 package ru.caloriesmanager;
 
+import org.springframework.cache.interceptor.SimpleKey;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.caloriesmanager.util.AppCacheManager;
+import ru.caloriesmanager.model.Role;
+import ru.caloriesmanager.model.User;
+
+import javax.cache.Cache;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 public class SpringMain {
@@ -10,12 +19,7 @@ public class SpringMain {
         try (ConfigurableApplicationContext appCtx =
                      new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
 
-//            Arrays.stream(appCtx.getBeanDefinitionNames()).forEach(el-> System.out.println(el));
 
-//            Meal meal = new Meal(LocalDateTime.now(), "Test", 1000);
-//
-//            MealService mealService = appCtx.getBean("mealService", MealService.class);
-//            mealService.create(meal, 1);
         }
     }
 }

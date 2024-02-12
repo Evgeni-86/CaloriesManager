@@ -21,6 +21,7 @@
 
     <logger name="ru.caloriesmanager" level="debug"/>
     <logger name="org.hibernate.orm.jdbc.bind" level="trace"/>
+    <logger name="org.springframework.cache" level="trace"/>
 
     <root level="info">
         <appender-ref ref="file"/>

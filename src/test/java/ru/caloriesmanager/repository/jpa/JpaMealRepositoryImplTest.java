@@ -62,14 +62,14 @@ class JpaMealRepositoryImplTest {
     void saveUpdate() {
         //Arrange
         Meal meal = new Meal(null, "meal test", 1000);
-        Meal mealUpdate = new Meal(null, "meal test update", 2000);
-        //Act
         SUT.save(meal, user.getId());
-        mealUpdate.setId(meal.getId());
-        Meal actual = SUT.save(mealUpdate, user.getId());
+        meal.setDescription("meal test update");
+        meal.setCalories(1500);
+        //Act
+        Meal actual = SUT.save(meal, user.getId());
         //Assert
-        Assertions.assertEquals(mealUpdate, actual);
-        Assertions.assertEquals(mealUpdate, SUT.get(mealUpdate.getId(), user.getId()));
+        Assertions.assertEquals(meal, actual);
+        Assertions.assertEquals(meal, SUT.get(meal.getId(), user.getId()));
     }
 
     @Test
