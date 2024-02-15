@@ -107,7 +107,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
     }
 
 //    @Transactional
-//    public List<Meal> get(int userId) {
+//    public List<Meal> getAll(int userId) {
 //        LOG.info("trying to get all meals user id = {}", userId);
 //        try {
 //            List<Meal> meals = entityManager.createNativeQuery("SELECT * FROM meals WHERE user_id=:id")
