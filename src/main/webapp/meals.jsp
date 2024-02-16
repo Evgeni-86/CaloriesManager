@@ -1,15 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
 <%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
-<%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>--%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%--<fmt:setLocale value="en"/>--%>
+
 <html>
-<head>
-    <title>Meal list</title>
-    <title>Meals</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
+<jsp:include page="fragments/headTagMeals.jsp"/>
 <body>
+<jsp:include page="fragments/header.jsp"/>
 <section>
     <h3><a href="index.html">Home</a></h3>
     <hr/>
@@ -58,5 +57,6 @@
         </c:forEach>
     </table>
 </section>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
