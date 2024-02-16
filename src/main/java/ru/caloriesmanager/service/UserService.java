@@ -50,6 +50,6 @@ public class UserService {
 
     @Cacheable("UserGetAllCache")
     public List<User> getAll() {
-        return repository.getAll().stream().sorted(Comparator.comparing(AbstractNamedEntity::getName)).toList();
+        return repository.getAll();
     }
 }

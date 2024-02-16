@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.ContextCleanupListener;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.caloriesmanager.model.Meal;
 import ru.caloriesmanager.transferObject.UserMealWithExcess;
 import ru.caloriesmanager.util.DateTimeUtil;
@@ -22,19 +25,18 @@ import java.util.Objects;
 
 
 public class MealServlet extends HttpServlet {
-    private ConfigurableApplicationContext appCtx;
+    private WebApplicationContext appCtx;
     private MealRestController mealRestController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        appCtx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         mealRestController = appCtx.getBean(MealRestController.class);
     }
 
     @Override
     public void destroy() {
-        appCtx.close();
         super.destroy();
     }
 

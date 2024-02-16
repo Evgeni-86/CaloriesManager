@@ -3,7 +3,10 @@ package ru.caloriesmanager.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import ru.caloriesmanager.web.SecurityUtil;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
@@ -35,14 +38,13 @@ public class User extends AbstractNamedEntity {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<Role> roles;
 
     @Column(name = "calories_per_day")
     private int caloriesPerDay;
 
-    //TODO: lazyLoading
-    @Transient
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Meal> meals;
 
     public User() {

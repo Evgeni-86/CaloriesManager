@@ -11,10 +11,10 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@NamedEntityGraphs({
-        @NamedEntityGraph(name = "meal-user-entity-graph",
-                attributeNodes = {@NamedAttributeNode("user")})
-})
+//@NamedEntityGraphs({
+//        @NamedEntityGraph(name = "meal-user-entity-graph",
+//                attributeNodes = {@NamedAttributeNode("user")})
+//})
 @Entity
 @Table(name = "meals", indexes = @Index(columnList = "user_id, date_time"))
 public class Meal extends AbstractBaseEntity {

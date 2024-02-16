@@ -56,18 +56,31 @@ public class JpaMealRepositoryImpl implements MealRepository {
         }
     }
 
+//    @Transactional
+//    @Override
+//    public Meal get(int id, int userId) {
+//        LOG.info("trying to get meal id = {} user id = {}", id, userId);
+//        try {
+//            Meal meal = entityManager.find(
+//                    Meal.class, id,
+//                    Collections.singletonMap(
+//                            "jakarta.persistence.loadgraph",
+//                            entityManager.getEntityGraph("meal-user-entity-graph")
+//                    )
+//            );
+//            if (meal != null) LOG.info("get meal id = {} user id = {}", id, userId);
+//            return meal;
+//        } catch (Exception e) {
+//            LOG.error("Error get meal id = {} user id = {}", id, userId);
+//            throw new RuntimeException(String.format("Error get meal : %s", e.getMessage()));
+//        }
+//    }
+
     @Transactional
-    @Override
     public Meal get(int id, int userId) {
         LOG.info("trying to get meal id = {} user id = {}", id, userId);
         try {
-            Meal meal = entityManager.find(
-                    Meal.class, id,
-                    Collections.singletonMap(
-                            "jakarta.persistence.loadgraph",
-                            entityManager.getEntityGraph("meal-user-entity-graph")
-                    )
-            );
+            Meal meal = entityManager.find(Meal.class, id);
             if (meal != null) LOG.info("get meal id = {} user id = {}", id, userId);
             return meal;
         } catch (Exception e) {
@@ -77,15 +90,19 @@ public class JpaMealRepositoryImpl implements MealRepository {
     }
 
 //    @Transactional
-//    public Meal get(int id, int userId) {
-//        LOG.info("trying to get meal id = {} user id = {}", id, userId);
+//    @Override
+//    public List<Meal> getAll(int userId) {
+//        LOG.info("trying to get all meals user id = {}", userId);
 //        try {
-//            Meal meal = entityManager.find(Meal.class, id);
-//            if (meal != null) LOG.info("get meal id = {} user id = {}", id, userId);
-//            return meal;
+//            List<Meal> meals = entityManager.createQuery("FROM Meal WHERE user.id=:id ORDER BY dateTime DESC", Meal.class)
+//                    .setParameter("id", userId)
+//                    .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"))
+//                    .getResultList();
+//            LOG.info("get all meals user id = {}", userId);
+//            return meals;
 //        } catch (Exception e) {
-//            LOG.error("Error get meal id = {} user id = {}", id, userId);
-//            throw new RuntimeException(String.format("Error get meal : %s", e.getMessage()));
+//            LOG.error("Error get all meals user id = {}", userId);
+//            throw new RuntimeException(String.format("Error get all meals : %s", e.getMessage()));
 //        }
 //    }
 
@@ -96,7 +113,6 @@ public class JpaMealRepositoryImpl implements MealRepository {
         try {
             List<Meal> meals = entityManager.createQuery("FROM Meal WHERE user.id=:id ORDER BY dateTime DESC", Meal.class)
                     .setParameter("id", userId)
-                    .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"))
                     .getResultList();
             LOG.info("get all meals user id = {}", userId);
             return meals;
@@ -106,18 +122,24 @@ public class JpaMealRepositoryImpl implements MealRepository {
         }
     }
 
+
 //    @Transactional
-//    public List<Meal> getAll(int userId) {
-//        LOG.info("trying to get all meals user id = {}", userId);
+//    @Override
+//    public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+//        LOG.info("trying getBetween dateTime({} - {}) for user {}", startDateTime, endDateTime, userId);
 //        try {
-//            List<Meal> meals = entityManager.createNativeQuery("SELECT * FROM meals WHERE user_id=:id")
+//            List<Meal> meals = entityManager.createQuery("FROM Meal WHERE user.id=:id " +
+//                            "AND dateTime BETWEEN :sdt AND :edt ORDER BY dateTime DESC", Meal.class)
 //                    .setParameter("id", userId)
+//                    .setParameter("sdt", startDateTime)
+//                    .setParameter("edt", endDateTime)
+//                    .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"))
 //                    .getResultList();
-//            LOG.info("get all meals user id = {}", userId);
+//            LOG.info("getBetween dateTime({} - {}) for user {}", startDateTime, endDateTime, userId);
 //            return meals;
 //        } catch (Exception e) {
-//            LOG.error("Error get all meals user id = {}", userId);
-//            throw new RuntimeException(String.format("Error get all meals : %s", e.getMessage()));
+//            LOG.error("Error getBetween for user id = {}", userId);
+//            throw new RuntimeException(String.format("Error getBetween : %s", e.getMessage()));
 //        }
 //    }
 
@@ -131,7 +153,6 @@ public class JpaMealRepositoryImpl implements MealRepository {
                     .setParameter("id", userId)
                     .setParameter("sdt", startDateTime)
                     .setParameter("edt", endDateTime)
-                    .setHint("jakarta.persistence.loadgraph", entityManager.getEntityGraph("meal-user-entity-graph"))
                     .getResultList();
             LOG.info("getBetween dateTime({} - {}) for user {}", startDateTime, endDateTime, userId);
             return meals;
@@ -140,5 +161,4 @@ public class JpaMealRepositoryImpl implements MealRepository {
             throw new RuntimeException(String.format("Error getBetween : %s", e.getMessage()));
         }
     }
-
 }

@@ -15,6 +15,7 @@ import java.util.Set;
 
 public class SpringMain {
     public static void main(String[] args) {
+
         System.setProperty("spring.profiles.active", "hsqldb");
         try (ConfigurableApplicationContext appCtx =
                      new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
