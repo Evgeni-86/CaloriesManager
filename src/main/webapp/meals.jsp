@@ -3,7 +3,6 @@
 <%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%--<fmt:setLocale value="en"/>--%>
 
 <html>
 <jsp:include page="fragments/headTagMeals.jsp"/>
