@@ -24,18 +24,27 @@ public class MealService {
     @Autowired
     private MealRepository repository;
 
-    @CacheEvict(value = "MealCache", allEntries = true)
+    @CacheEvict(value = {"MealCache",
+            "MealGetAllCache",
+            "MealGetBetweenDatesCache",
+            "MealGetBetweenDatesTimesCache"}, allEntries = true)
     public Meal create(@NonNull Meal meal, @Min(1) int userId) {
         checkNew(meal);
         return repository.save(meal, userId);
     }
 
-    @CacheEvict(value = "MealCache", allEntries = true)
+    @CacheEvict(value = {"MealCache",
+            "MealGetAllCache",
+            "MealGetBetweenDatesCache",
+            "MealGetBetweenDatesTimesCache"}, allEntries = true)
     public void update(@NonNull Meal meal, @Min(1) int userId) {
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
-    @CacheEvict(value = "MealCache", allEntries = true)
+    @CacheEvict(value = {"MealCache",
+            "MealGetAllCache",
+            "MealGetBetweenDatesCache",
+            "MealGetBetweenDatesTimesCache"}, allEntries = true)
     public boolean delete(@Min(1) int id, @Min(1) int userId) {
         checkNotFoundWithId(repository.get(id, userId), id);
         return repository.delete(id, userId);

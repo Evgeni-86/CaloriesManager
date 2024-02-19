@@ -67,6 +67,16 @@
     <beans profile="postgres">
         <!--DATA BASE SETUP-->
         <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+        <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+            <property name="driverClassName" value="${database.driver-class-name}"/>
+            <property name="url" value="${database.url}"/>
+            <property name="username" value="${database.username}"/>
+            <property name="password" value="${database.password}"/>
+            <property name="maxActive" value="${database.setMaxActive}"/>
+            <property name="maxIdle" value="${database.setMaxIdle}"/>
+            <property name="minIdle" value="${database.setMinIdle}"/>
+            <property name="maxWait" value="${database.setMaxWait}"/>
+        </bean>
         <jdbc:initialize-database>
             <jdbc:script encoding="utf-8" location="classpath:db/scripts/postgres/initTableRoles.sql"/>
         </jdbc:initialize-database>

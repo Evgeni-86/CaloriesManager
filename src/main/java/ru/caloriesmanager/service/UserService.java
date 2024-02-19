@@ -17,18 +17,18 @@ public class UserService {
     @Autowired
     public UserRepository repository;
 
-    @CacheEvict(value = "UserCache", allEntries = true)
+    @CacheEvict(value = {"UserCache", "UserGetAllCache"}, allEntries = true)
     public User create(@NonNull User user) {
         checkNew(user);
         return repository.save(user);
     }
 
-    @CacheEvict(value = "UserCache", allEntries = true)
+    @CacheEvict(value = {"UserCache", "UserGetAllCache"}, allEntries = true)
     public void update(@NonNull User user) throws NotFoundException {
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
-    @CacheEvict(value = "UserCache", allEntries = true)
+    @CacheEvict(value = {"UserCache", "UserGetAllCache"}, allEntries = true)
     public void delete(@Min(1) int id) throws NotFoundException {
         boolean isDeleted = repository.delete(id);
         checkNotFoundWithId(isDeleted, id);

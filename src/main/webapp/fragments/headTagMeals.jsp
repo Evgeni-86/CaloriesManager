@@ -6,5 +6,5 @@
 
 <head>
     <title><fmt:message key="meals.title"/></title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
