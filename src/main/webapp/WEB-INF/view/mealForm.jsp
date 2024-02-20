@@ -2,14 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setBundle basename="messages.app"/>
+<!--<fmt:setBundle basename="messages.app"/>-->
 
 <html>
 <jsp:include page="fragments/headTagMealForm.jsp"/>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h3><a href="index.html"><fmt:message key="mealForm.home"/></a></h3>
+    <h3><a href="${pageContext.request.contextPath}/"><fmt:message key="mealForm.home"/></a></h3>
     <hr>
     <h2>
     <c:choose>

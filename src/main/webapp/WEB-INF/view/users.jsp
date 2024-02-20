@@ -2,13 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setBundle basename="messages.app"/>
+<!--<fmt:setBundle basename="messages.app"/>-->
 
 <html>
 <jsp:include page="fragments/headTagUser.jsp"/>
 <body>
 <jsp:include page="fragments/header.jsp"/>
-<h3><a href="index.html"><fmt:message key="users.home"/></a></h3>
+<h3><a href="${pageContext.request.contextPath}/"><fmt:message key="users.home"/></a></h3>
 <hr>
 <h2><fmt:message key="users.heading1"/></h2>
     <table border="1" cellpadding="8" cellspacing="0">

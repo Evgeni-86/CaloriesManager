@@ -3,14 +3,14 @@
 <%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setBundle basename="messages.app"/>
+<!--<fmt:setBundle basename="messages.app"/>-->
 
 <html>
 <jsp:include page="fragments/headTagMeals.jsp"/>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h3><a href="index.html"><fmt:message key="meals.home"/></a></h3>
+    <h3><a href="${pageContext.request.contextPath}/"><fmt:message key="meals.home"/></a></h3>
     <hr/>
     <h2><fmt:message key="meals.heading1"/></h2>
     <form method="get" action="meals">

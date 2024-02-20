@@ -5,9 +5,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.web.context.ContextCleanupListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.caloriesmanager.model.Meal;
@@ -22,7 +19,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-
 
 public class MealServlet extends HttpServlet {
     private WebApplicationContext appCtx;
@@ -47,21 +43,21 @@ public class MealServlet extends HttpServlet {
             List<UserMealWithExcess> filteredMealToList = mealRestController
                     .getBetween(DateTimeUtil.MIN_DATE, LocalTime.MIN, DateTimeUtil.MAX_DATE, LocalTime.MAX);
             request.setAttribute("meals", filteredMealToList);
-            request.getRequestDispatcher("meals.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/view/meals.jsp").forward(request, response);
             return;
         }
         switch (action) {
             case "create": {
                 Meal meal = new Meal(LocalDateTime.now(), "", 1000);
                 request.setAttribute("meal", meal);
-                request.getRequestDispatcher("mealForm.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/view/mealForm.jsp").forward(request, response);
                 break;
             }
             case "update": {
                 int id = Integer.parseInt(Objects.requireNonNull(request.getParameter("id")));
                 Meal meal = mealRestController.get(id);
                 request.setAttribute("meal", meal);
-                request.getRequestDispatcher("mealForm.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/view/mealForm.jsp").forward(request, response);
                 break;
             }
             case "delete": {
@@ -77,7 +73,7 @@ public class MealServlet extends HttpServlet {
                 LocalTime endT = DateTimeUtil.parseToLocalTime(request.getParameter("endTime"), LocalTime.MAX);
                 List<UserMealWithExcess> filteredMealToList = mealRestController.getBetween(startD, startT, endD, endT);
                 request.setAttribute("meals", filteredMealToList);
-                request.getRequestDispatcher("meals.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/view/meals.jsp").forward(request, response);
                 break;
             }
         }

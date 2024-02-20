@@ -7,15 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.caloriesmanager.model.User;
-import ru.caloriesmanager.service.UserService;
 import ru.caloriesmanager.transferObject.UserTO;
-import ru.caloriesmanager.web.meal.MealRestController;
-import ru.caloriesmanager.web.user.AbstractUserController;
 import ru.caloriesmanager.web.user.AdminRestController;
 import ru.caloriesmanager.web.user.ProfileRestController;
 
@@ -48,7 +43,7 @@ public class UserServlet extends HttpServlet {
         LOG.info("current user {}", userId);
         SecurityUtil.setUserId(Integer.parseInt(userId));
         request.setAttribute("user", UserTO.getTransferObject(user));
-        request.getRequestDispatcher("users.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/view/users.jsp").forward(request, response);
     }
 
     @Override
