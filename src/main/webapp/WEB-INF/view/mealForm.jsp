@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!--<fmt:setBundle basename="messages.app"/>-->
+<fmt:setBundle basename="messages.app"/>
 
 <html>
 <jsp:include page="fragments/headTagMealForm.jsp"/>
@@ -18,7 +18,7 @@
     </c:choose>
     </h2>
     <jsp:useBean id="meal" type="ru.caloriesmanager.model.Meal" scope="request"/>
-    <form method="post" action="meals?action=edit">
+    <form method="post" action="edit">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
             <dt><fmt:message key="mealForm.dateTime"/>:</dt>

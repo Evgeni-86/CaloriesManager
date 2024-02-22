@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!--<fmt:setBundle basename="messages.app"/>-->
+<fmt:setBundle basename="messages.app"/>
 
 <html>
 <jsp:include page="fragments/headTagMeals.jsp"/>
@@ -13,7 +13,7 @@
     <h3><a href="${pageContext.request.contextPath}/"><fmt:message key="meals.home"/></a></h3>
     <hr/>
     <h2><fmt:message key="meals.heading1"/></h2>
-    <form method="get" action="meals">
+    <form method="get" action="filter">
         <input type="hidden" name="action" value="filter">
         <dl>
             <dt><fmt:message key="meals.fromDate"/>:</dt>
@@ -33,7 +33,7 @@
         </dl>
         <button type="submit"><fmt:message key="meals.filter"/></button>
     </form>
-    <a href="meals?action=create"><fmt:message key="meals.addMeal"/></a>
+    <a href="create?action=create"><fmt:message key="meals.addMeal"/></a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -51,8 +51,8 @@
                 <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="meals?action=update&id=${meal.id}"><fmt:message key="meals.update"/></a></td>
-                <td><a href="meals?action=delete&id=${meal.id}"><fmt:message key="meals.delete"/></a></td>
+                <td><a href="update?action=update&id=${meal.id}"><fmt:message key="meals.update"/></a></td>
+                <td><a href="delete?action=delete&id=${meal.id}"><fmt:message key="meals.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>

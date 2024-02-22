@@ -2,6 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!--<fmt:setBundle basename="messages.app"/>-->
+<fmt:setBundle basename="messages.app"/>
 
-<footer><fmt:message key="footer"/></footer>
+<header><fmt:message key="footer"/></header>

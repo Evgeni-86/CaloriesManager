@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!--<fmt:setBundle basename="messages.app"/>-->
+<fmt:setBundle basename="messages.app"/>
 
 <head>
     <title><fmt:message key="users.title"/></title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>">
 </head>

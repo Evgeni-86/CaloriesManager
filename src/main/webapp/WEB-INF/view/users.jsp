@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!--<fmt:setBundle basename="messages.app"/>-->
+<fmt:setBundle basename="messages.app"/>
 
 <html>
 <jsp:include page="fragments/headTagUser.jsp"/>
@@ -35,7 +35,7 @@
             <td>${user.roles}</td>
         </tr>
     </table>
-    <h3><a href="meals"><fmt:message key="users.heading2"/></a></h3>
+    <h3><a href="meals/meals"><fmt:message key="users.heading2"/></a></h3>
 </body>
 <jsp:include page="fragments/footer.jsp"/>
 </html>
