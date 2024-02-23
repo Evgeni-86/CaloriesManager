@@ -27,7 +27,7 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="basenames">
             <list>
-                <value>messages/app</value>
+                <value>messages.app</value>
             </list>
         </property>
     </bean>

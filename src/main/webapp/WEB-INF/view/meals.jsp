@@ -2,57 +2,57 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<fmt:setBundle basename="messages.app"/>
 
 <html>
 <jsp:include page="fragments/headTagMeals.jsp"/>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h3><a href="${pageContext.request.contextPath}/"><fmt:message key="meals.home"/></a></h3>
+    <h3><a href="${pageContext.request.contextPath}/"><spring:message code="meals.home"/></a></h3>
     <hr/>
-    <h2><fmt:message key="meals.heading1"/></h2>
+    <h2><spring:message code="meals.heading1"/></h2>
     <form method="get" action="filter">
         <input type="hidden" name="action" value="filter">
         <dl>
-            <dt><fmt:message key="meals.fromDate"/>:</dt>
+            <dt><spring:message code="meals.fromDate"/>:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
         </dl>
         <dl>
-            <dt><fmt:message key="meals.toDate"/>:</dt>
+            <dt><spring:message code="meals.toDate"/>:</dt>
             <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
         </dl>
         <dl>
-            <dt><fmt:message key="meals.fromTime"/>:</dt>
+            <dt><spring:message code="meals.fromTime"/>:</dt>
             <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
         </dl>
         <dl>
-            <dt><fmt:message key="meals.toTime"/>:</dt>
+            <dt><spring:message code="meals.toTime"/>:</dt>
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
-        <button type="submit"><fmt:message key="meals.filter"/></button>
+        <button type="submit"><spring:message code="meals.filter"/></button>
     </form>
-    <a href="create?action=create"><fmt:message key="meals.addMeal"/></a>
+    <a href="create?action=create"><spring:message code="meals.addMeal"/></a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
-            <th><fmt:message key="meals.date"/></th>
-            <th><fmt:message key="meals.description"/></th>
-            <th><fmt:message key="meals.calories"/></th>
+            <th><spring:message code="meals.date"/></th>
+            <th><spring:message code="meals.description"/></th>
+            <th><spring:message code="meals.calories"/></th>
             <th></th>
             <th></th>
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
-            <jsp:useBean id="meal" type="ru.caloriesmanager.transferObject.UserMealWithExcess"/>
+<%--            <jsp:useBean id="meal" type="ru.caloriesmanager.transferObject.UserMealWithExcess"/>--%>
             <tr data-mealExcess="${meal.excess}">
                 <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="update?action=update&id=${meal.id}"><fmt:message key="meals.update"/></a></td>
-                <td><a href="delete?action=delete&id=${meal.id}"><fmt:message key="meals.delete"/></a></td>
+                <td><a href="update?action=update&id=${meal.id}"><spring:message code="meals.update"/></a></td>
+                <td><a href="delete?action=delete&id=${meal.id}"><spring:message code="meals.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>

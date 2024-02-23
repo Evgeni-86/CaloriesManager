@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<fmt:setBundle basename="messages.app"/>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <head>
-    <title><fmt:message key="meals.title"/></title>
+    <title><spring:message code="meals.title"/></title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>">
 </head>

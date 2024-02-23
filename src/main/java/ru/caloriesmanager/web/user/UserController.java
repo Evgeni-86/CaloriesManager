@@ -17,9 +17,7 @@ import ru.caloriesmanager.transferObject.UserTO;
 public class UserController {
 
     @Autowired
-    private ProfileRestController profileRestController;
-    @Autowired
-    private AdminRestController adminRestController;
+    private UserService userService;
 
     @RequestMapping(value = "/")
     public String index(Model model) {
@@ -28,7 +26,7 @@ public class UserController {
 
     @RequestMapping(value = "/users")
     public String getUser(@RequestParam("select_user") int userId,Model model) {
-        User user = adminRestController.get(userId);
+        User user = userService.get(userId);
         model.addAttribute("user", UserTO.getTransferObject(user));
         return "users";
     }
