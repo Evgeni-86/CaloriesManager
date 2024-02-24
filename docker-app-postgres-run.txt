@@ -1,0 +1,26 @@
+1)
+sudo docker network create \
+--subnet=192.168.1.0/24 my_network
+
+2)
+sudo docker run \
+--net my_network --ip 192.168.1.100 \
+--name postgres \
+-e POSTGRES_USER=postgres \
+-e POSTGRES_PASSWORD=1 \
+-e POSTGRES_DB=caloriesmanager \
+-d \
+--rm \
+postgres:latest
+
+3)
+sudo docker build \
+-t calories-app-image:latest .
+
+4)
+sudo docker run  \
+--net my_network --ip 192.168.1.101 \
+--name calories-app  \
+-p 8888:8080 \
+--rm \
+calories-app-image:latest

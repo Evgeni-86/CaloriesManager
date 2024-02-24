@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.caloriesmanager.model.User;
 import ru.caloriesmanager.service.UserService;
 import ru.caloriesmanager.transferObject.UserTO;
+import ru.caloriesmanager.web.SecurityUtil;
 
 
 @RequestMapping("/")
@@ -25,8 +26,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users")
-    public String getUser(@RequestParam("select_user") int userId,Model model) {
+    public String getUser(@RequestParam("select_user") int userId, Model model) {
         User user = userService.get(userId);
+        SecurityUtil.setUserId(userId);
         model.addAttribute("user", UserTO.getTransferObject(user));
         return "users";
     }
