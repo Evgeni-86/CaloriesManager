@@ -32,7 +32,7 @@ public class Meal extends AbstractBaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private Meal() {
+    public Meal() {
         super(null);
     }
 
