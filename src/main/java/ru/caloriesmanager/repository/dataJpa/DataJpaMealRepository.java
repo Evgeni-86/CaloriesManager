@@ -2,7 +2,7 @@ package ru.caloriesmanager.repository.dataJpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.caloriesmanager.model.Meal;
+import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.repository.MealRepository;
 
 import java.time.LocalDateTime;

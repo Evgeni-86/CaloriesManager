@@ -17,7 +17,7 @@
     <c:otherwise><fmt:message key="mealForm.edit"/></c:otherwise>
     </c:choose>
     </h2>
-<%--    <jsp:useBean id="meal" type="ru.caloriesmanager.model.Meal" scope="request"/>--%>
+<%--    <jsp:useBean id="meal" type="ru.caloriesmanager.entity.Meal" scope="request"/>--%>
     <form method="post" action="edit">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>

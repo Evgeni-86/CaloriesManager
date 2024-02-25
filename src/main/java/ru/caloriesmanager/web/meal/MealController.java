@@ -1,22 +1,17 @@
 package ru.caloriesmanager.web.meal;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.caloriesmanager.model.Meal;
+import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.service.MealService;
-import ru.caloriesmanager.transferObject.UserMealWithExcess;
+import ru.caloriesmanager.model.UserMealWithExcess;
 import ru.caloriesmanager.util.DateTimeUtil;
 import ru.caloriesmanager.util.MealsUtil;
 import ru.caloriesmanager.web.SecurityUtil;
-import ru.caloriesmanager.web.meal.MealRestController;
 
-import java.net.http.HttpRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

@@ -2,7 +2,7 @@ package ru.caloriesmanager.repository.dataJpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.caloriesmanager.model.User;
+import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.repository.UserRepository;
 
 import java.util.List;

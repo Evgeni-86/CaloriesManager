@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriesmanager.model.Meal;
-import ru.caloriesmanager.model.Role;
-import ru.caloriesmanager.model.User;
+import ru.caloriesmanager.entity.Meal;
+import ru.caloriesmanager.entity.Role;
+import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.service.MealService;
 import ru.caloriesmanager.service.UserService;
 

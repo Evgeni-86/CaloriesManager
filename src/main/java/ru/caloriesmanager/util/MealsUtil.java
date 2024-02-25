@@ -1,7 +1,7 @@
 package ru.caloriesmanager.util;
 
-import ru.caloriesmanager.model.Meal;
-import ru.caloriesmanager.transferObject.UserMealWithExcess;
+import ru.caloriesmanager.entity.Meal;
+import ru.caloriesmanager.model.UserMealWithExcess;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,7 +21,7 @@ public class MealsUtil {
                 .collect(Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories)));
         return meals.stream()
                 .filter(filter)
-                .map(meal -> UserMealWithExcess.getTransferObject(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
+                .map(meal -> UserMealWithExcess.getModel(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(toList());
     }
 }

@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <c:set var="user" value="${user}"/>
-<%--        <jsp:useBean id="user" type="ru.caloriesmanager.transferObject.UserTO"/>--%>
+<%--        <jsp:useBean id="user" type="ru.caloriesmanager.model.UserTO"/>--%>
         <tr>
             <td>${user.name}</td>
             <td>${user.email}</td>

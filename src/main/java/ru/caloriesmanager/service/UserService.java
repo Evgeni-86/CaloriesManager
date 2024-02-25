@@ -6,7 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import ru.caloriesmanager.model.User;
+import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.repository.UserRepository;
 import ru.caloriesmanager.util.exception.NotFoundException;
 import java.util.List;

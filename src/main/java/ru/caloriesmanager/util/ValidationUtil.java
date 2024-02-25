@@ -1,7 +1,7 @@
 package ru.caloriesmanager.util;
 
 
-import ru.caloriesmanager.model.AbstractBaseEntity;
+import ru.caloriesmanager.entity.AbstractBaseEntity;
 import ru.caloriesmanager.util.exception.NotFoundException;
 
 public class ValidationUtil {

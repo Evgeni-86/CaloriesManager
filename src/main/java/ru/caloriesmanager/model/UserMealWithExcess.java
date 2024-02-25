@@ -1,8 +1,8 @@
-package ru.caloriesmanager.transferObject;
+package ru.caloriesmanager.model;
 
 import lombok.Getter;
-import ru.caloriesmanager.model.AbstractBaseEntity;
-import ru.caloriesmanager.model.Meal;
+import ru.caloriesmanager.entity.AbstractBaseEntity;
+import ru.caloriesmanager.entity.Meal;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +22,7 @@ public class UserMealWithExcess extends AbstractBaseEntity {
         this.excess = excess;
     }
 
-    public static UserMealWithExcess getTransferObject(Meal meal, boolean excess) {
+    public static UserMealWithExcess getModel(Meal meal, boolean excess) {
         return new UserMealWithExcess(
                 meal.getId(),
                 meal.getDateTime(),

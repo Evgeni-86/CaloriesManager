@@ -1,4 +1,4 @@
-package ru.caloriesmanager.model;
+package ru.caloriesmanager.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

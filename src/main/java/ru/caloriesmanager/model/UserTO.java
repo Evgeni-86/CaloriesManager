@@ -1,9 +1,8 @@
-package ru.caloriesmanager.transferObject;
+package ru.caloriesmanager.model;
 
-import jakarta.persistence.*;
 import lombok.Getter;
-import ru.caloriesmanager.model.Role;
-import ru.caloriesmanager.model.User;
+import ru.caloriesmanager.entity.Role;
+import ru.caloriesmanager.entity.User;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -29,7 +28,7 @@ public class UserTO {
         this.roles = roles;
     }
 
-    public static UserTO getTransferObject(User user){
+    public static UserTO getModel(User user){
         return new UserTO(
                 user.getName(),
                 user.getEmail(),

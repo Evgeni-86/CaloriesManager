@@ -1,4 +1,4 @@
-package ru.caloriesmanager.model;
+package ru.caloriesmanager.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

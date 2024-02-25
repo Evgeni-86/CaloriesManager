@@ -46,7 +46,7 @@
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
-<%--            <jsp:useBean id="meal" type="ru.caloriesmanager.transferObject.UserMealWithExcess"/>--%>
+<%--            <jsp:useBean id="meal" type="ru.caloriesmanager.model.UserMealWithExcess"/>--%>
             <tr data-mealExcess="${meal.excess}">
                 <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>

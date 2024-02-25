@@ -7,9 +7,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriesmanager.model.Meal;
-import ru.caloriesmanager.model.Role;
-import ru.caloriesmanager.model.User;
+import ru.caloriesmanager.entity.Meal;
+import ru.caloriesmanager.entity.Role;
+import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.repository.MealRepository;
 
 import javax.sql.DataSource;
