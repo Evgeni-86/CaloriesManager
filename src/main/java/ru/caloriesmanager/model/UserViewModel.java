@@ -8,7 +8,7 @@ import java.util.Set;
 
 
 @Getter
-public class UserTO {
+public class UserViewModel {
 
     private final String name;
     private final String email;
@@ -18,7 +18,7 @@ public class UserTO {
     private final int caloriesPerDay;
     private final Set<Role> roles;
 
-    private UserTO(String name, String email, String password, boolean enabled, LocalDateTime registered, int caloriesPerDay, Set<Role> roles) {
+    private UserViewModel(String name, String email, String password, boolean enabled, LocalDateTime registered, int caloriesPerDay, Set<Role> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -28,8 +28,8 @@ public class UserTO {
         this.roles = roles;
     }
 
-    public static UserTO getModel(User user){
-        return new UserTO(
+    public static UserViewModel getModel(User user){
+        return new UserViewModel(
                 user.getName(),
                 user.getEmail(),
                 user.getPassword(),
@@ -41,7 +41,7 @@ public class UserTO {
 
     @Override
     public String toString() {
-        return "UserTO{" +
+        return "UserViewModel{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

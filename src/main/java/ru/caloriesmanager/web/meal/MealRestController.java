@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import ru.caloriesmanager.entity.Meal;
-import ru.caloriesmanager.model.UserMealWithExcess;
+import ru.caloriesmanager.model.MealWithExcessModel;
 import ru.caloriesmanager.service.MealService;
 import ru.caloriesmanager.util.MealsUtil;
 import ru.caloriesmanager.web.SecurityUtil;
@@ -37,13 +37,13 @@ public class MealRestController {
         return mealService.delete(id, SecurityUtil.authUserId());
     }
 
-    public List<UserMealWithExcess> getAll() {
+    public List<MealWithExcessModel> getAll() {
         return MealsUtil.getFilteredTos(mealService.getAll(SecurityUtil.authUserId()),
                 SecurityUtil.authUserCaloriesPerDay(), LocalTime.MIN, LocalTime.MAX);
     }
 
-    public List<UserMealWithExcess> getBetween(@Nullable LocalDate startDate, @Nullable LocalTime startTime,
-                                               @Nullable LocalDate endDate, @Nullable LocalTime endTime) {
+    public List<MealWithExcessModel> getBetween(@Nullable LocalDate startDate, @Nullable LocalTime startTime,
+                                                @Nullable LocalDate endDate, @Nullable LocalTime endTime) {
         int userId = SecurityUtil.authUserId();
         List<Meal> mealsDateFiltered = mealService.getBetweenDates(startDate, endDate, userId);
         return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);

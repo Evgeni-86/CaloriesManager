@@ -3,7 +3,7 @@ package ru.caloriesmanager.util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.caloriesmanager.entity.Meal;
-import ru.caloriesmanager.model.UserMealWithExcess;
+import ru.caloriesmanager.model.MealWithExcessModel;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,9 +33,9 @@ class MealsUtilTest {
         List<Integer> idExpectedMeals = Arrays.asList(1, 2, 4, 5);
         List<Integer> idExpectedExcessesMeals = Arrays.asList(4, 5);
         //Act
-        List<UserMealWithExcess> result = MealsUtil.getFilteredTos(testList, 2000, startTime, endTime);
+        List<MealWithExcessModel> result = MealsUtil.getFilteredTos(testList, 2000, startTime, endTime);
         List<Integer> resultExpected = result.stream().map(el -> el.getId()).toList();
-        List<UserMealWithExcess> listExcess = result.stream().filter(UserMealWithExcess::isExcess).toList();
+        List<MealWithExcessModel> listExcess = result.stream().filter(MealWithExcessModel::isExcess).toList();
         List<Integer> resultExcessExpected = listExcess.stream().map(el -> el.getId()).toList();
         //Assert
         Assertions.assertEquals(idExpectedMeals, resultExpected);

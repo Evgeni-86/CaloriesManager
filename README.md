@@ -13,10 +13,11 @@ Calorie Manager - это приложение для учета калорий, 
 5. Логирование - используется для отслеживания действий пользователей и ошибок в приложении.
 
 Структура проекта:
-1. Пакет model содержит классы сущностей для работы с базой данных.
-2. Пакет repository содержит классы для доступа к данным с использованием Hibernate.
-3. Пакет web содержит классы-контроллеры для обработки HTTP-запросов от пользователей.
-4. Пакет util содержит утилитарные классы.
+1. Пакет entity содержит классы сущностей для работы с базой данных.
+2. Пакет model содержит классы моделей для view.
+3. Пакет repository содержит классы для доступа к данным с использованием Hibernate.
+4. Пакет web содержит классы-контроллеры для обработки HTTP-запросов от пользователей.
+5. Пакет util содержит утилитарные классы.
 
 Дополнительно:
 - Для сборки проекта используется Maven.
@@ -40,10 +41,11 @@ Technologies:
 5. Logging - used to track user actions and errors in the application.
 
 Project structure:
-1. The model package contains entity classes for working with the database.
-2. The repository package contains classes for accessing data using Hibernate.
-3. The web package contains controller classes for processing HTTP requests from users.
-4. The util package contains utility classes.
+1. The entity package contains entity classes for working with the database.
+2. The model package contains view classes.
+3. The repository package contains classes for accessing data using Hibernate.
+4. The web package contains controller classes for processing HTTP requests from users.
+5. The util package contains utility classes.
 
 Additionally:
 - Maven is used to build the project.

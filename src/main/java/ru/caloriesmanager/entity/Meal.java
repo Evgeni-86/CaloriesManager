@@ -19,7 +19,7 @@ import java.util.Objects;
 @Table(name = "meals", indexes = @Index(columnList = "user_id, date_time"))
 public class Meal extends AbstractBaseEntity {
 
-    @Column(name="date_time")
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     @Column(name = "description")
@@ -47,10 +47,15 @@ public class Meal extends AbstractBaseEntity {
         this.calories = calories;
     }
 
+    @PreUpdate
     @PrePersist
     private void prePersist() {
         if (this.dateTime == null) {
             this.dateTime = LocalDateTime.now();
+        } else {
+            ZonedDateTime userZoned = ZonedDateTime.of(dateTime, SecurityUtil.zoneId);
+            ZonedDateTime zonedDateTimeSystem = userZoned.withZoneSameInstant(ZoneId.systemDefault());
+            dateTime = zonedDateTimeSystem.toLocalDateTime();
         }
     }
 

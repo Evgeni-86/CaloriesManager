@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.caloriesmanager.entity.*;
-import ru.caloriesmanager.model.UserMealWithExcess;
+import ru.caloriesmanager.model.MealWithExcessModel;
 import ru.caloriesmanager.util.exception.NotFoundException;
 import ru.caloriesmanager.web.SecurityUtil;
 
@@ -150,7 +150,7 @@ class MealRestControllerTest {
         SUT.create(meal2);
         SUT.create(meal3);
         //Act
-        List<UserMealWithExcess> actual = SUT.getAll();
+        List<MealWithExcessModel> actual = SUT.getAll();
         //Assert
         Assertions.assertNotNull(actual);
         assertThat(actual).usingRecursiveComparison()
@@ -169,7 +169,7 @@ class MealRestControllerTest {
         SUT.create(meal1);
         SUT.create(meal2);
         //Act
-        List<UserMealWithExcess> actual = SUT.getBetween(
+        List<MealWithExcessModel> actual = SUT.getBetween(
                 LocalDate.of(2017, Month.MAY, 12),
                 LocalTime.of(0, 0),
                 LocalDate.of(2017, Month.MAY, 12),

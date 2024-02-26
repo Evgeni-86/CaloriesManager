@@ -3,11 +3,13 @@ package ru.caloriesmanager.web.meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.caloriesmanager.entity.Meal;
+import ru.caloriesmanager.model.MealViewModel;
+import ru.caloriesmanager.model.MealWithExcessModel;
 import ru.caloriesmanager.service.MealService;
-import ru.caloriesmanager.model.UserMealWithExcess;
 import ru.caloriesmanager.util.DateTimeUtil;
 import ru.caloriesmanager.util.MealsUtil;
 import ru.caloriesmanager.web.SecurityUtil;
@@ -15,7 +17,6 @@ import ru.caloriesmanager.web.SecurityUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequestMapping("/meals")
@@ -29,7 +30,7 @@ public class MealController {
     public String getAllMeals(Model model) {
         List<Meal> mealsDateFiltered =
                 mealService.getBetweenDates(DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE, SecurityUtil.authUserId());
-        List<UserMealWithExcess> filteredMealToList =
+        List<MealWithExcessModel> filteredMealToList =
                 MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), LocalTime.MIN, LocalTime.MAX);
         model.addAttribute("meals", filteredMealToList);
         return "meals";
@@ -37,15 +38,15 @@ public class MealController {
 
     @RequestMapping("/create")
     public String createMeal(Model model) {
-        Meal meal = new Meal(LocalDateTime.now(), "", 1000);
-        model.addAttribute("meal", meal);
+        MealViewModel mealViewModel = new MealViewModel(null, LocalDateTime.now(), "", 1000);
+        model.addAttribute("meal", mealViewModel);
         return "mealForm";
     }
 
     @RequestMapping("/update")
     public String updateMeal(@RequestParam("id") int mealId, Model model) {
         Meal meal = mealService.get(mealId, SecurityUtil.authUserId());
-        model.addAttribute("meal", meal);
+        model.addAttribute("meal", MealViewModel.getModel(meal));
         return "mealForm";
     }
 
@@ -66,19 +67,19 @@ public class MealController {
         LocalTime startT = DateTimeUtil.parseToLocalTime(startTime, LocalTime.MIN);
         LocalTime endT = DateTimeUtil.parseToLocalTime(endTime, LocalTime.MAX);
         List<Meal> mealsDateFiltered = mealService.getBetweenDates(startD, endD, SecurityUtil.authUserId());
-        List<UserMealWithExcess> filteredMealToList =
+        List<MealWithExcessModel> filteredMealToList =
                 MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startT, endT);
         model.addAttribute("meals", filteredMealToList);
         return "meals";
     }
 
     @RequestMapping("/edit")
-    public String editMeal(@RequestParam("id") String mealId,
-                           @RequestParam("dateTime") String dTime,
-                           @RequestParam("description") String description,
-                           @RequestParam("calories") int calories) {
-        LocalDateTime dateTime = LocalDateTime.parse(dTime, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
-        Meal meal = new Meal(mealId.isEmpty() ? null : Integer.parseInt(mealId), dateTime, description, calories);
+    public String editMeal(@ModelAttribute("meal") MealViewModel mealViewModel) {
+        Meal meal = new Meal(
+                mealViewModel.getId() == null ? null : mealViewModel.getId(),
+                mealViewModel.getDateTime(),
+                mealViewModel.getDescription(),
+                mealViewModel.getCalories());
         if (meal.isNew())
             mealService.create(meal, SecurityUtil.authUserId());
         else

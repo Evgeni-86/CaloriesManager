@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.service.UserService;
-import ru.caloriesmanager.model.UserTO;
+import ru.caloriesmanager.model.UserViewModel;
 import ru.caloriesmanager.web.SecurityUtil;
 
 
@@ -28,7 +28,7 @@ public class UserController {
     public String getUser(@RequestParam("select_user") int userId, Model model) {
         User user = userService.get(userId);
         SecurityUtil.setUserId(userId);
-        model.addAttribute("user", UserTO.getModel(user));
+        model.addAttribute("user", UserViewModel.getModel(user));
         return "users";
     }
 }
