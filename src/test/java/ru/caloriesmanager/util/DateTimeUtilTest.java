@@ -62,12 +62,11 @@ class DateTimeUtilTest {
     @Test
     void testToString() {
         //Arrange
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(23, 0));
         //Act
         String result = DateTimeUtil.toString(dateTime);
         //Assert
-        Assertions.assertEquals(dateTime.format(formatter), result);
+        Assertions.assertEquals(dateTime.format(DateTimeUtil.DATE_TIME_FORMATTER), result);
     }
 
     @Test

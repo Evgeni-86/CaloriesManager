@@ -50,20 +50,15 @@ public class Meal extends AbstractBaseEntity {
     @PreUpdate
     @PrePersist
     private void prePersist() {
-        if (this.dateTime == null) {
+        if (this.dateTime == null)
             this.dateTime = LocalDateTime.now();
-        } else {
-            ZonedDateTime userZoned = ZonedDateTime.of(dateTime, SecurityUtil.zoneId);
-            ZonedDateTime zonedDateTimeSystem = userZoned.withZoneSameInstant(ZoneId.systemDefault());
-            dateTime = zonedDateTimeSystem.toLocalDateTime();
-        }
     }
 
     @PostLoad
     private void postLoadEntity() {
         ZonedDateTime systemZoned = ZonedDateTime.of(dateTime, ZoneId.systemDefault());
-        ZonedDateTime zonedDateTimeUser = systemZoned.withZoneSameInstant(SecurityUtil.zoneId);
-        dateTime = zonedDateTimeUser.toLocalDateTime();
+        ZonedDateTime userZoned = systemZoned.withZoneSameInstant(SecurityUtil.zoneId);
+        dateTime = userZoned.toLocalDateTime();
     }
 
     public LocalDate getDate() {

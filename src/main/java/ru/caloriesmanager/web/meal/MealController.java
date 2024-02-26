@@ -14,9 +14,7 @@ import ru.caloriesmanager.util.DateTimeUtil;
 import ru.caloriesmanager.util.MealsUtil;
 import ru.caloriesmanager.web.SecurityUtil;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.List;
 
 @RequestMapping("/meals")
@@ -38,7 +36,9 @@ public class MealController {
 
     @RequestMapping("/create")
     public String createMeal(Model model) {
-        MealViewModel mealViewModel = new MealViewModel(null, LocalDateTime.now(), "", 1000);
+        ZonedDateTime systemZoned = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
+        ZonedDateTime userZoned = systemZoned.withZoneSameInstant(SecurityUtil.zoneId);
+        MealViewModel mealViewModel = new MealViewModel(null, userZoned.toLocalDateTime(), "", 1000);
         model.addAttribute("meal", mealViewModel);
         return "mealForm";
     }
@@ -66,7 +66,17 @@ public class MealController {
         LocalDate endD = DateTimeUtil.parseToLocalDate(endDate, DateTimeUtil.MAX_DATE);
         LocalTime startT = DateTimeUtil.parseToLocalTime(startTime, LocalTime.MIN);
         LocalTime endT = DateTimeUtil.parseToLocalTime(endTime, LocalTime.MAX);
-        List<Meal> mealsDateFiltered = mealService.getBetweenDates(startD, endD, SecurityUtil.authUserId());
+
+        ZonedDateTime startUserZoned = ZonedDateTime.of(startD, LocalTime.MIN, SecurityUtil.zoneId);
+        ZonedDateTime endUserZoned = ZonedDateTime.of(endD, LocalTime.MAX, SecurityUtil.zoneId);
+        ZonedDateTime startSystemZoned = startUserZoned.withZoneSameInstant(ZoneId.systemDefault());
+        ZonedDateTime endSystemZoned = endUserZoned.withZoneSameInstant(ZoneId.systemDefault());
+
+        List<Meal> mealsDateFiltered = mealService.getBetweenDates(
+                startSystemZoned.toLocalDate(),
+                endSystemZoned.toLocalDate(),
+                SecurityUtil.authUserId());
+
         List<MealWithExcessModel> filteredMealToList =
                 MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startT, endT);
         model.addAttribute("meals", filteredMealToList);
@@ -75,11 +85,10 @@ public class MealController {
 
     @RequestMapping("/edit")
     public String editMeal(@ModelAttribute("meal") MealViewModel mealViewModel) {
-        Meal meal = new Meal(
-                mealViewModel.getId() == null ? null : mealViewModel.getId(),
-                mealViewModel.getDateTime(),
-                mealViewModel.getDescription(),
-                mealViewModel.getCalories());
+        ZonedDateTime userZoned = ZonedDateTime.of(mealViewModel.getDateTime(), SecurityUtil.zoneId);
+        ZonedDateTime systemZoned = userZoned.withZoneSameInstant(ZoneId.systemDefault());
+        mealViewModel.setDateTime(systemZoned.toLocalDateTime());
+        Meal meal = MealViewModel.getMealInstance(mealViewModel);
         if (meal.isNew())
             mealService.create(meal, SecurityUtil.authUserId());
         else

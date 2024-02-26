@@ -32,4 +32,12 @@ public class MealViewModel {
     public static MealViewModel getModel(Meal meal) {
         return new MealViewModel(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories());
     }
+
+    public static Meal getMealInstance(MealViewModel mealViewModel) {
+        return new Meal(
+                mealViewModel.getId() == null ? null : mealViewModel.getId(),
+                mealViewModel.getDateTime(),
+                mealViewModel.getDescription(),
+                mealViewModel.getCalories());
+    }
 }
