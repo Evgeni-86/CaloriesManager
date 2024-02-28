@@ -27,11 +27,15 @@
         </dl>
         <dl>
             <dt><spring:message code="mealForm.description"/>:</dt>
-            <dd><form:input type="text" path="description"/></dd>
+            <dd><form:input type="text" path="description"/>
+                <form:errors path="description"/>
+            </dd>
         </dl>
         <dl>
             <dt><spring:message code="mealForm.calories"/>:</dt>
-            <dd><form:input type="number" path="calories"/></dd>
+            <dd><form:input type="number" path="calories"/>
+                <form:errors path="calories"/>
+            </dd>
         </dl>
         <button type="submit"><spring:message code="mealForm.save"/></button>
         <button onclick="window.history.back()" type="button"><spring:message code="mealForm.cancel"/></button>

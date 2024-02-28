@@ -12,10 +12,8 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="ru.caloriesmanager.web"/>
-
-    <mvc:resources mapping="/css/**" location="/WEB-INF/view/css/"/>
-
     <mvc:annotation-driven/>
+    <mvc:resources mapping="/css/**" location="/WEB-INF/view/css/"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>
@@ -32,4 +30,9 @@
         </property>
     </bean>
 
+    <context:component-scan base-package="ru.caloriesmanager.model"/>
+    <mvc:annotation-driven validator="validator"/>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
 </beans>

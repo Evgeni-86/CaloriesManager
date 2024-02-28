@@ -1,2 +1,2 @@
 install in repository
-mvn install:install-file -Dfile=./ehcache-3.10.8-jakarta.jar -DgroupId=ehcache-3 -DartifactId=ehcache-3 -Dversion=3.10.8 -Dpackaging=jar
+mvn install:install-file -Dfile=./src/lib/ehcache-3.10.8-jakarta.jar -DgroupId=ehcache-3 -DartifactId=ehcache-3 -Dversion=3.10.8 -Dpackaging=jar

@@ -1,8 +1,10 @@
 package ru.caloriesmanager.web.meal;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,7 @@ import ru.caloriesmanager.util.DateTimeUtil;
 import ru.caloriesmanager.util.MealsUtil;
 import ru.caloriesmanager.web.SecurityUtil;
 
+import javax.naming.Binding;
 import java.time.*;
 import java.util.List;
 
@@ -84,11 +87,15 @@ public class MealController {
     }
 
     @RequestMapping("/edit")
-    public String editMeal(@ModelAttribute("meal") MealViewModel mealViewModel) {
+    public String editMeal(@Valid @ModelAttribute("meal") MealViewModel mealViewModel,
+                           BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "mealForm";
+
         ZonedDateTime userZoned = ZonedDateTime.of(mealViewModel.getDateTime(), SecurityUtil.zoneId);
         ZonedDateTime systemZoned = userZoned.withZoneSameInstant(ZoneId.systemDefault());
         mealViewModel.setDateTime(systemZoned.toLocalDateTime());
         Meal meal = MealViewModel.getMealInstance(mealViewModel);
+
         if (meal.isNew())
             mealService.create(meal, SecurityUtil.authUserId());
         else
