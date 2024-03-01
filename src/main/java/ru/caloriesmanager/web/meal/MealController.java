@@ -89,7 +89,10 @@ public class MealController {
     @RequestMapping("/edit")
     public String editMeal(@Valid @ModelAttribute("meal") MealViewModel mealViewModel,
                            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "mealForm";
+
+        if (bindingResult.hasErrors()) {
+            return "mealForm";
+        }
 
         ZonedDateTime userZoned = ZonedDateTime.of(mealViewModel.getDateTime(), SecurityUtil.zoneId);
         ZonedDateTime systemZoned = userZoned.withZoneSameInstant(ZoneId.systemDefault());

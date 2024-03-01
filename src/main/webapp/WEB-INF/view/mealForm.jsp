@@ -20,10 +20,13 @@
     </h2>
 
     <form:form method="POST" action="edit" modelAttribute="meal">
-        <form:input type="hidden" path="id"/>
+<%--        <form:input type="hidden" path="id"/>--%>
+        <form:hidden path="id"/>
         <dl>
             <dt><spring:message code="mealForm.dateTime"/>:</dt>
-            <dd><form:input type="datetime-local" path="dateTime" value="${meal.formattedDateTime}"/></dd>
+            <dd><form:input type="datetime-local" path="dateTime" value="${meal.formattedDateTime}"/>
+                <form:errors path="dateTime"/>
+            </dd>
         </dl>
         <dl>
             <dt><spring:message code="mealForm.description"/>:</dt>

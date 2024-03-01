@@ -20,7 +20,6 @@
     <!--    <context:component-scan base-package="ru.caloriesmanager.repository.dataJpa"/>-->
     <!--    <jpa:repositories base-package="ru.caloriesmanager.repository.dataJpa"/>-->
 
-    <context:component-scan base-package="ru.caloriesmanager.aop"/>
     <context:component-scan base-package="ru.caloriesmanager.service"/>
     <context:component-scan base-package="ru.caloriesmanager.web"/>
 
