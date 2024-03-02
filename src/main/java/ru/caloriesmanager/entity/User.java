@@ -8,6 +8,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import ru.caloriesmanager.web.SecurityUtil;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
@@ -61,6 +63,20 @@ public class User extends AbstractNamedEntity {
         this.caloriesPerDay = caloriesPerDay;
         this.enabled = enabled;
         this.roles = roles;
+    }
+
+    @PreUpdate
+    @PrePersist
+    private void prePersist() {
+        if (this.registered == null)
+            this.registered = LocalDateTime.now();
+    }
+
+    @PostLoad
+    private void postLoadEntity() {
+        ZonedDateTime systemZoned = ZonedDateTime.of(registered, ZoneId.systemDefault());
+        ZonedDateTime userZoned = systemZoned.withZoneSameInstant(SecurityUtil.zoneId);
+        registered = userZoned.toLocalDateTime();
     }
 
     @Override

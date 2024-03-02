@@ -1,23 +1,23 @@
 package ru.caloriesmanager.web.meal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.model.MealWithExcessModel;
 import ru.caloriesmanager.service.MealService;
 import ru.caloriesmanager.util.MealsUtil;
 import ru.caloriesmanager.web.SecurityUtil;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-@Controller
+
+@RestController
+@RequestMapping("/api")
 public class MealRestController {
-    private static final Logger LOG = LoggerFactory.getLogger(MealRestController.class);
     @Autowired
     private MealService mealService;
 
@@ -29,6 +29,7 @@ public class MealRestController {
         mealService.update(meal, SecurityUtil.authUserId());
     }
 
+    @GetMapping("/meal")
     public Meal get(int id) {
         return mealService.get(id, SecurityUtil.authUserId());
     }

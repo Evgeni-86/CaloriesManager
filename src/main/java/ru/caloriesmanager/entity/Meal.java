@@ -4,17 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import ru.caloriesmanager.web.SecurityUtil;
-
 import java.time.*;
 import java.util.Objects;
 
 
 @Getter
 @Setter
-//@NamedEntityGraphs({
-//        @NamedEntityGraph(name = "meal-user-entity-graph",
-//                attributeNodes = {@NamedAttributeNode("user")})
-//})
 @Entity
 @Table(name = "meals", indexes = @Index(columnList = "user_id, date_time"))
 public class Meal extends AbstractBaseEntity {

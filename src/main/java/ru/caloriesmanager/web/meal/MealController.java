@@ -15,10 +15,9 @@ import ru.caloriesmanager.service.MealService;
 import ru.caloriesmanager.util.DateTimeUtil;
 import ru.caloriesmanager.util.MealsUtil;
 import ru.caloriesmanager.web.SecurityUtil;
-
-import javax.naming.Binding;
 import java.time.*;
 import java.util.List;
+
 
 @RequestMapping("/meals")
 @Controller
@@ -75,13 +74,11 @@ public class MealController {
         ZonedDateTime startSystemZoned = startUserZoned.withZoneSameInstant(ZoneId.systemDefault());
         ZonedDateTime endSystemZoned = endUserZoned.withZoneSameInstant(ZoneId.systemDefault());
 
-        List<Meal> mealsDateFiltered = mealService.getBetweenDates(
-                startSystemZoned.toLocalDate(),
-                endSystemZoned.toLocalDate(),
-                SecurityUtil.authUserId());
-
+        List<Meal> mealsDateFiltered =
+                mealService.getBetweenDates(startSystemZoned.toLocalDate(), endSystemZoned.toLocalDate(), SecurityUtil.authUserId());
         List<MealWithExcessModel> filteredMealToList =
                 MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startT, endT);
+
         model.addAttribute("meals", filteredMealToList);
         return "meals";
     }

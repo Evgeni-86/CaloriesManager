@@ -3,7 +3,6 @@ package ru.caloriesmanager.web.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.caloriesmanager.entity.User;
@@ -19,12 +18,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/")
+    @RequestMapping("/")
     public String index(Model model) {
         return "index";
     }
 
-    @RequestMapping(value = "/users")
+    @RequestMapping("/users")
     public String getUser(@RequestParam("select_user") int userId, Model model) {
         User user = userService.get(userId);
         SecurityUtil.setUserId(userId);

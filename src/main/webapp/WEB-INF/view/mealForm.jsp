@@ -20,7 +20,6 @@
     </h2>
 
     <form:form method="POST" action="edit" modelAttribute="meal">
-<%--        <form:input type="hidden" path="id"/>--%>
         <form:hidden path="id"/>
         <dl>
             <dt><spring:message code="mealForm.dateTime"/>:</dt>

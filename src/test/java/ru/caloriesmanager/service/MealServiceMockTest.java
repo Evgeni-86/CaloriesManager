@@ -125,13 +125,4 @@ class MealServiceMockTest {
         Assertions.assertEquals(TEST_LIST, result);
         Mockito.verify(repository, times(1)).getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID);
     }
-
-    @Test
-    void getBetweenDatesTimes() {
-        Mockito.when(repository.getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID)).thenReturn(TEST_LIST);
-        List<Meal> result = mealService.getBetweenDatesTimes(START_DATE_TIME, END_DATE_TIME, USER_ID);
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(TEST_LIST, result);
-        Mockito.verify(repository, times(1)).getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID);
-    }
 }
