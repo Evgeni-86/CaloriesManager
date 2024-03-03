@@ -64,6 +64,7 @@ public class MealController {
                          @RequestParam("startTime") String startTime,
                          @RequestParam("endTime") String endTime,
                          Model model) {
+
         LocalDate startD = DateTimeUtil.parseToLocalDate(startDate, DateTimeUtil.MIN_DATE);
         LocalDate endD = DateTimeUtil.parseToLocalDate(endDate, DateTimeUtil.MAX_DATE);
         LocalTime startT = DateTimeUtil.parseToLocalTime(startTime, LocalTime.MIN);

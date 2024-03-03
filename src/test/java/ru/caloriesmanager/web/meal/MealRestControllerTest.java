@@ -1,5 +1,6 @@
 package ru.caloriesmanager.web.meal;
 
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,11 +37,14 @@ class MealRestControllerTest {
     private static User user;
 
     @BeforeAll
-    static void init(@Autowired MealRestController controller, @Autowired DataSource dataSource) {
+    static void init(@Autowired MealRestController controller,
+                     @Autowired DataSource dataSource,
+                     @Autowired SessionFactory sessionFactory) {
         SUT = controller;
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScripts(new ClassPathResource("db/clearUsersMealsRolesAndAddTestData.sql"));
         populator.execute(dataSource);
+        sessionFactory.getCache().evictAllRegions();
     }
 
     @BeforeEach

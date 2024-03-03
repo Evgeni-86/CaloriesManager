@@ -68,28 +68,4 @@ class DateTimeUtilTest {
         //Assert
         Assertions.assertEquals(dateTime.format(DateTimeUtil.DATE_TIME_FORMATTER), result);
     }
-
-    @Test
-    void createDateTime() {
-        //Arrange
-        LocalDate localDate = LocalDate.now();
-        LocalDate localDateDefault = LocalDate.now().minusDays(1);
-        LocalTime localTime = LocalTime.now();
-        //Act
-        LocalDateTime actual = DateTimeUtil.createDateTime(localDate, localDateDefault, localTime);
-        //Assert
-        Assertions.assertEquals(LocalDateTime.of(localDate, localTime), actual);
-    }
-
-    @Test
-    void createDateTimeIfLocalDateNull() {
-        //Arrange
-        LocalDate localDate = null;
-        LocalDate localDateDefault = LocalDate.now().minusDays(1);
-        LocalTime localTime = LocalTime.now();
-        //Act
-        LocalDateTime actual = DateTimeUtil.createDateTime(localDate, localDateDefault, localTime);
-        //Assert
-        Assertions.assertEquals(LocalDateTime.of(localDateDefault, localTime), actual);
-    }
 }

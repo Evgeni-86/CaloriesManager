@@ -6,7 +6,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.cache.CacheManager;
 import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.repository.MealRepository;
 import ru.caloriesmanager.util.exception.NotFoundException;
@@ -24,6 +26,8 @@ import static org.mockito.Mockito.times;
 //@ContextConfiguration("classpath:spring/spring-app.xml")
 @ExtendWith(MockitoExtension.class)
 class MealServiceMockTest {
+    @Spy
+    private CacheManager cacheManager;
     @Mock
     private MealRepository repository;
     @InjectMocks

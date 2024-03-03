@@ -40,7 +40,7 @@
 
                 <prop key="hibernate.query.plan_cache_max_size">2048</prop>
                 <prop key="hibernate.query.plan_parameter_metadata_max_size">128</prop>
-                <prop key="hibernate.generate_statistics">true</prop>
+<!--                <prop key="hibernate.generate_statistics">true</prop>-->
             </props>
         </property>
     </bean>

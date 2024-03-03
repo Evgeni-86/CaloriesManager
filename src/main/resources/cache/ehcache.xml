@@ -43,4 +43,30 @@
         </resources>
     </cache>
 
+    <!--MEAL CACHES-->
+    <cache alias="mealCache">
+        <expiry>
+            <ttl unit="seconds">10000</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100</heap>
+        </resources>
+    </cache>
+    <cache alias="betweenCacheKeys">
+        <expiry>
+            <ttl unit="seconds">10000</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100</heap>
+        </resources>
+    </cache>
+    <cache alias="betweenListCache">
+        <expiry>
+            <ttl unit="seconds">10000</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100</heap>
+        </resources>
+    </cache>
+
 </eh:config>

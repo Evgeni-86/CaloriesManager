@@ -28,8 +28,8 @@ public class DateTimeUtil {
         return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
     }
 
-    public static LocalDateTime createDateTime(LocalDate date, LocalDate defaultDate, LocalTime time) {
-        return LocalDateTime.of(date != null ? date : defaultDate, time);
-    }
+//    public static LocalDateTime createDateTime(LocalDate date, LocalDate defaultDate, LocalTime time) {
+//        return LocalDateTime.of(date != null ? date : defaultDate, time);
+//    }
 }
 

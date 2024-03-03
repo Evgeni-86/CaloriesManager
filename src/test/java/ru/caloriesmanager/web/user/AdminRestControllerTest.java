@@ -1,10 +1,14 @@
 package ru.caloriesmanager.web.user;
 
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,16 +29,17 @@ class AdminRestControllerTest {
     //Arrange
     //Act
     //Assert
-
     private static AdminRestController SUT;
 
     @BeforeAll
     static void init(@Autowired AdminRestController adminRestController,
-                     @Autowired DataSource dataSource) {
+                     @Autowired DataSource dataSource,
+                     @Autowired SessionFactory sessionFactory) {
         SUT = adminRestController;
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScripts(new ClassPathResource("db/clearUsersMealsRolesTables.sql"));
         populator.execute(dataSource);
+        sessionFactory.getCache().evictAllRegions();
     }
 
     @Test
