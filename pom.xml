@@ -22,7 +22,7 @@
         <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
-        <hibernate-core.version>6.4.2.Final</hibernate-core.version>
+        <hibernate.version>6.4.2.Final</hibernate.version>
         <postgresql.version>42.6.0</postgresql.version>
         <hsqldb.version>2.7.2</hsqldb.version>
         <jcl-over-slf4j.version>2.0.10</jcl-over-slf4j.version>
@@ -211,7 +211,12 @@
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate-core.version}</version>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -262,6 +267,16 @@
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
                 <version>1.14.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>3.5.0.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>1.1.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

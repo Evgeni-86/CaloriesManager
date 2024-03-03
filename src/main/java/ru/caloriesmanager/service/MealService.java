@@ -1,8 +1,8 @@
 package ru.caloriesmanager.service;
 
 import jakarta.validation.constraints.Min;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -52,7 +52,7 @@ public class MealService {
         return repository.delete(id, userId);
     }
 
-    @Cacheable(value = "MealCache")
+//    @Cacheable(value = "MealCache")
     public Meal get(@Min(1) int id, @Min(1) int userId) {
         return checkNotFoundWithId(repository.get(id, userId), id);
     }
