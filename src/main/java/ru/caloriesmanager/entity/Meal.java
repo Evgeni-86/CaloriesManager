@@ -15,6 +15,7 @@ import org.hibernate.annotations.Cache;
 @Entity
 @Table(name = "meals", indexes = @Index(columnList = "user_id, date_time"))
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cacheable
 public class Meal extends AbstractBaseEntity {
 
     @Column(name = "date_time")

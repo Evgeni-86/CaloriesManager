@@ -17,34 +17,34 @@ public class UserService {
     @Autowired
     public UserRepository repository;
 
-    @CacheEvict(value = {"UserCache", "UserGetAllCache"}, allEntries = true)
+    @CacheEvict(value = "userCache", allEntries = true)
     public User create(@NonNull User user) {
         checkNew(user);
         return repository.save(user);
     }
 
-    @CacheEvict(value = {"UserCache", "UserGetAllCache"}, allEntries = true)
+    @CacheEvict(value = "userCache", allEntries = true)
     public void update(@NonNull User user) throws NotFoundException {
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
-    @CacheEvict(value = {"UserCache", "UserGetAllCache"}, allEntries = true)
+    @CacheEvict(value = "userCache", allEntries = true)
     public void delete(@Min(1) int id) throws NotFoundException {
         boolean isDeleted = repository.delete(id);
         checkNotFoundWithId(isDeleted, id);
     }
 
-    @Cacheable("UserCache")
+    @Cacheable(value = "userCache")
     public User get(@Min(1) int id) throws NotFoundException {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
-    @Cacheable("UserCache")
+    @Cacheable(value = "userCache")
     public User getByEmail(@NonNull String email) throws NotFoundException {
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
-    @Cacheable("UserGetAllCache")
+    @Cacheable(value = "userCache")
     public List<User> getAll() {
         return repository.getAll();
     }

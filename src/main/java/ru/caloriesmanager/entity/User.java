@@ -3,6 +3,7 @@ package ru.caloriesmanager.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -14,12 +15,15 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import org.hibernate.annotations.Cache;
 
 
 @Getter
 @Setter
 @Entity
 @Table(name = "users", indexes = @Index(columnList = "email"))
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cacheable
 public class User extends AbstractNamedEntity {
 
     @Column(name = "email", unique = true)
@@ -35,6 +39,7 @@ public class User extends AbstractNamedEntity {
     @Column(name = "registered")
     private LocalDateTime registered;
 
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")

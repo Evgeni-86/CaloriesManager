@@ -17,9 +17,11 @@
         </encoder>
     </appender>
 
+    <logger name="org.springframework.cache" level="trace"/>
     <logger name="ru.caloriesmanager" level="debug"/>
     <logger name="org.hibernate.orm.jdbc.bind" level="trace"/>
-    <logger name="org.springframework.cache" level="trace"/>
+    <logger name="org.hibernate.cache" level="trace"/>
+    <logger name="org.hibernate.loader.ast.internal.CacheEntityLoaderHelper" level="trace"/>
 
     <root level="info">
         <appender-ref ref="file"/>

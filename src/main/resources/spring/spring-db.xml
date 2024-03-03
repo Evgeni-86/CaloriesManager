@@ -30,11 +30,17 @@
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                 <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>
 
-                <prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
-                <prop key="hibernate.javax.cache.provider">${hibernate.javax.cache.provider}</prop>
-                <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
-                <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
-                <prop key="hibernate.javax.cache.uri">${hibernate.javax.cache.uri}</prop>
+                <prop key="hibernate.cache.region.factory_class">
+                    org.hibernate.cache.jcache.internal.JCacheRegionFactory
+                </prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.javax.cache.uri">cache/ehcache.xml</prop>
+
+                <prop key="hibernate.query.plan_cache_max_size">2048</prop>
+                <prop key="hibernate.query.plan_parameter_metadata_max_size">128</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
             </props>
         </property>
     </bean>
