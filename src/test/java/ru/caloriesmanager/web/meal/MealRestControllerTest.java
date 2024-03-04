@@ -97,8 +97,8 @@ class MealRestControllerTest {
                 30, 13, 0), "Завтрак", 500);
         MealViewModel model = SUT.create(mealViewModel);
         //Act
+        SUT.delete(model.getId());
         //Assert
-        Assertions.assertTrue(SUT.delete(model.getId()));
         Assertions.assertThrows(NotFoundException.class, () -> SUT.get(model.getId()));
     }
 

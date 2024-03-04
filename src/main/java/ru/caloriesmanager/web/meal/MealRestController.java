@@ -28,9 +28,10 @@ public class MealRestController {
     }
 
     @PutMapping("/meals")
-    public void update(@RequestBody MealViewModel mealViewModel) {
+    public String update(@RequestBody MealViewModel mealViewModel) {
         Meal meal = MealViewModel.getMealInstance(mealViewModel);
         mealService.update(meal, SecurityUtil.authUserId());
+        return String.format("Meal with id %s was update", mealViewModel.getId());
     }
 
     @GetMapping("/meals/{id}")
@@ -38,9 +39,10 @@ public class MealRestController {
         return MealViewModel.getModel(mealService.get(id, SecurityUtil.authUserId()));
     }
 
-    @PostMapping("/meals/{id}")
-    public boolean delete(@PathVariable(name = "id") int id) {
-        return mealService.delete(id, SecurityUtil.authUserId());
+    @DeleteMapping("/meals/{id}")
+    public String delete(@PathVariable(name = "id") int id) {
+        mealService.delete(id, SecurityUtil.authUserId());
+        return String.format("Meal with id %s was deleted", id);
     }
 
     @GetMapping("/meals")
