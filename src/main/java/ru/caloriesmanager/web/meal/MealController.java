@@ -19,8 +19,8 @@ import java.time.*;
 import java.util.List;
 
 
-@RequestMapping("/meals")
 @Controller
+@RequestMapping("/meals")
 public class MealController {
 
     @Autowired

@@ -11,28 +11,24 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.caloriesmanager.entity.*;
+import ru.caloriesmanager.entity.Role;
+import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.model.MealViewModel;
 import ru.caloriesmanager.model.MealWithExcessModel;
 import ru.caloriesmanager.util.exception.NotFoundException;
 import ru.caloriesmanager.web.SecurityUtil;
-
 import javax.sql.DataSource;
-
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.HashMap;
+import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.util.*;
-
-import static java.util.Arrays.stream;
 
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:spring/spring-app.xml")
 class MealRestControllerTest {
-
     private static MealRestController SUT;
     private static User user;
 
@@ -56,131 +52,101 @@ class MealRestControllerTest {
     @Test
     void create() {
         //Arrange
-        Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
+        MealViewModel mealViewModel = new MealViewModel(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
         //Act
+        MealViewModel actual = SUT.create(mealViewModel);
+        MealViewModel fromDataBase = SUT.get(actual.getId());
         //Assert
-        Assertions.assertEquals(meal, SUT.create(meal));
-        Assertions.assertEquals(meal, SUT.get(meal.getId()));
-    }
-
-    @Test
-    void createExceptionTest() {
-        //Arrange
-        Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
-                30, 13, 0), "Завтрак", 500);
-        SUT.create(meal);
-        //Act
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> SUT.create(meal));
-        //Assert
-        Assertions.assertEquals(IllegalArgumentException.class, exception.getClass());
-        Assertions.assertEquals(meal + " must be new (id=null)", exception.getMessage());
+        assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(mealViewModel);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(fromDataBase);
     }
 
     @Test
     void update() {
         //Arrange
-        Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
+        MealViewModel model = new MealViewModel(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        SUT.create(meal);
-        meal.setDescription("update");
-        meal.setCalories(100);
+        MealViewModel mealViewModel = SUT.create(model);
+        mealViewModel.setDescription("update");
+        mealViewModel.setCalories(100);
         //Act
-        SUT.update(meal);
+        SUT.update(mealViewModel);
+        MealViewModel fromDataBase = SUT.get(mealViewModel.getId());
         //Assert
-        Assertions.assertEquals(meal, SUT.get(meal.getId()));
+        assertThat(mealViewModel).usingRecursiveComparison().isEqualTo(fromDataBase);
     }
 
     @Test
     void get() {
         //Arrange
-        Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
+        MealViewModel mealViewModel = new MealViewModel(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
+        MealViewModel model = SUT.create(mealViewModel);
         //Act
+        MealViewModel actual = SUT.get(model.getId());
         //Assert
-        Assertions.assertEquals(meal, SUT.create(meal));
-        Assertions.assertEquals(meal, SUT.get(meal.getId()));
-    }
-
-    @Test
-    void getExceptionTest() {
-        //Arrange
-        Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
-                30, 13, 0), "Завтрак", 500);
-        meal.setId(Integer.MAX_VALUE);
-        //Act
-        Exception exception = Assertions.assertThrows(NotFoundException.class,
-                () -> SUT.get(Integer.MAX_VALUE));
-        //Assert
-        Assertions.assertEquals(NotFoundException.class, exception.getClass());
-        Assertions.assertEquals("Not found entity with id=" + meal.getId(), exception.getMessage());
+        assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(mealViewModel);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(model);
     }
 
     @Test
     void delete() {
         //Arrange
-        Meal meal = new Meal(LocalDateTime.of(2015, Month.MAY,
+        MealViewModel mealViewModel = new MealViewModel(LocalDateTime.of(2015, Month.MAY,
                 30, 13, 0), "Завтрак", 500);
-        SUT.create(meal);
+        MealViewModel model = SUT.create(mealViewModel);
         //Act
         //Assert
-        Assertions.assertTrue(SUT.delete(meal.getId()));
-        Assertions.assertThrows(NotFoundException.class, () -> SUT.get(meal.getId()));
-    }
-
-    @Test
-    void deleteExceptionTest() {
-        //Arrange
-        //Act
-        Exception exception = Assertions.assertThrows(NotFoundException.class,
-                () -> SUT.delete(Integer.MAX_VALUE));
-        //Assert
-        Assertions.assertEquals("Not found entity with id=" + Integer.MAX_VALUE, exception.getMessage());
+        Assertions.assertTrue(SUT.delete(model.getId()));
+        Assertions.assertThrows(NotFoundException.class, () -> SUT.get(model.getId()));
     }
 
     @Test
     void getAll() {
         //Arrange
         SecurityUtil.setUserId(2);
-        User user = new User(2, null, null, null, Role.ROLE_USER);
-        Meal meal1 = new Meal(LocalDateTime.of(2017, Month.MAY,
+
+        MealViewModel mealViewModel1 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 0, 0), "Завтрак", 500);
-        Meal meal2 = new Meal(LocalDateTime.of(2017, Month.MAY,
+        MealViewModel mealViewModel2 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 1, 0), "Обед", 500);
-        Meal meal3 = new Meal(LocalDateTime.of(2017, Month.MAY,
+        MealViewModel mealViewModel3 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 2, 0), "Обед", 500);
-        SUT.create(meal1);
-        SUT.create(meal2);
-        SUT.create(meal3);
+
+        MealViewModel model1 = SUT.create(mealViewModel1);
+        MealViewModel model2 = SUT.create(mealViewModel2);
+        MealViewModel model3 = SUT.create(mealViewModel3);
         //Act
         List<MealWithExcessModel> actual = SUT.getAll();
         //Assert
         Assertions.assertNotNull(actual);
         assertThat(actual).usingRecursiveComparison()
-                .ignoringFields("excess").isEqualTo(List.of(meal3, meal2, meal1));
+                .ignoringFields("excess").isEqualTo(List.of(model3, model2, model1));
     }
 
     @Test
     void getBetween() {
         //Arrange
         SecurityUtil.setUserId(3);
-        User user = new User(3, null, null, null, Role.ROLE_USER);
-        Meal meal1 = new Meal(LocalDateTime.of(2017, Month.MAY,
+
+        MealViewModel mealViewModel1 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 0, 0), "Завтрак", 500);
-        Meal meal2 = new Meal(LocalDateTime.of(2017, Month.MAY,
+        MealViewModel mealViewModel2 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 12, 0), "Обед", 500);
-        SUT.create(meal1);
-        SUT.create(meal2);
+        MealViewModel model1 = SUT.create(mealViewModel1);
+        MealViewModel model2 = SUT.create(mealViewModel2);
         //Act
         List<MealWithExcessModel> actual = SUT.getBetween(
-                LocalDate.of(2017, Month.MAY, 12),
-                LocalTime.of(0, 0),
-                LocalDate.of(2017, Month.MAY, 12),
-                LocalTime.of(12, 0));
+                new HashMap<>() {{
+                    put("startDate", "2017-05-12");
+                    put("endDate", "2017-05-12");
+                    put("startTime", "00:00:00");
+                    put("endTime", "12:00:00");
+                }});
         //Assert
         Assertions.assertNotNull(actual);
         assertThat(actual).usingRecursiveComparison()
-                .ignoringFields("excess").isEqualTo(List.of(meal2, meal1));
+                .ignoringFields("excess").isEqualTo(List.of(model2, model1));
     }
 }

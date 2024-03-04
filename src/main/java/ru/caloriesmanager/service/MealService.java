@@ -15,13 +15,10 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.repository.MealRepository;
-import ru.caloriesmanager.util.DateTimeUtil;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-
 import static ru.caloriesmanager.util.ValidationUtil.*;
 
 
@@ -91,7 +88,6 @@ public class MealService {
             }
         }
 
-        //TODO исправить метод createDateTime(удалить второй параметр)
         List<Meal> mealList = repository.getBetween(
                         LocalDateTime.of(startDate, LocalTime.MIN),
                         LocalDateTime.of(endDate, LocalTime.MAX), userId);
