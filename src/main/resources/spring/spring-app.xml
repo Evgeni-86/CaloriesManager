@@ -14,6 +14,7 @@
     <import resource="spring-logging.xml"/>
     <import resource="spring-db.xml"/>
     <import resource="spring-cache.xml"/>
+    <import resource="web/spring-security.xml"/>
 
     <context:component-scan base-package="ru.caloriesmanager.util.exception"/>
     <context:component-scan base-package="ru.caloriesmanager.aspect"/>

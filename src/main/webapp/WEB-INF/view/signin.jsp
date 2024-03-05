@@ -1,4 +1,8 @@
+
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
@@ -13,8 +17,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm_@docsearch_css@3.css">
 
     <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -172,25 +175,22 @@
 
 
 <main class="form-signin w-100 m-auto">
-    <form>
+    <form:form action="" modelAttribute="user">
         <img class="mb-4" src="./assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
-            <input type="text" class="form-control" id="floatingName" placeholder="name">
+            <form:input type="text" class="form-control" id="floatingName" placeholder="name" path="name"/>
             <label for="floatingName">Name</label>
-        </div>
-        <div class="form-floating">
-            <input type="text" class="form-control" id="floatingSurname" placeholder="surname">
-            <label for="floatingSurname">Surname</label>
         </div>
 
         <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <form:input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" path="email"/>
             <label for="floatingInput">Email address</label>
         </div>
+
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <form:input type="password" class="form-control" id="floatingPassword" placeholder="Password" path="password"/>
             <label for="floatingPassword">Password</label>
         </div>
 
@@ -202,8 +202,8 @@
         </div>
 
         <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-        <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
-    </form>
+        <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
+    </form:form>
 </main>
 <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
 

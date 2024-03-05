@@ -13,8 +13,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm_@docsearch_css@3.css">
 
     <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -191,12 +190,8 @@
                 Remember me
             </label>
         </div>
-        <select name="select_user">
-            <option value="1">User_1</option>
-            <option value="2">User_2</option>
-        </select>
         <button class="btn btn-primary w-100 py-2" type="submit">Log in</button>
-        <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
+        <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
     </form>
 </main>
 <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>

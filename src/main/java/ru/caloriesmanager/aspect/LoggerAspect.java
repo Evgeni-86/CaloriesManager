@@ -49,4 +49,20 @@ public class LoggerAspect {
 
         return resultMethod;
     }
+
+    @Around("execution(* ru.caloriesmanager.service.MealService.*(..))")
+    public Object serviceMealMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
+        long startTime = System.currentTimeMillis();
+        Object resultMethod = proceedingJoinPoint.proceed();
+        long endTime = System.currentTimeMillis();
+
+        LOG_MEAL.info("target class: {}; method signature: {}; arguments: {}; time: {} ms",
+                proceedingJoinPoint.getTarget().toString(),
+                proceedingJoinPoint.getSignature(),
+                Arrays.stream(proceedingJoinPoint.getArgs()).map(Object::toString).collect(Collectors.toList()),
+                endTime - startTime);
+
+        return resultMethod;
+    }
 }

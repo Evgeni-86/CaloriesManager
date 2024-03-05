@@ -1,24 +1,32 @@
 package ru.caloriesmanager.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.caloriesmanager.entity.Role;
 import ru.caloriesmanager.entity.User;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
 
+@NoArgsConstructor
+@Setter
 @Getter
 public class UserViewModel {
 
-    private final String name;
-    private final String email;
-    private final String password;
-    private final boolean enabled;
-    private final LocalDateTime registered;
-    private final int caloriesPerDay;
-    private final Set<Role> roles;
+    private Integer id;
+    private String name;
+    private String email;
+    private String password;
+    private boolean enabled;
+    private LocalDateTime registered;
+    private int caloriesPerDay;
+    private Set<Role> roles;
 
-    private UserViewModel(String name, String email, String password, boolean enabled, LocalDateTime registered, int caloriesPerDay, Set<Role> roles) {
+    private UserViewModel(String name, String email, String password,
+                          boolean enabled, LocalDateTime registered,
+                          int caloriesPerDay, Set<Role> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -28,7 +36,16 @@ public class UserViewModel {
         this.roles = roles;
     }
 
-    public static UserViewModel getModel(User user){
+    public static User getUserInstance(UserViewModel userViewModel) {
+        return new User(
+                userViewModel.getId(),
+                userViewModel.getName(),
+                userViewModel.getEmail(),
+                userViewModel.getPassword(),
+                Role.ROLE_USER);
+    }
+
+    public static UserViewModel getModel(User user) {
         return new UserViewModel(
                 user.getName(),
                 user.getEmail(),
@@ -42,7 +59,8 @@ public class UserViewModel {
     @Override
     public String toString() {
         return "UserViewModel{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +

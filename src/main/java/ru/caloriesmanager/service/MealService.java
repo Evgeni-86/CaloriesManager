@@ -75,22 +75,35 @@ public class MealService {
         Cache betweenListCache = cacheManager.getCache("betweenListCache");
         boolean cachesAvailable = betweenCacheKeys != null && betweenListCache != null;
         SimpleKey inputKey = new SimpleKey(startDate, endDate, userId);
-        Cache.ValueWrapper valueWrapper;
 
-        if (cachesAvailable && (valueWrapper = betweenCacheKeys.get(userId)) != null) {
-            SimpleKey listCacheKey = (SimpleKey) valueWrapper.get();
-            if (inputKey.equals(listCacheKey)) {
-                LOG_MEAL_SERVICE.info("return from cache");
-                return (List<Meal>) betweenListCache.get(listCacheKey).get();
-            } else if (listCacheKey != null) {
-                betweenCacheKeys.evictIfPresent(listCacheKey);
-                betweenListCache.evictIfPresent(listCacheKey);
+//        Cache.ValueWrapper valueWrapper;
+//        if (cachesAvailable && (valueWrapper = betweenCacheKeys.get(userId)) != null) {
+//            SimpleKey listCacheKey = (SimpleKey) valueWrapper.get();
+//            if (inputKey.equals(listCacheKey)) {
+//                LOG_MEAL_SERVICE.info("return from cache");
+//                return (List<Meal>) betweenListCache.get(listCacheKey).get();
+//            } else if (listCacheKey != null) {
+//                betweenCacheKeys.evictIfPresent(userId);
+//                betweenListCache.evictIfPresent(listCacheKey);
+//            }
+//        }
+
+        if (cachesAvailable) {
+            SimpleKey listCacheKey = betweenCacheKeys.get(userId, SimpleKey.class);
+            if (listCacheKey != null) {
+                if (listCacheKey.equals(inputKey)) {
+                    LOG_MEAL_SERVICE.info("return from cache");
+                    return (List<Meal>) betweenListCache.get(listCacheKey).get();
+                } else {
+                    betweenCacheKeys.evictIfPresent(userId);
+                    betweenListCache.evictIfPresent(listCacheKey);
+                }
             }
         }
 
         List<Meal> mealList = repository.getBetween(
-                        LocalDateTime.of(startDate, LocalTime.MIN),
-                        LocalDateTime.of(endDate, LocalTime.MAX), userId);
+                LocalDateTime.of(startDate, LocalTime.MIN),
+                LocalDateTime.of(endDate, LocalTime.MAX), userId);
 
         if (cachesAvailable) {
             betweenCacheKeys.put(userId, inputKey);

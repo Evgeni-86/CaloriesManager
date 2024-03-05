@@ -53,4 +53,15 @@ public class MealViewModel {
                 mealViewModel.getDescription(),
                 mealViewModel.getCalories());
     }
+
+    @Override
+    public String toString() {
+        return "MealViewModel{" +
+                "id=" + id +
+                ", formattedDateTime='" + formattedDateTime + '\'' +
+                ", dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                '}';
+    }
 }
