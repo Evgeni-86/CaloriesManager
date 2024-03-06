@@ -3,7 +3,7 @@ package ru.caloriesmanager.repository.jpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
 import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.entity.User;

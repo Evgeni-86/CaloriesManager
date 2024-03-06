@@ -5,7 +5,7 @@ package ru.caloriesmanager;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import org.springframework.security.authentication.AuthenticationManager;
 
 
 public class SpringMain {

@@ -1,4 +1,6 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
@@ -13,7 +15,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
-    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm_@docsearch_css@3.css">
+    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm.css">
 
     <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -171,16 +173,18 @@
 
 
 <main class="form-signin w-100 m-auto">
-    <form action="users" method="post">
+    <form action="customLogin" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <input type="hidden" name="timeZone" id="timeZoneInput" value="">
         <img class="mb-4" src="./assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Please log in</h1>
 
         <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="{noop}email">
             <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="{noop}password">
             <label for="floatingPassword">Password</label>
         </div>
 
@@ -195,6 +199,8 @@
     </form>
 </main>
 <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
-
+<script>
+    document.getElementById('timeZoneInput').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+</script>
 </body>
 </html>

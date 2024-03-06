@@ -13,7 +13,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
 
-    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm_@docsearch_css@3.css">
+    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm.css">
 
     <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -221,8 +221,8 @@
             </ul>
 
             <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'my-login'">Login</button>
-                <button type="button" class="btn btn-primary" onclick="window.location.href = 'signin'">Sign-up</button>
+                <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'customLogin'">Login</button>
+                <button type="button" class="btn btn-primary" onclick="window.location.href = 'registration'">Sign-up</button>
             </div>
         </header>
     </div>

@@ -17,35 +17,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/")
-    public String index(Model model) {
-        return "index";
-    }
-
-    @RequestMapping("/my-login")
-    public String login(Model model) {
-        return "login";
-    }
-
-    @GetMapping("/signin")
-    public String signin(Model model) {
-        model.addAttribute("user", new UserViewModel());
-        return "signin";
-    }
-    @PostMapping("/signin")
-    public String signin(@ModelAttribute("user") UserViewModel userViewModel, Model model) {
-        User user = UserViewModel.getUserInstance(userViewModel);
-        User newUser = userService.create(user);
-        model.addAttribute("user", newUser);
-        SecurityUtil.setUserId(newUser.getId());
+    @RequestMapping("/users")
+    public String getUser(Model model) {
+        User user = userService.get(SecurityUtil.authUserId());
+        model.addAttribute("user", UserViewModel.getModel(user));
         return "users";
     }
-
-//    @RequestMapping("/users")
-//    public String getUser(@RequestParam("select_user") int userId, Model model) {
-//        User user = userService.get(userId);
-//        SecurityUtil.setUserId(userId);
-//        model.addAttribute("user", UserViewModel.getModel(user));
-//        return "users";
-//    }
 }

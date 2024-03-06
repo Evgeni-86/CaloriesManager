@@ -101,6 +101,7 @@ public class MealController {
             mealService.create(meal, SecurityUtil.authUserId());
         else
             mealService.update(meal, SecurityUtil.authUserId());
+
         return "redirect:/meals/meals";
     }
 }
