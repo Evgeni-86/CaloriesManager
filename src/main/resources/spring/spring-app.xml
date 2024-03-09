@@ -14,12 +14,12 @@
     <import resource="spring-logging.xml"/>
     <import resource="spring-db.xml"/>
     <import resource="spring-cache.xml"/>
-    <import resource="web/spring-security.xml"/>
+    <import resource="spring-security.xml"/>
 
     <context:component-scan base-package="ru.caloriesmanager.util.exception"/>
     <context:component-scan base-package="ru.caloriesmanager.aspect"/>
     <context:component-scan base-package="ru.caloriesmanager.service"/>
-    <context:component-scan base-package="ru.caloriesmanager.web"/>
+<!--    <context:component-scan base-package="ru.caloriesmanager.web"/>-->
     <context:component-scan base-package="ru.caloriesmanager.repository.jpa"/>
     <!--    <context:component-scan base-package="ru.caloriesmanager.repository.dataJpa"/>-->
     <!--    <jpa:repositories base-package="ru.caloriesmanager.repository.dataJpa"/>-->

@@ -11,28 +11,30 @@
 
     <security:http auto-config="true">
 
-        <security:intercept-url pattern="/css/**" access="permitAll()"/>
+        <security:intercept-url pattern="/resources/**" access="permitAll()"/>
         <security:intercept-url pattern="/" access="permitAll()"/>
         <security:intercept-url pattern="/customLogin" access="permitAll()"/>
+        <security:intercept-url pattern="/doLogout" access="permitAll()"/>
+        <security:intercept-url pattern="/logout" access="permitAll()"/>
         <security:intercept-url pattern="/registration" access="permitAll()"/>
         <security:intercept-url pattern="/users/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/meals/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 
         <security:form-login
                 login-page="/customLogin"
-                login-processing-url="/customLogin"
-                default-target-url="/users"
+                login-processing-url="/doLogin"
+                authentication-success-forward-url="/postLogin"
+                authentication-failure-forward-url="/loginFailed"
                 username-parameter="{noop}email"
                 password-parameter="{noop}password"
         />
         <security:logout
+                logout-success-url="/logout"
         />
 
     </security:http>
 
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-
-    <bean id="customUserDetailsService" class="ru.caloriesmanager.service.CustomUserDetailsService"/>
 
     <bean id="mvcHandlerMappingIntrospector" class="org.springframework.web.servlet.handler.HandlerMappingIntrospector"/>
 

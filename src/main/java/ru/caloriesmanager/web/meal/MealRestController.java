@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.model.MealViewModel;
 import ru.caloriesmanager.model.MealWithExcessModel;
+import ru.caloriesmanager.service.CustomUserDetailsService;
 import ru.caloriesmanager.service.MealService;
 import ru.caloriesmanager.util.MealsUtil;
-import ru.caloriesmanager.web.SecurityUtil;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -22,33 +22,39 @@ public class MealRestController {
 
     @PostMapping("/meals")
     public MealViewModel create(@RequestBody MealViewModel mealViewModel) {
+        int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
         Meal mealInstance = MealViewModel.getMealInstance(mealViewModel);
-        mealService.create(mealInstance, SecurityUtil.authUserId());
+        mealService.create(mealInstance, userId);
         return MealViewModel.getModel(mealInstance);
     }
 
     @PutMapping("/meals")
     public String update(@RequestBody MealViewModel mealViewModel) {
+        int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
         Meal meal = MealViewModel.getMealInstance(mealViewModel);
-        mealService.update(meal, SecurityUtil.authUserId());
+        mealService.update(meal, userId);
         return String.format("Meal with id %s was update", mealViewModel.getId());
     }
 
     @GetMapping("/meals/{id}")
     public MealViewModel get(@PathVariable(name = "id") int id) {
-        return MealViewModel.getModel(mealService.get(id, SecurityUtil.authUserId()));
+        int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
+        return MealViewModel.getModel(mealService.get(id, userId));
     }
 
     @DeleteMapping("/meals/{id}")
     public String delete(@PathVariable(name = "id") int id) {
-        mealService.delete(id, SecurityUtil.authUserId());
+        int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
+        mealService.delete(id, userId);
         return String.format("Meal with id %s was deleted", id);
     }
 
     @GetMapping("/meals")
     public List<MealWithExcessModel> getAll() {
-        return MealsUtil.getFilteredTos(mealService.getAll(SecurityUtil.authUserId()),
-                SecurityUtil.authUserCaloriesPerDay(), LocalTime.MIN, LocalTime.MAX);
+        int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
+        int userCaloriesPerDay = CustomUserDetailsService.getCustomUserDetails().getUser().getCaloriesPerDay();
+        return MealsUtil.getFilteredTos(mealService.getAll(userId),
+                userCaloriesPerDay, LocalTime.MIN, LocalTime.MAX);
     }
 
     @PostMapping("/meals/filter")
@@ -58,8 +64,9 @@ public class MealRestController {
         LocalTime startTime = LocalTime.parse(dateTimes.get("startTime"));
         LocalTime endTime = LocalTime.parse(dateTimes.get("endTime"));
 
-        int userId = SecurityUtil.authUserId();
+        int userCaloriesPerDay = CustomUserDetailsService.getCustomUserDetails().getUser().getCaloriesPerDay();
+        int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
         List<Meal> mealsDateFiltered = mealService.getBetweenDates(startDate, endDate, userId);
-        return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
+        return MealsUtil.getFilteredTos(mealsDateFiltered, userCaloriesPerDay, startTime, endTime);
     }
 }

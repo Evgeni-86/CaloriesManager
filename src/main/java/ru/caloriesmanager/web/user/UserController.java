@@ -5,9 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.caloriesmanager.entity.User;
+import ru.caloriesmanager.service.CustomUserDetailsService;
 import ru.caloriesmanager.service.UserService;
 import ru.caloriesmanager.model.UserViewModel;
-import ru.caloriesmanager.web.SecurityUtil;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 
 @RequestMapping("/")
@@ -19,7 +21,14 @@ public class UserController {
 
     @RequestMapping("/users")
     public String getUser(Model model) {
-        User user = userService.get(SecurityUtil.authUserId());
+        int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
+
+        User user = userService.get(userId);
+
+        ZonedDateTime systemZoned = ZonedDateTime.of(user.getRegistered(), ZoneId.systemDefault());
+        ZonedDateTime userZoned = systemZoned.withZoneSameInstant(CustomUserDetailsService.getCustomUserDetails().getZoneId());
+        user.setRegistered(userZoned.toLocalDateTime());
+
         model.addAttribute("user", UserViewModel.getModel(user));
         return "users";
     }

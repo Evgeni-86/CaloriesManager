@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 
 public class SpringMain {
     public static void main(String[] args) {
-
         System.setProperty("spring.profiles.active", "hsqldb, appDataSource");
         try (ConfigurableApplicationContext appCtx =
                      new ClassPathXmlApplicationContext("spring/spring-app.xml")) {

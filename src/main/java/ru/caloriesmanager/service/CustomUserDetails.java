@@ -1,11 +1,10 @@
 package ru.caloriesmanager.service;
 
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.caloriesmanager.entity.User;
-
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -13,6 +12,7 @@ import java.util.stream.Collectors;
 public class CustomUserDetails implements UserDetails {
 
     private User user;
+    private ZoneId zoneId;
 
     public CustomUserDetails(User user) {
         this.user = user;
@@ -53,6 +53,18 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return user.isEnabled();
+    }
+
+    public ZoneId getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(ZoneId zoneId) {
+        this.zoneId = zoneId;
+    }
+
+    public User getUser() {
+        return user;
     }
 
 }

@@ -1,10 +1,13 @@
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>--%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="./assets/js/color-modes.js"></script>
+    <script src="./resources/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,9 +18,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
-    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm.css">
+    <link rel="stylesheet" href="./resources/css/http_cdn.jsdelivr.net_npm.css">
 
-    <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -100,7 +103,7 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="css/sign-in.css" rel="stylesheet">
+    <link href="./resources/css/sign-in.css" rel="stylesheet">
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -173,11 +176,18 @@
 
 
 <main class="form-signin w-100 m-auto">
-    <form action="customLogin" method="post">
+    <form action="doLogin" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="hidden" name="timeZone" id="timeZoneInput" value="">
-        <img class="mb-4" src="./assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <img class="mb-4" src="./resources/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Please log in</h1>
+
+
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger">
+                <p>badCredentials</p>
+            </div>
+        </c:if>
 
         <div class="form-floating">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="{noop}email">
@@ -198,7 +208,7 @@
         <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
     </form>
 </main>
-<script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.getElementById('timeZoneInput').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
 </script>

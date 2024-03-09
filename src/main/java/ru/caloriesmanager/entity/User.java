@@ -7,10 +7,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import ru.caloriesmanager.web.SecurityUtil;
+import ru.caloriesmanager.service.CustomUserDetailsService;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
@@ -58,7 +56,7 @@ public class User extends AbstractNamedEntity {
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, SecurityUtil.DEFAULT_CALORIES_PER_DAY, true, EnumSet.of(role, roles));
+        this(id, name, email, password, CustomUserDetailsService.DEFAULT_CALORIES_PER_DAY, true, EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, int caloriesPerDay, boolean enabled, Set<Role> roles) {
@@ -75,13 +73,6 @@ public class User extends AbstractNamedEntity {
     private void prePersist() {
         if (this.registered == null)
             this.registered = LocalDateTime.now();
-    }
-
-    @PostLoad
-    private void postLoadEntity() {
-        ZonedDateTime systemZoned = ZonedDateTime.of(registered, ZoneId.systemDefault());
-        ZonedDateTime userZoned = systemZoned.withZoneSameInstant(SecurityUtil.zoneId);
-        registered = userZoned.toLocalDateTime();
     }
 
     @Override

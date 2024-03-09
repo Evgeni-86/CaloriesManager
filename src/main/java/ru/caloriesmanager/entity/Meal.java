@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import ru.caloriesmanager.web.SecurityUtil;
 import java.time.*;
 import java.util.Objects;
 import org.hibernate.annotations.Cache;
@@ -51,13 +50,6 @@ public class Meal extends AbstractBaseEntity {
     private void prePersist() {
         if (this.dateTime == null)
             this.dateTime = LocalDateTime.now();
-    }
-
-    @PostLoad
-    private void postLoadEntity() {
-        ZonedDateTime systemZoned = ZonedDateTime.of(dateTime, ZoneId.systemDefault());
-        ZonedDateTime userZoned = systemZoned.withZoneSameInstant(SecurityUtil.zoneId);
-        dateTime = userZoned.toLocalDateTime();
     }
 
     public LocalDate getDate() {

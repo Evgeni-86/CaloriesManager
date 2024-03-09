@@ -1,8 +1,10 @@
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="./assets/js/color-modes.js"></script>
+    <script src="./resources/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,9 +15,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
 
-    <link rel="stylesheet" href="./css/http_cdn.jsdelivr.net_npm.css">
+    <link rel="stylesheet" href="./resources/css/http_cdn.jsdelivr.net_npm.css">
 
-    <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -98,7 +100,7 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="css/headers.css" rel="stylesheet">
+    <link href="./resources/css/headers.css" rel="stylesheet">
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -221,7 +223,16 @@
             </ul>
 
             <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'customLogin'">Login</button>
+
+                <c:if test="${empty authenticated}">
+                    <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'customLogin'">Login</button>
+                </c:if>
+
+
+                <c:if test="${not empty authenticated}">
+                    <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'logout'">Logout</button>
+                </c:if>
+
                 <button type="button" class="btn btn-primary" onclick="window.location.href = 'registration'">Sign-up</button>
             </div>
         </header>
@@ -234,7 +245,7 @@
     </div>
 
 </main>
-<script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

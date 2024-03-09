@@ -9,17 +9,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.caloriesmanager.entity.Role;
 import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.model.MealViewModel;
 import ru.caloriesmanager.model.MealWithExcessModel;
+import ru.caloriesmanager.service.CustomUserDetails;
 import ru.caloriesmanager.util.exception.NotFoundException;
 import ru.caloriesmanager.web.SecurityUtil;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,8 +50,12 @@ class MealRestControllerTest {
 
     @BeforeEach
     void initUser() {
-        SecurityUtil.setUserId(1);
         user = new User(1, null, null, null, Role.ROLE_USER);
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+        userDetails.setZoneId(ZoneId.of("Europe/Moscow"));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     @Test
