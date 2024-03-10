@@ -65,7 +65,7 @@ public class LoginController {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         customUserDetails.setZoneId(ZoneId.of(timeZone));
 
-        return "redirect:/users";
+        return "redirect:/";
     }
     private void validatePrinciple(Object principal) {
         if (!(principal instanceof CustomUserDetails)) {

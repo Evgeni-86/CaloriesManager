@@ -6,7 +6,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="./resources/assets/js/color-modes.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,9 +17,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
-    <link rel="stylesheet" href="./resources/css/http_cdn.jsdelivr.net_npm.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/http_cdn.jsdelivr.net_npm.css">
 
-    <link href="./resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -100,9 +100,8 @@
         }
     </style>
 
-
     <!-- Custom styles for this template -->
-    <link href="./resources/css/sign-in.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/sign-in.css" rel="stylesheet">
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -173,10 +172,9 @@
     </ul>
 </div>
 
-
 <main class="form-signin w-100 m-auto">
     <form:form action="registration" modelAttribute="user" method="post">
-        <img class="mb-4" src="./resources/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <img class="mb-4" src="${pageContext.request.contextPath}/resources/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
@@ -198,19 +196,17 @@
             <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="PasswordConfirm" name="passwordConfirm"/>
             <label for="floatingPasswordConfirm">PasswordConfirm</label>
         </div>
-
-        <div class="form-check text-start my-3">
-            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                Remember me
-            </label>
-        </div>
-
+<%--        <div class="form-check text-start my-3">--%>
+<%--            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">--%>
+<%--            <label class="form-check-label" for="flexCheckDefault">--%>
+<%--                Remember me--%>
+<%--            </label>--%>
+<%--        </div>--%>
         <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
         <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
     </form:form>
 </main>
-<script src="./resources/assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

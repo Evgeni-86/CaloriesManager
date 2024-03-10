@@ -1,10 +1,10 @@
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="./resources/assets/js/color-modes.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,9 +15,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
 
-    <link rel="stylesheet" href="./resources/css/http_cdn.jsdelivr.net_npm.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/http_cdn.jsdelivr.net_npm.css">
 
-    <link href="./resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -98,9 +98,8 @@
         }
     </style>
 
-
     <!-- Custom styles for this template -->
-    <link href="./resources/css/headers.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/headers.css" rel="stylesheet">
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -171,7 +170,6 @@
     </ul>
 </div>
 
-
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="bootstrap" viewBox="0 0 118 94">
         <title>Bootstrap</title>
@@ -215,37 +213,38 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2">Features</a></li>
-                <li><a href="#" class="nav-link px-2">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2">About</a></li>
+<%--                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>--%>
+                <c:if test="${not empty authenticated}">
+                    <li><a href="${pageContext.request.contextPath}/users" class="nav-link px-2">Profile</a></li>
+                    <li><a href="${pageContext.request.contextPath}/meals/meals" class="nav-link px-2">Meals</a></li>
+                </c:if>
             </ul>
 
             <div class="col-md-3 text-end">
 
                 <c:if test="${empty authenticated}">
-                    <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'customLogin'">Login</button>
+                    <button type="button" class="btn btn-outline-primary me-2"
+                            onclick="window.location.href = 'customLogin'">Login
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href = 'registration'">
+                        Sign-up
+                    </button>
                 </c:if>
-
 
                 <c:if test="${not empty authenticated}">
-                    <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'logout'">Logout</button>
+                    <button type="button" class="btn btn-outline-primary me-2"
+                            onclick="window.location.href = 'logout'">Logout
+                    </button>
                 </c:if>
 
-                <button type="button" class="btn btn-primary" onclick="window.location.href = 'registration'">Sign-up</button>
             </div>
         </header>
     </div>
 
     <div class="b-example-divider"></div>
 
-    <div class="container">
-
-    </div>
-
 </main>
-<script src="./resources/assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

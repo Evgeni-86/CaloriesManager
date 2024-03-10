@@ -6,5 +6,5 @@
 
 <head>
     <title><spring:message code="mealForm.title"/></title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css"/>">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css>">
 </head>
