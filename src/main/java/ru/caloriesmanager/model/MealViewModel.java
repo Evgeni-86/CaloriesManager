@@ -1,8 +1,6 @@
 package ru.caloriesmanager.model;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,8 +20,8 @@ public class MealViewModel {
     private LocalDateTime dateTime;
     @NotEmpty(message = "{NotEmpty.MealViewModel.description}")
     private String description;
-    @Min(value = 1, message = "Min.MealViewModel.calories")
-    private int calories;
+    @NotNull(message = "{Min.MealViewModel.calories}")
+    private Integer calories;
 
     public MealViewModel(LocalDateTime dateTime, String description, int calories) {
         this(null, dateTime, description, calories);

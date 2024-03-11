@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.caloriesmanager.entity.Role;
 import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.model.MealViewModel;
@@ -30,9 +32,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration("classpath:spring/spring-app.xml")
+@ContextConfiguration(locations = {"classpath:spring/spring-app.xml",
+        "classpath:spring/web/spring-mvc.xml" })
 class MealRestControllerTest {
     private static MealRestController SUT;
     private static User user;
@@ -50,6 +52,8 @@ class MealRestControllerTest {
 
     @BeforeEach
     void initUser() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+
         user = new User(1, null, null, null, Role.ROLE_USER);
         CustomUserDetails userDetails = new CustomUserDetails(user);
         userDetails.setZoneId(ZoneId.of("Europe/Moscow"));
@@ -114,7 +118,12 @@ class MealRestControllerTest {
     @Test
     void getAll() {
         //Arrange
-        SecurityUtil.setUserId(2);
+        user = new User(2, null, null, null, Role.ROLE_USER);
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+        userDetails.setZoneId(ZoneId.of("Europe/Moscow"));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         MealViewModel mealViewModel1 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 0, 0), "Завтрак", 500);
@@ -137,7 +146,13 @@ class MealRestControllerTest {
     @Test
     void getBetween() {
         //Arrange
-        SecurityUtil.setUserId(3);
+        user = new User(3, null, null, null, Role.ROLE_USER);
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+        userDetails.setZoneId(ZoneId.of("Europe/Moscow"));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
 
         MealViewModel mealViewModel1 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 0, 0), "Завтрак", 500);

@@ -8,18 +8,14 @@
 <html lang="en" data-bs-theme="auto">
 <head>
     <script src="${pageContext.request.contextPath}/resources/assets/js/color-modes.js"></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
     <title>Start page</title>
-
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/http_cdn.jsdelivr.net_npm.css">
-
     <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -86,7 +82,6 @@
         .btn-bd-primary {
             --bd-violet-bg: #712cf9;
             --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
             --bs-btn-font-weight: 600;
             --bs-btn-color: var(--bs-white);
             --bs-btn-bg: var(--bd-violet-bg);
@@ -210,9 +205,6 @@
 
 <main>
     <h1 class="visually-hidden">Headers examples</h1>
-
-    <div class="b-example-divider"></div>
-
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
@@ -234,9 +226,9 @@
         </header>
     </div>
 
-    <div class="b-example-divider"></div>
-
     <div class="container">
+        <hr>
+
         <h2><spring:message code="users.heading1"/></h2>
         <table border="1" cellpadding="8" cellspacing="0">
             <thead>

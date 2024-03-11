@@ -8,21 +8,62 @@
 <html lang="en" data-bs-theme="auto">
 <head>
     <script src="${pageContext.request.contextPath}/resources/assets/js/color-modes.js"></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
     <title>Start page</title>
-
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/http_cdn.jsdelivr.net_npm.css">
-
     <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        @media screen and (max-width: 600px) {
+            th, td {
+                border: none;
+                border-bottom: 1px solid black;
+                padding: 8px;
+                text-align: left;
+                width: 100%;
+            }
+        }
+
+        form {
+            flex-wrap: wrap;
+        }
+
+        dl {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+        }
+
+        dt {
+            flex: 1 0 200px;
+            text-align: left;
+            margin-right: 10px;
+        }
+
+        dd {
+            flex: 1 0 200px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
         tr[data-mealExcess="false"] {
             color: green;
         }
@@ -86,7 +127,6 @@
         .btn-bd-primary {
             --bd-violet-bg: #712cf9;
             --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
             --bs-btn-font-weight: 600;
             --bs-btn-color: var(--bs-white);
             --bs-btn-bg: var(--bd-violet-bg);
@@ -108,7 +148,6 @@
             display: block !important;
         }
     </style>
-
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/headers.css" rel="stylesheet">
 </head>
@@ -210,9 +249,6 @@
 
 <main>
     <h1 class="visually-hidden">Headers examples</h1>
-
-    <div class="b-example-divider"></div>
-
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
@@ -222,23 +258,19 @@
                     </svg>
                 </a>
             </div>
-
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-<%--                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>--%>
+                <%--                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>--%>
                 <li><a href="${pageContext.request.contextPath}/" class="nav-link px-2">Home</a></li>
             </ul>
-
             <div class="col-md-3 text-end">
-<%--                <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = '${pageContext.request.contextPath}/'">Home</button>--%>
+                <%--                <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = '${pageContext.request.contextPath}/'">Home</button>--%>
             </div>
         </header>
     </div>
 
-    <div class="b-example-divider"></div>
-
     <div class="container">
-<%--        <h3><a href="${pageContext.request.contextPath}/"><spring:message code="meals.home"/></a></h3>--%>
-        <hr/>
+        <%--        <h3><a href="${pageContext.request.contextPath}/"><spring:message code="meals.home"/></a></h3>--%>
+        <hr>
         <h2><spring:message code="meals.heading1"/></h2>
         <form method="get" action="filter">
             <input type="hidden" name="action" value="filter">
@@ -260,22 +292,21 @@
             </dl>
             <button type="submit"><spring:message code="meals.filter"/></button>
         </form>
+        <br>
         <a href="create?action=create"><spring:message code="meals.addMeal"/></a>
     </div>
 
-    <div class="b-example-divider"></div>
-
     <div class="container">
-        <c:set var="previousDate" value="" />
-        <c:forEach var="meal" items="${meals}">
-        <c:set var="currentDate" value="${meal.dateTime.toLocalDate()}" />
+        <hr>
 
+        <c:set var="previousDate" value=""/>
+        <c:forEach var="meal" items="${meals}">
+        <c:set var="currentDate" value="${meal.dateTime.toLocalDate()}"/>
         <c:if test="${previousDate ne currentDate}">
         <c:if test="${not empty previousDate}">
             </tbody>
             </table>
         </c:if>
-
         <h3>${currentDate}</h3>
         <table>
             <thead>
@@ -289,7 +320,6 @@
             </thead>
             <tbody>
             </c:if>
-
             <tr data-mealExcess="${meal.excess}">
                 <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>
@@ -297,10 +327,8 @@
                 <td><a href="update?action=update&id=${meal.id}"><spring:message code="meals.update"/></a></td>
                 <td><a href="delete?action=delete&id=${meal.id}"><spring:message code="meals.delete"/></a></td>
             </tr>
-
-            <c:set var="previousDate" value="${currentDate}" />
+            <c:set var="previousDate" value="${currentDate}"/>
             </c:forEach>
-
             <c:if test="${not empty previousDate}">
             </tbody>
         </table>
@@ -310,5 +338,8 @@
 </main>
 <script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 
+<footer>
+    <hr>
+</footer>
 </body>
 </html>
