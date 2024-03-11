@@ -1,8 +1,9 @@
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>--%>
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
@@ -178,7 +179,9 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="hidden" name="timeZone" id="timeZoneInput" value="">
         <img class="mb-4" src="${pageContext.request.contextPath}/resources/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-        <h1 class="h3 mb-3 fw-normal">Please log in</h1>
+        <h1 class="h3 mb-3 fw-normal">
+            <spring:message code="login.login"/>
+        </h1>
 
         <c:if test="${not empty error}">
             <div class="alert alert-danger">
@@ -188,11 +191,15 @@
 
         <div class="form-floating">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="{noop}email">
-            <label for="floatingInput">Email address</label>
+            <label for="floatingInput">
+                <spring:message code="login.email"/>
+            </label>
         </div>
         <div class="form-floating">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="{noop}password">
-            <label for="floatingPassword">Password</label>
+            <label for="floatingPassword">
+                <spring:message code="login.password"/>
+            </label>
         </div>
 <%--        <div class="form-check text-start my-3">--%>
 <%--            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">--%>
@@ -200,7 +207,9 @@
 <%--                Remember me--%>
 <%--            </label>--%>
 <%--        </div>--%>
-        <button class="btn btn-primary w-100 py-2" type="submit">Log in</button>
+        <button class="btn btn-primary w-100 py-2" type="submit">
+            <spring:message code="basic.login"/>
+        </button>
         <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
     </form>
 </main>

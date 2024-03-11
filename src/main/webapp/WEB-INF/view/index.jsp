@@ -1,5 +1,8 @@
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
@@ -205,26 +208,32 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-<%--                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>--%>
+                <%--                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>--%>
                 <c:if test="${not empty authenticated}">
-                    <li><a href="${pageContext.request.contextPath}/users" class="nav-link px-2">Profile</a></li>
-                    <li><a href="${pageContext.request.contextPath}/meals/meals" class="nav-link px-2">Meals</a></li>
+                    <li><a href="${pageContext.request.contextPath}/users" class="nav-link px-2">
+                        <spring:message code="basic.profile"/>
+                    </a></li>
+                    <li><a href="${pageContext.request.contextPath}/meals/meals" class="nav-link px-2">
+                        <spring:message code="basic.meals"/>
+                    </a></li>
                 </c:if>
             </ul>
 
             <div class="col-md-3 text-end">
                 <c:if test="${empty authenticated}">
                     <button type="button" class="btn btn-outline-primary me-2"
-                            onclick="window.location.href = 'customLogin'">Login
+                            onclick="window.location.href = 'customLogin'">
+                        <spring:message code="basic.login"/>
                     </button>
                     <button type="button" class="btn btn-primary" onclick="window.location.href = 'registration'">
-                        Sign-up
+                        <spring:message code="basic.registration"/>
                     </button>
                 </c:if>
 
                 <c:if test="${not empty authenticated}">
                     <button type="button" class="btn btn-outline-primary me-2"
-                            onclick="window.location.href = 'logout'">Logout
+                            onclick="window.location.href = 'logout'">
+                        <spring:message code="basic.logout"/>
                     </button>
                 </c:if>
             </div>
