@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!doctype html>
@@ -267,7 +266,11 @@
                 <td>${user.registered}</td>
                 <td>${user.caloriesPerDay}</td>
 <%--                <td>${user.roles}</td>--%>
-                <td><a href="update"><spring:message code="users.editUser"/></a></td>
+<%--                <td><a href="update"><spring:message code="users.editUser"/></a></td>--%>
+                <td><button class="update-btn"
+                            onclick="window.location.href='update'">
+                    <spring:message code="users.editUser"/>
+                </button></td>
             </tr>
         </table>
     </div>

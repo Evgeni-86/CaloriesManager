@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -175,9 +174,10 @@
 </div>
 
 <main class="form-signin w-100 m-auto">
-    <form action="doLogin" method="post">
+    <form:form action="doLogin" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="hidden" name="timeZone" id="timeZoneInput" value="">
+
         <img class="mb-4" src="${pageContext.request.contextPath}/resources/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">
             <spring:message code="login.login"/>
@@ -206,7 +206,7 @@
             <spring:message code="basic.login"/>
         </button>
         <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
-    </form>
+    </form:form>
 </main>
 <script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 <script>

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!doctype html>
@@ -275,6 +274,7 @@
         <hr>
         <h2><spring:message code="meals.heading1"/></h2>
         <form method="get" action="filter">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" name="action" value="filter">
             <dl>
                 <dt><spring:message code="meals.fromDate"/>:</dt>
@@ -295,10 +295,10 @@
             <button type="submit"><spring:message code="meals.filter"/></button>
         </form>
         <br>
-<%--        <a href="create?action=create"><spring:message code="meals.addMeal"/></a>--%>
-            <button type="button" onclick="window.location.href = 'create?action=create'">
-                <spring:message code="meals.addMeal"/>
-            </button>
+        <%--        <a href="create?action=create"><spring:message code="meals.addMeal"/></a>--%>
+        <button type="button" onclick="window.location.href = 'create?action=create'">
+            <spring:message code="meals.addMeal"/>
+        </button>
     </div>
 
     <div class="container">
@@ -329,8 +329,17 @@
                 <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="update?action=update&id=${meal.id}"><spring:message code="meals.update"/></a></td>
-                <td><a href="delete?action=delete&id=${meal.id}"><spring:message code="meals.delete"/></a></td>
+                <td>
+                    <button class="update-btn"
+                            onclick="window.location.href='update?action=update&id=${meal.id}'">
+                        <spring:message code="meals.update"/>
+                    </button>
+                </td>
+                <td>
+                    <button class="delete-btn" data-id=${meal.id}>
+                        <spring:message code="meals.delete"/>
+                    </button>
+                </td>
             </tr>
             <c:set var="previousDate" value="${currentDate}"/>
             </c:forEach>
@@ -342,6 +351,48 @@
     </div>
 </main>
 <script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteButtons = document.querySelectorAll('tr button.delete-btn');
+
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+
+                var table = this.closest('table'); //находим текущую таблицу
+                var row2 = this.closest('tr'); //находим текушую строку
+                var rowId = this.getAttribute('data-id');
+
+                const csrfTokenInput = document.querySelector('input[name="_csrf"]');
+                const csrfToken = csrfTokenInput.value;
+
+                fetch('${pageContext.request.contextPath}/api/meals/' + rowId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            row2.remove();
+                            console.log(table.rows.length);
+                            console.log(table.previousElementSibling);
+                            if (table.rows.length === 1) {
+                                table.previousElementSibling.remove();
+                                table.remove();
+                            }
+                        } else {
+                            console.error('Delete error. Status:', response.status);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error('Request error:', error);
+                    });
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
