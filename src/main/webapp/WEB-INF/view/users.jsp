@@ -19,12 +19,25 @@
     <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        tr[data-mealExcess="false"] {
-            color: green;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid black;
         }
 
-        tr[data-mealExcess="true"] {
-            color: red;
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        @media screen and (max-width: 600px) {
+            th, td {
+                border: none;
+                border-bottom: 1px solid black;
+                padding: 8px;
+                text-align: left;
+                width: 100%;
+            }
         }
 
         .bd-placeholder-img {
@@ -237,22 +250,24 @@
             <tr>
                 <th><spring:message code="users.name"/></th>
                 <th><spring:message code="users.email"/></th>
-                <th><spring:message code="users.password"/></th>
-                <th><spring:message code="users.enabled"/></th>
+<%--                <th><spring:message code="users.password"/></th>--%>
+<%--                <th><spring:message code="users.enabled"/></th>--%>
                 <th><spring:message code="users.registered"/></th>
                 <th><spring:message code="users.caloriesPerDay"/></th>
-                <th><spring:message code="users.roles"/></th>
+<%--                <th><spring:message code="users.roles"/></th>--%>
+                <th></th>
             </tr>
             </thead>
             <c:set var="user" value="${user}"/>
             <tr>
                 <td>${user.name}</td>
                 <td>${user.email}</td>
-                <td>${user.password}</td>
-                <td>${user.enabled}</td>
+<%--                <td>${user.password}</td>--%>
+<%--                <td>${user.enabled}</td>--%>
                 <td>${user.registered}</td>
                 <td>${user.caloriesPerDay}</td>
-                <td>${user.roles}</td>
+<%--                <td>${user.roles}</td>--%>
+                <td><a href="update"><spring:message code="users.editUser"/></a></td>
             </tr>
         </table>
     </div>

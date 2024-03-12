@@ -233,7 +233,7 @@
         <h2>
             <c:choose>
                 <c:when test="${param.action == 'create'}"><spring:message code="mealForm.create"/></c:when>
-                <c:otherwise><fmt:message key="mealForm.edit"/></c:otherwise>
+                <c:otherwise><spring:message code="mealForm.edit"/></c:otherwise>
             </c:choose>
         </h2>
         <form:form method="POST" action="edit" modelAttribute="meal">

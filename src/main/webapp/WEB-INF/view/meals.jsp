@@ -295,7 +295,10 @@
             <button type="submit"><spring:message code="meals.filter"/></button>
         </form>
         <br>
-        <a href="create?action=create"><spring:message code="meals.addMeal"/></a>
+<%--        <a href="create?action=create"><spring:message code="meals.addMeal"/></a>--%>
+            <button type="button" onclick="window.location.href = 'create?action=create'">
+                <spring:message code="meals.addMeal"/>
+            </button>
     </div>
 
     <div class="container">
@@ -335,13 +338,10 @@
             </tbody>
         </table>
         </c:if>
+        <hr>
     </div>
-
 </main>
 <script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 
-<footer>
-    <hr>
-</footer>
 </body>
 </html>

@@ -16,11 +16,11 @@ public class MealViewModel {
 
     private Integer id;
     private String formattedDateTime;
-    @NotNull(message = "{NotEmpty.MealViewModel.dateTime}")
+    @NotNull(message = "{NotNull.MealViewModel.dateTime}")
     private LocalDateTime dateTime;
-    @NotEmpty(message = "{NotEmpty.MealViewModel.description}")
+    @NotBlank(message = "{NotBlank.MealViewModel.description}")
     private String description;
-    @NotNull(message = "{Min.MealViewModel.calories}")
+    @NotNull(message = "{NotNull.MealViewModel.calories}")
     private Integer calories;
 
     public MealViewModel(LocalDateTime dateTime, String description, int calories) {

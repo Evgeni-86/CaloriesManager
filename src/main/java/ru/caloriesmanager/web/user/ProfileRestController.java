@@ -1,5 +1,6 @@
 package ru.caloriesmanager.web.user;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import ru.caloriesmanager.entity.User;
 import ru.caloriesmanager.service.CustomUserDetailsService;
@@ -15,6 +16,7 @@ public class ProfileRestController extends AbstractUserController {
 
     public void delete() {
         int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
+        SecurityContextHolder.getContext().setAuthentication(null);
         super.delete(userId);
     }
 
