@@ -8,8 +8,11 @@ import ru.caloriesmanager.model.MealWithExcessModel;
 import ru.caloriesmanager.service.CustomUserDetailsService;
 import ru.caloriesmanager.service.MealService;
 import ru.caloriesmanager.util.MealsUtil;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -53,8 +56,7 @@ public class MealRestController {
     public List<MealWithExcessModel> getAll() {
         int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
         int userCaloriesPerDay = CustomUserDetailsService.getCustomUserDetails().getUser().getCaloriesPerDay();
-        return MealsUtil.getFilteredTos(mealService.getAll(userId),
-                userCaloriesPerDay, LocalTime.MIN, LocalTime.MAX);
+        return MealsUtil.getFilteredTos(mealService.getAll(userId), userCaloriesPerDay, LocalTime.MIN, LocalTime.MAX);
     }
 
     @PostMapping("/meals/filter")
@@ -66,7 +68,8 @@ public class MealRestController {
 
         int userCaloriesPerDay = CustomUserDetailsService.getCustomUserDetails().getUser().getCaloriesPerDay();
         int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
-        List<Meal> mealsDateFiltered = mealService.getBetweenDates(startDate, endDate, userId);
+        ZoneId zoneId = CustomUserDetailsService.getCustomUserDetails().getZoneId();
+        List<Meal> mealsDateFiltered = mealService.getBetweenDates(startDate, endDate, zoneId, userId);
         return MealsUtil.getFilteredTos(mealsDateFiltered, userCaloriesPerDay, startTime, endTime);
     }
 }

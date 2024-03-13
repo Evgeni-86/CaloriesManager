@@ -24,12 +24,10 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                 <prop key="hibernate.jdbc.time_zone">${hibernate.jdbc.time_zone}</prop>
-
                 <prop key="hibernate.cache.region.factory_class">
                     org.hibernate.cache.jcache.internal.JCacheRegionFactory
                 </prop>

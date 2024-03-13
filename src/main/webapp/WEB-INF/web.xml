@@ -7,7 +7,7 @@
 
     <context-param>
         <param-name>spring.profiles.default</param-name>
-        <!--        <param-value>postgres, tomcatDataSource</param-value>-->
+<!--                <param-value>postgres, tomcatDataSource</param-value>-->
         <param-value>hsqldb, appDataSource</param-value>
     </context-param>
     <context-param>

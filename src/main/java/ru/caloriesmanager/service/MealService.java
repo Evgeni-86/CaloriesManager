@@ -15,9 +15,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import ru.caloriesmanager.entity.Meal;
 import ru.caloriesmanager.repository.MealRepository;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.List;
 import static ru.caloriesmanager.util.ValidationUtil.*;
 
@@ -69,30 +67,22 @@ public class MealService {
         return repository.getAll(userId);
     }
 
-    public List<Meal> getBetweenDates(@NotNull LocalDate startDate, @NotNull LocalDate endDate, @Min(1) int userId) {
+    public List<Meal> getBetweenDates(@NotNull LocalDate startDate, @NotNull LocalDate endDate, ZoneId userZoneId, @Min(1) int userId) {
+
+        ZonedDateTime startUserZoned = ZonedDateTime.of(startDate, LocalTime.MIN, userZoneId);
+        ZonedDateTime endUserZoned = ZonedDateTime.of(endDate, LocalTime.MAX, userZoneId);
+        ZonedDateTime startSystemZoned = startUserZoned.withZoneSameInstant(ZoneId.systemDefault());
+        ZonedDateTime endSystemZoned = endUserZoned.withZoneSameInstant(ZoneId.systemDefault());
 
         Cache betweenCacheKeys = cacheManager.getCache("betweenCacheKeys");
         Cache betweenListCache = cacheManager.getCache("betweenListCache");
         boolean cachesAvailable = betweenCacheKeys != null && betweenListCache != null;
         SimpleKey inputKey = new SimpleKey(startDate, endDate, userId);
 
-//        Cache.ValueWrapper valueWrapper;
-//        if (cachesAvailable && (valueWrapper = betweenCacheKeys.get(userId)) != null) {
-//            SimpleKey listCacheKey = (SimpleKey) valueWrapper.get();
-//            if (inputKey.equals(listCacheKey)) {
-//                LOG_MEAL_SERVICE.info("return from cache");
-//                return (List<Meal>) betweenListCache.get(listCacheKey).get();
-//            } else if (listCacheKey != null) {
-//                betweenCacheKeys.evictIfPresent(userId);
-//                betweenListCache.evictIfPresent(listCacheKey);
-//            }
-//        }
-
         if (cachesAvailable) {
             SimpleKey listCacheKey = betweenCacheKeys.get(userId, SimpleKey.class);
             if (listCacheKey != null) {
                 if (listCacheKey.equals(inputKey)) {
-                    LOG_MEAL_SERVICE.info("return from cache");
                     return (List<Meal>) betweenListCache.get(listCacheKey).get();
                 } else {
                     betweenCacheKeys.evictIfPresent(userId);
@@ -101,16 +91,19 @@ public class MealService {
             }
         }
 
-        List<Meal> mealList = repository.getBetween(
-                LocalDateTime.of(startDate, LocalTime.MIN),
-                LocalDateTime.of(endDate, LocalTime.MAX), userId);
+        List<Meal> mealList = repository.getBetween(startSystemZoned.toLocalDateTime(), endSystemZoned.toLocalDateTime(), userId);
+
+        mealList.forEach(el -> {
+            ZonedDateTime systemZoned = ZonedDateTime.of(el.getDateTime(), ZoneId.systemDefault());
+            ZonedDateTime userZoned = systemZoned.withZoneSameInstant(userZoneId);
+            el.setDateTime(userZoned.toLocalDateTime());
+        });
 
         if (cachesAvailable) {
             betweenCacheKeys.put(userId, inputKey);
             betweenListCache.put(inputKey, mealList);
         }
 
-        LOG_MEAL_SERVICE.info("new request to database");
         return mealList;
     }
 }

@@ -16,6 +16,7 @@ import ru.caloriesmanager.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +125,7 @@ class MealServiceMockTest {
     @Test
     void getBetweenDates() {
         Mockito.when(repository.getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID)).thenReturn(TEST_LIST);
-        List<Meal> result = mealService.getBetweenDates(START_DATE_TIME.toLocalDate(), END_DATE_TIME.toLocalDate(), USER_ID);
+        List<Meal> result = mealService.getBetweenDates(START_DATE_TIME.toLocalDate(), END_DATE_TIME.toLocalDate(), ZoneId.systemDefault(), USER_ID);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(TEST_LIST, result);
         Mockito.verify(repository, times(1)).getBetween(START_DATE_TIME, END_DATE_TIME, USER_ID);
