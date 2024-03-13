@@ -1,23 +1,21 @@
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="./resources/assets/js/color-modes.js"></script>
-
+    <script src="${pageContext.request.contextPath}/resources/assets/js/color-modes.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
     <title>Start page</title>
-
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
-
-    <link rel="stylesheet" href="./resources/css/http_cdn.jsdelivr.net_npm.css">
-
-    <link href="./resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/http_cdn.jsdelivr.net_npm.css">
+    <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -75,7 +73,6 @@
         .btn-bd-primary {
             --bd-violet-bg: #712cf9;
             --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
             --bs-btn-font-weight: 600;
             --bs-btn-color: var(--bs-white);
             --bs-btn-bg: var(--bd-violet-bg);
@@ -98,9 +95,8 @@
         }
     </style>
 
-
     <!-- Custom styles for this template -->
-    <link href="./resources/css/headers.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/headers.css" rel="stylesheet">
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -171,7 +167,6 @@
     </ul>
 </div>
 
-
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="bootstrap" viewBox="0 0 118 94">
         <title>Bootstrap</title>
@@ -201,9 +196,6 @@
 
 <main>
     <h1 class="visually-hidden">Headers examples</h1>
-
-    <div class="b-example-divider"></div>
-
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
@@ -215,37 +207,40 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2">Features</a></li>
-                <li><a href="#" class="nav-link px-2">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2">About</a></li>
+                <%--                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>--%>
+                <c:if test="${not empty authenticated}">
+                    <li><a href="${pageContext.request.contextPath}/user/profile" class="nav-link px-2">
+                        <spring:message code="basic.profile"/>
+                    </a></li>
+                    <li><a href="${pageContext.request.contextPath}/meals/meals" class="nav-link px-2">
+                        <spring:message code="basic.meals"/>
+                    </a></li>
+                </c:if>
             </ul>
 
             <div class="col-md-3 text-end">
-
                 <c:if test="${empty authenticated}">
-                    <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'customLogin'">Login</button>
+                    <button type="button" class="btn btn-outline-primary me-2"
+                            onclick="window.location.href = 'customLogin'">
+                        <spring:message code="basic.login"/>
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href = 'registration'">
+                        <spring:message code="basic.registration"/>
+                    </button>
                 </c:if>
-
 
                 <c:if test="${not empty authenticated}">
-                    <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'logout'">Logout</button>
+                    <button type="button" class="btn btn-outline-primary me-2"
+                            onclick="window.location.href = 'logout'">
+                        <spring:message code="basic.logout"/>
+                    </button>
                 </c:if>
-
-                <button type="button" class="btn btn-primary" onclick="window.location.href = 'registration'">Sign-up</button>
             </div>
         </header>
     </div>
 
-    <div class="b-example-divider"></div>
-
-    <div class="container">
-
-    </div>
-
 </main>
-<script src="./resources/assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="ru/caloriesmanager/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
@@ -16,8 +16,53 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/http_cdn.jsdelivr.net_npm.css">
     <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        @media screen and (max-width: 600px) {
+            th, td {
+                border: none;
+                border-bottom: 1px solid black;
+                padding: 8px;
+                text-align: left;
+                width: 100%;
+            }
+        }
+
+        form {
+            flex-wrap: wrap;
+        }
+
+        dl {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+        }
+
+        dt {
+            flex: 1 0 200px;
+            text-align: left;
+            margin-right: 10px;
+        }
+
+        dd {
+            flex: 1 0 200px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
         tr[data-mealExcess="false"] {
             color: green;
         }
@@ -102,7 +147,6 @@
             display: block !important;
         }
     </style>
-
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/headers.css" rel="stylesheet">
 </head>
@@ -213,14 +257,12 @@
                     </svg>
                 </a>
             </div>
-
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <%--                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>--%>
                 <li><a href="${pageContext.request.contextPath}/" class="nav-link px-2">
                     <spring:message code="basic.home"/>
                 </a></li>
             </ul>
-
             <div class="col-md-3 text-end">
                 <%--                <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = '${pageContext.request.contextPath}/'">Home</button>--%>
             </div>
@@ -228,38 +270,75 @@
     </div>
 
     <div class="container">
+        <%--        <h3><a href="${pageContext.request.contextPath}/"><spring:message code="meals.home"/></a></h3>--%>
         <hr>
-        <h2>
-            <c:choose>
-                <c:when test="${param.action == 'create'}"><spring:message code="mealForm.create"/></c:when>
-                <c:otherwise><spring:message code="mealForm.edit"/></c:otherwise>
-            </c:choose>
-        </h2>
-        <form:form method="POST" action="edit" modelAttribute="meal">
-            <form:hidden path="id"/>
+        <h2><spring:message code="meals.heading1"/></h2>
+        <form method="get" action="filter">
+            <input type="hidden" name="action" value="filter">
             <dl>
-                <dt><spring:message code="mealForm.dateTime"/>:</dt>
-                <dd><form:input type="datetime-local" path="dateTime" value="${meal.formattedDateTime}"/>
-                    <form:errors path="dateTime"/>
-                </dd>
+                <dt><spring:message code="meals.fromDate"/>:</dt>
+                <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
             </dl>
             <dl>
-                <dt><spring:message code="mealForm.description"/>:</dt>
-                <dd><form:textarea type="text" path="description" rows="4"/>
-                    <form:errors path="description"/>
-                </dd>
+                <dt><spring:message code="meals.toDate"/>:</dt>
+                <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
             </dl>
             <dl>
-                <dt><spring:message code="mealForm.calories"/>:</dt>
-                <dd><form:input type="number" path="calories"/>
-                    <form:errors path="calories"/>
-                </dd>
+                <dt><spring:message code="meals.fromTime"/>:</dt>
+                <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
             </dl>
-            <button type="submit"><spring:message code="mealForm.save"/></button>
-            <button onclick="window.history.back()" type="button"><spring:message code="mealForm.cancel"/></button>
-        </form:form>
+            <dl>
+                <dt><spring:message code="meals.toTime"/>:</dt>
+                <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
+            </dl>
+            <button type="submit"><spring:message code="meals.filter"/></button>
+        </form>
+        <br>
+<%--        <a href="create?action=create"><spring:message code="meals.addMeal"/></a>--%>
+            <button type="button" onclick="window.location.href = 'create?action=create'">
+                <spring:message code="meals.addMeal"/>
+            </button>
     </div>
 
+    <div class="container">
+        <hr>
+
+        <c:set var="previousDate" value=""/>
+        <c:forEach var="meal" items="${meals}">
+        <c:set var="currentDate" value="${meal.dateTime.toLocalDate()}"/>
+        <c:if test="${previousDate ne currentDate}">
+        <c:if test="${not empty previousDate}">
+            </tbody>
+            </table>
+        </c:if>
+        <h3>${currentDate}</h3>
+        <table>
+            <thead>
+            <tr>
+                <th><spring:message code="meals.date"/></th>
+                <th><spring:message code="meals.description"/></th>
+                <th><spring:message code="meals.calories"/></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            </c:if>
+            <tr data-mealExcess="${meal.excess}">
+                <td>${fn:formatDateTime(meal.dateTime)}</td>
+                <td>${meal.description}</td>
+                <td>${meal.calories}</td>
+                <td><a href="update?action=update&id=${meal.id}"><spring:message code="meals.update"/></a></td>
+                <td><a href="delete?action=delete&id=${meal.id}"><spring:message code="meals.delete"/></a></td>
+            </tr>
+            <c:set var="previousDate" value="${currentDate}"/>
+            </c:forEach>
+            <c:if test="${not empty previousDate}">
+            </tbody>
+        </table>
+        </c:if>
+        <hr>
+    </div>
 </main>
 <script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 

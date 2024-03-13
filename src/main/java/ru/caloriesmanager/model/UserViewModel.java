@@ -1,11 +1,12 @@
 package ru.caloriesmanager.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.caloriesmanager.entity.Role;
 import ru.caloriesmanager.entity.User;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -16,12 +17,14 @@ import java.util.Set;
 public class UserViewModel {
 
     private Integer id;
+    @NotBlank(message = "{NotBlank.UserViewModel.name}")
     private String name;
     private String email;
     private String password;
     private boolean enabled;
     private LocalDateTime registered;
-    private int caloriesPerDay;
+    @NotNull(message = "{NotNull.UserViewModel.calories}")
+    private Integer caloriesPerDay;
     private Set<Role> roles;
 
     private UserViewModel(String name, String email, String password,

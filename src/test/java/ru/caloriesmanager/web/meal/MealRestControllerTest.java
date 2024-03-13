@@ -20,7 +20,6 @@ import ru.caloriesmanager.model.MealViewModel;
 import ru.caloriesmanager.model.MealWithExcessModel;
 import ru.caloriesmanager.service.CustomUserDetails;
 import ru.caloriesmanager.util.exception.NotFoundException;
-import ru.caloriesmanager.web.SecurityUtil;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -30,9 +29,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration("classpath:spring/spring-app.xml")
+@ContextConfiguration(locations = {"classpath:spring/spring-app.xml",
+        "classpath:spring/web/spring-mvc.xml" })
 class MealRestControllerTest {
     private static MealRestController SUT;
     private static User user;
@@ -50,6 +49,8 @@ class MealRestControllerTest {
 
     @BeforeEach
     void initUser() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+
         user = new User(1, null, null, null, Role.ROLE_USER);
         CustomUserDetails userDetails = new CustomUserDetails(user);
         userDetails.setZoneId(ZoneId.of("Europe/Moscow"));
@@ -114,7 +115,12 @@ class MealRestControllerTest {
     @Test
     void getAll() {
         //Arrange
-        SecurityUtil.setUserId(2);
+        user = new User(2, null, null, null, Role.ROLE_USER);
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+        userDetails.setZoneId(ZoneId.of("Europe/Moscow"));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         MealViewModel mealViewModel1 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 0, 0), "Завтрак", 500);
@@ -137,7 +143,13 @@ class MealRestControllerTest {
     @Test
     void getBetween() {
         //Arrange
-        SecurityUtil.setUserId(3);
+        user = new User(3, null, null, null, Role.ROLE_USER);
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+        userDetails.setZoneId(ZoneId.of("Europe/Moscow"));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
 
         MealViewModel mealViewModel1 = new MealViewModel(LocalDateTime.of(2017, Month.MAY,
                 12, 0, 0), "Завтрак", 500);

@@ -30,8 +30,17 @@ public class MealController {
     public String getAllMeals(Model model) {
         int userCaloriesPerDay = CustomUserDetailsService.getCustomUserDetails().getUser().getCaloriesPerDay();
         int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
+        ZoneId zoneId = CustomUserDetailsService.getCustomUserDetails().getZoneId();
+
         List<Meal> mealsDateFiltered =
                 mealService.getBetweenDates(DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE, userId);
+
+        mealsDateFiltered.forEach(el -> {
+            ZonedDateTime systemZoned = ZonedDateTime.of(el.getDateTime(), ZoneId.systemDefault());
+            ZonedDateTime userZoned = systemZoned.withZoneSameInstant(zoneId);
+            el.setDateTime(userZoned.toLocalDateTime());
+        });
+
         List<MealWithExcessModel> filteredMealToList =
                 MealsUtil.getFilteredTos(mealsDateFiltered, userCaloriesPerDay, LocalTime.MIN, LocalTime.MAX);
         model.addAttribute("meals", filteredMealToList);
@@ -51,7 +60,13 @@ public class MealController {
     @RequestMapping("/update")
     public String updateMeal(@RequestParam("id") int mealId, Model model) {
         int userId = CustomUserDetailsService.getCustomUserDetails().getUser().getId();
+        ZoneId zoneId = CustomUserDetailsService.getCustomUserDetails().getZoneId();
         Meal meal = mealService.get(mealId, userId);
+
+        ZonedDateTime systemZoned = ZonedDateTime.of(meal.getDateTime(), ZoneId.systemDefault());
+        ZonedDateTime userZoned = systemZoned.withZoneSameInstant(zoneId);
+
+        meal.setDateTime(userZoned.toLocalDateTime());
         model.addAttribute("meal", MealViewModel.getModel(meal));
         return "mealForm";
     }
@@ -112,6 +127,7 @@ public class MealController {
         ZoneId zoneId = CustomUserDetailsService.getCustomUserDetails().getZoneId();
         ZonedDateTime userZoned = ZonedDateTime.of(mealViewModel.getDateTime(), zoneId);
         ZonedDateTime systemZoned = userZoned.withZoneSameInstant(ZoneId.systemDefault());
+
         mealViewModel.setDateTime(systemZoned.toLocalDateTime());
         Meal meal = MealViewModel.getMealInstance(mealViewModel);
 

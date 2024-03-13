@@ -3,12 +3,9 @@ package ru.caloriesmanager.web.user;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,7 +21,8 @@ import java.util.Set;
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration("classpath:spring/spring-app.xml")
+@ContextConfiguration(locations = {"classpath:spring/spring-app.xml",
+        "classpath:spring/web/spring-mvc.xml" })
 class AdminRestControllerTest {
     //Arrange
     //Act

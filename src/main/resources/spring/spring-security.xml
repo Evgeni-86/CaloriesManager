@@ -17,8 +17,9 @@
         <security:intercept-url pattern="/doLogout" access="permitAll()"/>
         <security:intercept-url pattern="/logout" access="permitAll()"/>
         <security:intercept-url pattern="/registration" access="permitAll()"/>
-        <security:intercept-url pattern="/users/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/user/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <security:intercept-url pattern="/meals/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/api/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 
         <security:form-login
                 login-page="/customLogin"

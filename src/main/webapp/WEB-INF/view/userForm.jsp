@@ -229,34 +229,22 @@
 
     <div class="container">
         <hr>
-        <h2>
-            <c:choose>
-                <c:when test="${param.action == 'create'}"><spring:message code="mealForm.create"/></c:when>
-                <c:otherwise><spring:message code="mealForm.edit"/></c:otherwise>
-            </c:choose>
-        </h2>
-        <form:form method="POST" action="edit" modelAttribute="meal">
-            <form:hidden path="id"/>
+        <h2></h2>
+        <form:form method="POST" action="edit" modelAttribute="user">
             <dl>
-                <dt><spring:message code="mealForm.dateTime"/>:</dt>
-                <dd><form:input type="datetime-local" path="dateTime" value="${meal.formattedDateTime}"/>
-                    <form:errors path="dateTime"/>
+                <dt><spring:message code="userForm.name"/>:</dt>
+                <dd><form:input type="text" path="name"/>
+                    <form:errors path="name"/>
                 </dd>
             </dl>
             <dl>
-                <dt><spring:message code="mealForm.description"/>:</dt>
-                <dd><form:textarea type="text" path="description" rows="4"/>
-                    <form:errors path="description"/>
+                <dt><spring:message code="userForm.caloriesPerDay"/>:</dt>
+                <dd><form:input type="number" path="caloriesPerDay"/>
+                    <form:errors path="caloriesPerDay"/>
                 </dd>
             </dl>
-            <dl>
-                <dt><spring:message code="mealForm.calories"/>:</dt>
-                <dd><form:input type="number" path="calories"/>
-                    <form:errors path="calories"/>
-                </dd>
-            </dl>
-            <button type="submit"><spring:message code="mealForm.save"/></button>
-            <button onclick="window.history.back()" type="button"><spring:message code="mealForm.cancel"/></button>
+            <button type="submit"><spring:message code="userForm.save"/></button>
+            <button onclick="window.history.back()" type="button"><spring:message code="userForm.cancel"/></button>
         </form:form>
     </div>
 

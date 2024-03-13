@@ -1,12 +1,13 @@
-
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="./resources/assets/js/color-modes.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,9 +18,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
-    <link rel="stylesheet" href="./resources/css/http_cdn.jsdelivr.net_npm.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/http_cdn.jsdelivr.net_npm.css">
 
-    <link href="./resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -100,9 +101,8 @@
         }
     </style>
 
-
     <!-- Custom styles for this template -->
-    <link href="./resources/css/sign-in.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/sign-in.css" rel="stylesheet">
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -173,44 +173,62 @@
     </ul>
 </div>
 
-
 <main class="form-signin w-100 m-auto">
+
     <form:form action="registration" modelAttribute="user" method="post">
-        <img class="mb-4" src="./resources/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <img class="mb-4" src="${pageContext.request.contextPath}/resources/assets/brand/bootstrap-logo.svg" alt=""
+             width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal"><spring:message code="registration.signin"/></h1>
+
+        <c:if test="${not empty passwordError}">
+            <div class="alert alert-danger">
+                <spring:message code="registrationForm.passwordError"/>
+            </div>
+        </c:if>
+        <c:if test="${not empty emailError}">
+            <div class="alert alert-danger">
+                <spring:message code="registrationForm.emailError"/>
+            </div>
+        </c:if>
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger">
+                <form:errors path="name"/>
+                <form:errors path="email"/>
+                <form:errors path="password"/>
+            </div>
+        </c:if>
 
         <div class="form-floating">
-            <form:input type="text" class="form-control" id="floatingName" placeholder="name" path="name"/>
-            <label for="floatingName">Name</label>
+            <form:input type="text" class="form-control" id="floatingName" placeholder="name"
+                        path="name"/>
+            <label for="floatingName"><spring:message code="registration.name"/></label>
         </div>
 
         <div class="form-floating">
-            <form:input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" path="email"/>
-            <label for="floatingInput">Email address</label>
+            <form:input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                        path="email"/>
+            <label for="floatingInput"> <spring:message code="registration.email"/></label>
         </div>
 
         <div class="form-floating">
-            <form:input type="password" class="form-control" id="floatingPassword" placeholder="Password" path="password"/>
-            <label for="floatingPassword">Password</label>
+            <form:input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                        path="password"/>
+            <label for="floatingPassword"> <spring:message code="registration.password"/></label>
         </div>
 
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="PasswordConfirm" name="passwordConfirm"/>
-            <label for="floatingPasswordConfirm">PasswordConfirm</label>
+            <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="PasswordConfirm"
+                   name="passwordConfirm"/>
+            <label for="floatingPasswordConfirm"> <spring:message code="registration.passwordConfirm"/></label>
         </div>
 
-        <div class="form-check text-start my-3">
-            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                Remember me
-            </label>
-        </div>
-
-        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+        <button class="btn btn-primary w-100 py-2" type="submit">
+            <spring:message code="basic.registration"/>
+        </button>
         <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
     </form:form>
 </main>
-<script src="./resources/assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/assets/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

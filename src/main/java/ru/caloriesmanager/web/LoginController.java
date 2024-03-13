@@ -1,21 +1,19 @@
 package ru.caloriesmanager.web;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.caloriesmanager.entity.User;
-import ru.caloriesmanager.model.UserViewModel;
+import ru.caloriesmanager.model.form.RegistrationForm;
 import ru.caloriesmanager.service.CustomUserDetails;
-import ru.caloriesmanager.service.CustomUserDetailsService;
 import ru.caloriesmanager.service.UserService;
 import ru.caloriesmanager.util.exception.NotFoundException;
 import java.time.ZoneId;
@@ -27,7 +25,6 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
-
     private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @RequestMapping("/")
@@ -57,7 +54,7 @@ public class LoginController {
     }
 
     @PostMapping(value = "/postLogin")
-    public String postLogin(HttpSession session, @RequestParam("timeZone") String timeZone) {
+    public String postLogin(@RequestParam("timeZone") String timeZone) {
 
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -65,7 +62,7 @@ public class LoginController {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         customUserDetails.setZoneId(ZoneId.of(timeZone));
 
-        return "redirect:/users";
+        return "redirect:/";
     }
     private void validatePrinciple(Object principal) {
         if (!(principal instanceof CustomUserDetails)) {
@@ -75,28 +72,34 @@ public class LoginController {
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        model.addAttribute("user", new UserViewModel());
+        model.addAttribute("user", new RegistrationForm());
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute("user") UserViewModel userViewModel,
+    public String addUser(@Valid @ModelAttribute("user") RegistrationForm registrationForm,
+                          BindingResult bindingResult,
                           @RequestParam("passwordConfirm") String passwordConfirm,
                           Model model) {
 
-        if (!userViewModel.getPassword().equals(passwordConfirm)) {
-            model.addAttribute("passwordError", "Passwords don't match");
+        if (bindingResult.hasErrors()){
+            model.addAttribute("error", "true");
+            return "registration";
+        }
+
+        if (!registrationForm.getPassword().equals(passwordConfirm)) {
+            model.addAttribute("passwordError", "true");
             return "registration";
         }
 
         try {
-            userService.getByEmail(userViewModel.getEmail());
-            model.addAttribute("emailError", "A user with that name already exists");
+            userService.getByEmail(registrationForm.getEmail());
+            model.addAttribute("emailError", "true");
             return "registration";
         } catch (NotFoundException exception) {
+            registrationForm.setPassword(passwordEncoder.encode(registrationForm.getPassword()));
 
-            userViewModel.setPassword(passwordEncoder.encode(userViewModel.getPassword()));
-            User user = UserViewModel.getUserInstance(userViewModel);
+            User user = RegistrationForm.getUserInstance(registrationForm);
             userService.create(user);
 
             return "redirect:/custom-login";
