@@ -312,6 +312,7 @@
             <version>${jackson-databind.version}</version>
         </dependency>
 
+        <!--install in maven local repository from src/lib-->
         <dependency>
             <groupId>ehcache-3</groupId>
             <artifactId>ehcache-3</artifactId>
